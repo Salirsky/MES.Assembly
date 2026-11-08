@@ -389,24 +389,30 @@
      CONTINUE TO TASKS
   ========================================= */
 
-  continueButton.addEventListener("click", () => {
+// Переход с проверки готовности на список заданий
+const readinessScreen = document.getElementById("readinessScreen");
+const tasksScreen = document.getElementById("tasksScreen");
 
-    if (!continueButton.disabled) {
+function showScreen(screenName) {
+  const isTasksScreen = screenName === "tasks";
 
-      nextModal.showModal();
+  readinessScreen.hidden = isTasksScreen;
+  tasksScreen.hidden = !isTasksScreen;
 
-    }
+  if (isTasksScreen) {
+    tasksScreen.querySelector("h1")?.focus();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } else {
+    readinessScreen.querySelector("h1")?.focus();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
 
-  });
-
-
-  document
-    .getElementById("closeNext")
-    .addEventListener("click", () => {
-
-      nextModal.close();
-
-    });
+continueButton.addEventListener("click", () => {
+  if (!continueButton.disabled) {
+    showScreen("tasks");
+  }
+});
 
 
   /* =========================================
