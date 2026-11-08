@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F2F3F5">
+  <title>MES — Проверка готовности к работе</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ЭКРАН АВТОРИЗАЦИИ -->
+  <main class="login-screen" id="loginScreen">
+    <section class="login-card" aria-labelledby="loginTitle">
+
+      <a class="brand login-brand" href="#" aria-label="MES Production">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span class="brand-name">
+          MES
+          <span class="brand-sub">PRODUCTION</span>
+        </span>
+      </a>
+
+      <div class="login-heading">
+        <span class="login-eyebrow">ПРОИЗВОДСТВЕННАЯ СИСТЕМА</span>
+        <h1 id="loginTitle">Вход в систему</h1>
+        <p>Войдите, чтобы перейти к рабочему месту сборщика.</p>
+      </div>
+
+      <form id="loginForm" class="login-form">
+        <label for="loginUsername">Логин</label>
+        <input
+          id="loginUsername"
+          name="username"
+          type="text"
+          autocomplete="username"
+          value="s.ivanov"
+          required
+        >
+
+        <label for="loginPassword">Пароль</label>
+        <div class="password-wrap">
+          <input
+            id="loginPassword"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            value="MES2026!"
+            required
+          >
+          <button
+            class="password-toggle"
+            type="button"
+            id="togglePassword"
+            aria-label="Показать пароль"
+          >Показать</button>
+        </div>
+
+        <p class="login-error" id="loginError" role="alert" aria-live="polite"></p>
+
+        <button class="primary-button login-submit" type="submit">
+          Войти в систему <span aria-hidden="true">→</span>
+        </button>
+      </form>
+
+      <div class="login-footer">
+        <span class="login-lock" aria-hidden="true">▣</span>
+        Демонстрационный доступ · MES Production
+      </div>
+
+    </section>
+  </main>
+
+
+  <!-- ОСНОВНОЕ ПРИЛОЖЕНИЕ: ПОЯВЛЯЕТСЯ ПОСЛЕ АВТОРИЗАЦИИ -->
+  <div class="app-shell" id="appContent" hidden>
+
+    <header class="topbar">
+
+      <a class="brand" href="#" aria-label="MES — главная">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span class="brand-name">
+          MES
+          <span class="brand-sub">PRODUCTION</span>
+        </span>
+      </a>
+
+      <div class="topbar-context">
+        <span class="context-dot"></span>
+        <span>Производство</span>
+        <span class="context-separator">/</span>
+        <span>Рабочее место сборщика</span>
+      </div>
+
+      <div class="topbar-actions">
+
+        <button
+          class="icon-button"
+          id="reportTop"
+          type="button"
+          aria-label="Сообщить о проблеме"
+          title="Сообщить о проблеме"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 9v4m0 4h.01M10.3 3.9 2.7 17a2 2 0 0 0 1.7 3h15.2a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/>
+          </svg>
+        </button>
+
+        <div class="user-chip">
+          <span class="avatar" aria-hidden="true">ИС</span>
+          <span class="user-meta">
+            <strong>Иванов Сергей</strong>
+            <small>Сборщик</small>
+          </span>
+          <span class="chevron" aria-hidden="true">⌄</span>
+        </div>
+
+      </div>
+    </header>
+
+
+    <main class="main-content">
+
+      <!-- ЗАГОЛОВОК И СМЕНА -->
+      <div class="page-heading">
+        <div>
+          <div class="eyebrow">
+            НАЧАЛО СМЕНЫ
+            <span class="eyebrow-line"></span>
+            09 НОЯБРЯ 2026
+          </div>
+
+          <h1>Проверка готовности к работе</h1>
+          <p class="page-description">
+            Перед началом работы убедитесь, что рабочее место подготовлено.
+          </p>
+        </div>
+
+        <div class="shift-card">
+          <span class="shift-icon" aria-hidden="true">◷</span>
+          <span>
+            <small>Текущая смена</small>
+            <strong>Дневная · 08:00–20:00</strong>
+          </span>
+        </div>
+      </div>
+
+
+      <!-- ИНФОРМАЦИЯ О РАБОЧЕМ МЕСТЕ -->
+      <section class="workplace-strip" aria-label="Информация о рабочем месте">
+
+        <div class="workplace-item">
+          <span class="meta-label">УЧАСТОК</span>
+          <strong>Сборка коммуникационного оборудования</strong>
+        </div>
+
+        <div class="workplace-item">
+          <span class="meta-label">РАБОЧЕЕ МЕСТО</span>
+          <strong>Сборочный пост № 04</strong>
+        </div>
+
+        <div class="workplace-item">
+          <span class="meta-label">ЗОНА</span>
+          <strong>ESD-зона · Линия 2</strong>
+        </div>
+
+        <div class="workplace-status">
+          <span class="status-dot status-pending" id="overallDot"></span>
+          <span id="overallStatus">Проверка не завершена</span>
+        </div>
+
+      </section>
+
+
+      <div class="content-grid">
+
+        <!-- ЛЕВАЯ КОЛОНКА: ПРОВЕРКИ -->
+        <div class="checks-column">
+
+          <section class="section-intro">
+            <div>
+              <h2>Подготовка рабочего места</h2>
+              <p>Отметьте результаты обязательных проверок.</p>
+            </div>
+
+            <div class="progress-block">
+              <div class="progress-copy">
+                <strong id="progressCount">0 из 4</strong>
+                <span>проверок выполнено</span>
+              </div>
+
+              <div
+                class="progress-track"
+                role="progressbar"
+                aria-label="Выполнение проверок"
+                aria-valuemin="0"
+                aria-valuemax="4"
+                aria-valuenow="0"
+                id="progressBar"
+              >
+                <span id="progressFill"></span>
+              </div>
+            </div>
+          </section>
+
+
+          <!-- ИНСТРУМЕНТЫ -->
+          <section class="check-card" aria-labelledby="toolsTitle">
+
+            <div class="card-heading">
+
+              <div class="card-icon blue" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="m14.7 6.3 3-3a5 5 0 0 1-6.4 6.4l-7.6 7.6a2.1 2.1 0 0 0 3 3l7.6-7.6a5 5 0 0 1 6.4-6.4l-3 3-3-3Z"/>
+                </svg>
+              </div>
+
+              <div class="card-title-group">
+                <h3 id="toolsTitle">Инструменты</h3>
+                <p>Проверьте наличие и исправность инструмента</p>
+              </div>
+
+              <span class="status-pill pending" data-status="tools">
+                Не проверено
+              </span>
+
+            </div>
+
+            <div class="checklist">
+
+              <label class="check-row">
+                <input type="checkbox" data-group="tools">
+                <span class="custom-check" aria-hidden="true"></span>
+                <span class="check-label">Инструмент на месте и доступен</span>
+                <span class="row-hint">По комплекту рабочего места</span>
+              </label>
+
+              <label class="check-row">
+                <input type="checkbox" data-group="tools">
+                <span class="custom-check" aria-hidden="true"></span>
+                <span class="check-label">Инструмент исправен</span>
+                <span class="row-hint">Нет видимых повреждений</span>
+              </label>
+
+            </div>
+
+            <div class="card-footer">
+              <span class="footer-note">
+                При отсутствии или неисправности инструмента сообщите о проблеме.
+              </span>
+              <button class="text-button report-inline" type="button" data-category="Инструменты">
+                Сообщить о проблеме <span aria-hidden="true">↗</span>
+              </button>
+            </div>
+
+          </section>
+
+
+          <!-- ОБОРУДОВАНИЕ -->
+          <section class="check-card" aria-labelledby="equipmentTitle">
+
+            <div class="card-heading">
+
+              <div class="card-icon violet" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="4" width="18" height="13" rx="2"/>
+                  <path d="M8 21h8m-4-4v4M7 9h4m-4 3h7"/>
+                </svg>
+              </div>
+
+              <div class="card-title-group">
+                <h3 id="equipmentTitle">Оборудование</h3>
+                <p>Убедитесь, что оборудование готово к эксплуатации</p>
+              </div>
+
+              <span class="status-pill pending" data-status="equipment">
+                Не проверено
+              </span>
+
+            </div>
+
+            <div class="checklist">
+
+              <label class="check-row">
+                <input type="checkbox" data-group="equipment">
+                <span class="custom-check" aria-hidden="true"></span>
+                <span class="check-label">Оборудование включается и работает штатно</span>
+              </label>
+
+              <label class="check-row">
+                <input type="checkbox" data-group="equipment">
+                <span class="custom-check" aria-hidden="true"></span>
+                <span class="check-label">Кабели и подключения в исправном состоянии</span>
+              </label>
+
+            </div>
+
+            <div class="card-footer">
+              <span class="footer-note">Не используйте неисправное оборудование.</span>
+              <button class="text-button report-inline" type="button" data-category="Оборудование">
+                Сообщить о проблеме <span aria-hidden="true">↗</span>
+              </button>
+            </div>
+
+          </section>
+
+
+          <!-- МАТЕРИАЛЫ -->
+          <section class="check-card" aria-labelledby="materialsTitle">
+
+            <div class="card-heading">
+
+              <div class="card-icon orange" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="m12 3 9 5-9 5-9-5 9-5Z"/>
+                  <path d="m3 8 9 5 9-5m-18 0v9l9 5 9-5V8M12 13v9"/>
+                </svg>
+              </div>
+
+              <div class="card-title-group">
+                <h3 id="materialsTitle">Материалы и комплектующие</h3>
+                <p>Проверьте наличие материалов для выполнения операций</p>
+              </div>
+
+              <span class="status-pill pending" data-status="materials">
+                Не проверено
+              </span>
+
+            </div>
+
+            <div class="checklist">
+
+              <label class="check-row">
+                <input type="checkbox" data-group="materials">
+                <span class="custom-check" aria-hidden="true"></span>
+                <span class="check-label">Необходимые материалы доступны</span>
+              </label>
+
+              <label class="check-row">
+                <input type="checkbox" data-group="materials">
+                <span class="custom-check" aria-hidden="true"></span>
+                <span class="check-label">Упаковка и маркировка без видимых повреждений</span>
+              </label>
+
+            </div>
+
+            <div class="card-footer">
+              <span class="footer-note">
+                Комплектность конкретного задания проверяется отдельно.
+              </span>
+              <button class="text-button report-inline" type="button" data-category="Материалы и комплектующие">
+                Сообщить о проблеме <span aria-hidden="true">↗</span>
+              </button>
+            </div>
+
+          </section>
+
+
+          <!-- ESD -->
+          <section class="check-card" aria-labelledby="esdTitle">
+
+            <div class="card-heading">
+
+              <div class="card-icon teal" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M13 2 4 14h7l-1 8 10-13h-7l0-7Z"/>
+                </svg>
+              </div>
+
+              <div class="card-title-group">
+                <h3 id="esdTitle">ESD-защита</h3>
+                <p>Подтвердите выполнение требований защиты от статического электричества</p>
+              </div>
+
+              <span class="status-pill pending" data-status="esd">
+                Не проверено
+              </span>
+
+            </div>
+
+            <div class="checklist">
+
+              <label class="check-row">
+                <input type="checkbox" data-group="esd">
+                <span class="custom-check" aria-hidden="true"></span>
+                <span class="check-label">Антистатический браслет надет и подключён</span>
+              </label>
+
+              <label class="check-row">
+                <input type="checkbox" data-group="esd">
+                <span class="custom-check" aria-hidden="true"></span>
+                <span class="check-label">ESD-коврик и заземление проверены по регламенту</span>
+              </label>
+
+              <label class="check-row">
+                <input type="checkbox" data-group="esd">
+                <span class="custom-check" aria-hidden="true"></span>
+                <span class="check-label">Используются необходимые средства ESD-защиты</span>
+              </label>
+
+            </div>
+
+            <div class="card-footer">
+              <span class="footer-note">
+                При сомнении в исправности ESD-защиты остановите подготовку.
+              </span>
+              <button class="text-button report-inline" type="button" data-category="ESD-защита">
+                Сообщить о проблеме <span aria-hidden="true">↗</span>
+              </button>
+            </div>
+
+          </section>
+
+        </div>
+
+
+        <!-- ПРАВАЯ КОЛОНКА -->
+        <aside class="side-column">
+
+          <section class="summary-card">
+
+            <div class="summary-top">
+              <span class="summary-icon" aria-hidden="true">✓</span>
+              <span class="summary-kicker">ГОТОВНОСТЬ К РАБОТЕ</span>
+            </div>
+
+            <h3 id="summaryTitle">Требуется проверка</h3>
+
+            <p id="summaryText">
+              Выполните все обязательные проверки, чтобы перейти к доступным заданиям.
+            </p>
+
+            <div class="summary-divider"></div>
+
+            <div class="summary-stat">
+              <span>Завершено</span>
+              <strong id="summaryDone">0 / 4</strong>
+            </div>
+
+            <div class="summary-stat">
+              <span>Осталось</span>
+              <strong id="summaryLeft">4</strong>
+            </div>
+
+            <button class="primary-button" id="continueButton" type="button" disabled>
+              Перейти к заданиям <span aria-hidden="true">→</span>
+            </button>
+
+            <p class="button-hint" id="buttonHint">
+              Сначала завершите все проверки
+            </p>
+
+          </section>
+
+
+          <section class="help-card">
+
+            <div class="help-heading">
+              <span class="help-icon" aria-hidden="true">i</span>
+              <h3>Нужна помощь?</h3>
+            </div>
+
+            <p>
+              Если вы обнаружили неисправность, нехватку материалов или другое отклонение, зарегистрируйте проблему.
+            </p>
+
+            <button class="secondary-button" id="reportSide" type="button">
+              <span aria-hidden="true">＋</span>
+              Сообщить о проблеме
+            </button>
+
+          </section>
+
+
+          <div class="safety-note">
+            <span aria-hidden="true">◆</span>
+            <p>
+              <strong>Важно</strong><br>
+              Не начинайте работу, если обнаружены неисправности, влияющие на безопасность или качество сборки.
+            </p>
+          </div>
+
+        </aside>
+
+      </div>
+
+
+      <footer class="page-footer">
+        <span>MES Production System</span>
+        <span>Рабочее место сборщика · Версия прототипа 0.1</span>
+      </footer>
+
+    </main>
+  </div>
+
+
+  <!-- УВЕДОМЛЕНИЕ -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+
+  <!-- ОКНО СООБЩЕНИЯ О ПРОБЛЕМЕ -->
+  <dialog class="modal" id="problemModal" aria-labelledby="modalTitle">
+
+    <form method="dialog" class="modal-panel" id="problemForm">
+
+      <div class="modal-header">
+        <div>
+          <span class="modal-eyebrow">РЕГИСТРАЦИЯ ОТКЛОНЕНИЯ</span>
+          <h2 id="modalTitle">Сообщить о проблеме</h2>
+        </div>
+
+        <button class="close-button" value="cancel" aria-label="Закрыть">×</button>
+      </div>
+
+      <p class="modal-description">
+        Сообщение будет связано с текущим рабочим местом и сменой.
+      </p>
+
+      <label class="field-label" for="problemCategory">
+        Категория проблемы <span>*</span>
+      </label>
+
+      <select id="problemCategory" required>
+        <option value="">Выберите категорию</option>
+        <option>Инструменты</option>
+        <option>Оборудование</option>
+        <option>Материалы и комплектующие</option>
+        <option>ESD-защита</option>
+        <option>Документация</option>
+        <option>MES / интерфейс</option>
+        <option>Другое</option>
+      </select>
+
+      <label class="field-label" for="problemDescription">
+        Описание проблемы <span>*</span>
+      </label>
+
+      <textarea
+        id="problemDescription"
+        rows="4"
+        placeholder="Опишите, что произошло и что именно требует внимания..."
+        required
+      ></textarea>
+
+      <label class="field-label" for="problemItem">
+        Конкретный инструмент / оборудование / компонент
+        <span class="optional">(необязательно)</span>
+      </label>
+
+      <input
+        id="problemItem"
+        type="text"
+        placeholder="Например, паяльная станция № 2"
+      >
+
+      <div class="auto-context">
+        <span class="context-check">✓</span>
+        <span>
+          <strong>Контекст будет добавлен автоматически</strong>
+          <small>Смена · Рабочее место № 04 · Этап «Проверка готовности»</small>
+        </span>
+      </div>
+
+      <div class="modal-actions">
+        <button class="secondary-button" type="button" id="cancelModal">
+          Отмена
+        </button>
+
+        <button class="primary-button submit-button" type="submit">
+          Отправить сообщение <span aria-hidden="true">→</span>
+        </button>
+      </div>
+
+    </form>
+  </dialog>
+
+
+  <!-- ПОДТВЕРЖДЕНИЕ ОТПРАВКИ -->
+  <dialog class="modal" id="successModal" aria-labelledby="successTitle">
+
+    <div class="modal-panel success-panel">
+
+      <div class="success-symbol" aria-hidden="true">✓</div>
+
+      <h2 id="successTitle">Сообщение зарегистрировано</h2>
+
+      <p>
+        В демонстрационном прототипе обращение сохранено локально.
+        В рабочей системе здесь появятся номер обращения, ответственный и статус.
+      </p>
+
+      <div class="ticket-preview">
+        <span>Статус обращения</span>
+        <strong>
+          <span class="status-dot status-pending"></span>
+          Зарегистрировано
+        </strong>
+      </div>
+
+      <button class="primary-button" id="closeSuccess" type="button">
+        Понятно
+      </button>
+
+    </div>
+  </dialog>
+
+
+  <!-- ПОДТВЕРЖДЕНИЕ ГОТОВНОСТИ -->
+  <dialog class="modal" id="nextModal" aria-labelledby="nextTitle">
+
+    <div class="modal-panel success-panel">
+
+      <div class="success-symbol" aria-hidden="true">✓</div>
+
+      <h2 id="nextTitle">Рабочее место готово</h2>
+
+      <p>
+        Все обязательные проверки отмечены.
+        Следующий экран прототипа — список доступных производственных заданий.
+      </p>
+
+      <div class="ticket-preview">
+        <span>Рабочее место</span>
+        <strong>Сборочный пост № 04</strong>
+      </div>
+
+      <button class="primary-button" id="closeNext" type="button">
+        Остаться на экране
+      </button>
+
+    </div>
+  </dialog>
+
+
+  <script src="app.js"></script>
+
+</body>
+</html>
