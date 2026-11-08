@@ -111,20 +111,21 @@
           </svg>
         </button>
 
-        <div class="user-chip">
-          <span class="avatar" aria-hidden="true">ИС</span>
-          <span class="user-meta">
-            <strong>Иванов Сергей</strong>
-            <small>Сборщик</small>
-          </span>
-          <span class="chevron" aria-hidden="true">⌄</span>
-        </div>
+        <button class="user-chip" id="profileButton" type="button"
+            aria-haspopup="dialog" aria-label="Открыть профиль сотрудника">
+            <span class="avatar" aria-hidden="true">ИС</span>
+              <span class="user-meta">
+              <strong>Иванов Сергей</strong>
+              <small>Сборщик</small>
+              </span>
+            <span class="chevron" aria-hidden="true">⌄</span>
+        </button>
 
       </div>
     </header>
 
 
-    <main class="main-content">
+    <main class="main-content" id="readinessScreen">
 
       <!-- ЗАГОЛОВОК И СМЕНА -->
       <div class="page-heading">
@@ -496,6 +497,401 @@
       </footer>
 
     </main>
+
+
+    <!-- ЭКРАН 2. СПИСОК ДОСТУПНЫХ ЗАДАНИЙ -->
+    <main class="main-content tasks-screen" id="tasksScreen" hidden>
+
+      <div class="page-heading">
+        <div>
+          <div class="eyebrow">
+            РАБОЧЕЕ МЕСТО
+            <span class="eyebrow-line"></span>
+            ЗАДАНИЯ
+          </div>
+          <h1 tabindex="-1">Доступные задания</h1>
+          <p class="page-description">
+            Выберите задание для выполнения. Система рекомендует
+            наиболее приоритетное из доступных.
+          </p>
+        </div>
+
+        <div class="shift-card">
+          <span class="shift-icon" aria-hidden="true">◷</span>
+          <span>
+            <small>Текущая смена</small>
+            <strong>Дневная · 08:00–20:00</strong>
+          </span>
+        </div>
+      </div>
+
+      <!-- Контекст рабочего места -->
+      <section class="workplace-strip" aria-label="Информация о рабочем месте">
+        <div class="workplace-item">
+          <span class="meta-label">УЧАСТОК</span>
+          <strong>Сборка коммуникационного оборудования</strong>
+        </div>
+        <div class="workplace-item">
+          <span class="meta-label">РАБОЧЕЕ МЕСТО</span>
+          <strong>Сборочный пост № 04</strong>
+        </div>
+        <div class="workplace-item">
+          <span class="meta-label">ЗОНА</span>
+          <strong>ESD-зона · Линия 2</strong>
+        </div>
+        <div class="workplace-status">
+          <span class="status-dot" style="background:var(--green-700)"></span>
+          <span>Рабочее место готово</span>
+        </div>
+      </section>
+
+      <!-- Панель управления списком -->
+      <section class="tasks-toolbar" aria-label="Управление списком заданий">
+
+        <div class="tasks-tabs" role="tablist" aria-label="Категория заданий">
+          <button
+            class="tasks-tab active"
+            type="button"
+            role="tab"
+            id="allTasksTab"
+            aria-selected="true"
+            aria-controls="tasksList"
+            data-tab="all">
+            Все задания
+            <span class="tab-count" id="allTasksCount">4</span>
+          </button>
+
+          <button
+            class="tasks-tab"
+            type="button"
+            role="tab"
+            id="pausedTasksTab"
+            aria-selected="false"
+            aria-controls="tasksList"
+            data-tab="paused">
+            Приостановленные
+            <span class="tab-count" id="pausedTasksCount">1</span>
+          </button>
+        </div>
+
+        <div class="tasks-controls">
+          <label class="search-field">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m16 16 4 4"></path>
+            </svg>
+            <span class="visually-hidden">Поиск заданий</span>
+            <input
+              type="search"
+              id="taskSearch"
+              placeholder="Номер задания или модель"
+              autocomplete="off">
+          </label>
+
+          <label class="visually-hidden" for="priorityFilter">
+            Фильтр по приоритету
+          </label>
+          <select id="priorityFilter" class="filter-select">
+            <option value="all">Все приоритеты</option>
+            <option value="high">Высокий</option>
+            <option value="medium">Средний</option>
+            <option value="low">Низкий</option>
+          </select>
+
+          <button
+            class="secondary-button refresh-button"
+            type="button"
+            id="refreshTasks"
+            aria-label="Обновить список заданий">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 7v5h-5"></path>
+              <path d="M4 17v-5h5"></path>
+              <path d="M5.5 9a7 7 0 0 1 11.8-2L20 12M4 12l2.7 5a7 7 0 0 0 11.8-2"></path>
+            </svg>
+            <span>Обновить</span>
+          </button>
+        </div>
+      </section>
+
+      <div class="tasks-updated">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span id="tasksUpdatedText">Список обновлён только что</span>
+      </div>
+
+      <!-- Рекомендованное задание -->
+      <section class="recommended-section" aria-labelledby="recommendedTitle">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">РЕКОМЕНДАЦИЯ MES</span>
+            <h2 id="recommendedTitle">Рекомендуемое задание</h2>
+          </div>
+          <span class="recommended-label">
+            <span aria-hidden="true">★</span>
+            Следующее к выполнению
+          </span>
+        </div>
+
+        <article class="recommended-card task-item"
+          data-task-id="ЗД-24081"
+          data-model="Маршрутизатор МР-800"
+          data-priority="high"
+          data-status="available">
+
+          <div class="recommended-main">
+            <div class="task-card-top">
+              <span class="priority-label priority-high">
+                <span class="priority-dot"></span>
+                Высокий приоритет
+              </span>
+              <span class="task-number">ЗАДАНИЕ № ЗД-24081</span>
+            </div>
+
+            <h3>Маршрутизатор МР-800</h3>
+            <p class="task-description">
+              Сборка основного блока коммуникационного оборудования.
+            </p>
+
+            <div class="task-metrics">
+              <div class="task-metric">
+                <span>Комплектность</span>
+                <strong class="metric-success">100% · Всё доступно</strong>
+              </div>
+              <div class="task-metric">
+                <span>Прогресс</span>
+                <strong>Не начато</strong>
+              </div>
+            </div>
+
+            <div class="next-operation">
+              <span class="next-operation-icon" aria-hidden="true">→</span>
+              <span>
+                <small>Следующая операция</small>
+                <strong>Установка блока питания</strong>
+              </span>
+            </div>
+          </div>
+
+          <div class="recommended-action">
+            <span class="task-status status-available">
+              <span class="status-dot"></span>
+              Доступно
+            </span>
+            <button
+              class="primary-button open-task-button"
+              type="button"
+              data-open-task="ЗД-24081">
+              Открыть задание
+              <span aria-hidden="true">→</span>
+            </button>
+            <p>Рекомендуется начать с этого задания.</p>
+          </div>
+        </article>
+
+        <p class="recommendation-note">
+          Рекомендация учитывает приоритет задания и доступность комплектующих.
+          Вы можете самостоятельно выбрать любое другое доступное задание.
+        </p>
+      </section>
+
+      <!-- Остальные задания -->
+      <section class="all-tasks-section" aria-labelledby="allTasksTitle">
+        <div class="section-heading">
+          <div>
+            <h2 id="allTasksTitle">Все задания</h2>
+            <p class="section-description">
+              Задания, назначенные на ваше рабочее место.
+            </p>
+          </div>
+          <span class="results-count" id="resultsCount">3 задания</span>
+        </div>
+
+        <div class="task-list" id="tasksList">
+
+          <!-- Задание 2 -->
+          <article class="task-card task-item"
+            data-task-id="ЗД-24082"
+            data-model="Коммутатор КС-48"
+            data-priority="high"
+            data-status="available">
+
+            <div class="task-card-main">
+              <div class="task-card-top">
+                <span class="priority-label priority-high">
+                  <span class="priority-dot"></span>
+                  Высокий приоритет
+                </span>
+                <span class="task-number">ЗАДАНИЕ № ЗД-24082</span>
+              </div>
+
+              <h3>Коммутатор КС-48</h3>
+
+              <div class="task-details">
+                <div>
+                  <span>Комплектность</span>
+                  <strong class="metric-success">100%</strong>
+                </div>
+                <div>
+                  <span>Прогресс</span>
+                  <strong>Не начато</strong>
+                </div>
+              </div>
+
+              <div class="task-next-operation">
+                <span>Следующая операция:</span>
+                <strong>Монтаж коммутационной платы</strong>
+              </div>
+            </div>
+
+            <div class="task-card-action">
+              <span class="task-status status-available">
+                <span class="status-dot"></span>
+                Доступно
+              </span>
+              <button class="secondary-button open-task-button"
+                type="button" data-open-task="ЗД-24082">
+                Открыть задание
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Задание 3 -->
+          <article class="task-card task-item"
+            data-task-id="ЗД-24083"
+            data-model="DWDM ТС-16"
+            data-priority="medium"
+            data-status="available">
+
+            <div class="task-card-main">
+              <div class="task-card-top">
+                <span class="priority-label priority-medium">
+                  <span class="priority-dot"></span>
+                  Средний приоритет
+                </span>
+                <span class="task-number">ЗАДАНИЕ № ЗД-24083</span>
+              </div>
+
+              <h3>DWDM ТС-16</h3>
+
+              <div class="task-details">
+                <div>
+                  <span>Комплектность</span>
+                  <strong class="metric-success">100%</strong>
+                </div>
+                <div>
+                  <span>Прогресс</span>
+                  <strong>Не начато</strong>
+                </div>
+              </div>
+
+              <div class="task-next-operation">
+                <span>Следующая операция:</span>
+                <strong>Установка оптических модулей</strong>
+              </div>
+            </div>
+
+            <div class="task-card-action">
+              <span class="task-status status-available">
+                <span class="status-dot"></span>
+                Доступно
+              </span>
+              <button class="secondary-button open-task-button"
+                type="button" data-open-task="ЗД-24083">
+                Открыть задание
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Приостановленное задание -->
+          <article class="task-card task-item"
+            data-task-id="ЗД-24079"
+            data-model="Точка доступа WAP-620"
+            data-priority="low"
+            data-status="paused">
+
+            <div class="task-card-main">
+              <div class="task-card-top">
+                <span class="priority-label priority-low">
+                  <span class="priority-dot"></span>
+                  Низкий приоритет
+                </span>
+                <span class="task-number">ЗАДАНИЕ № ЗД-24079</span>
+              </div>
+
+              <h3>Точка доступа WAP-620</h3>
+
+              <div class="task-details">
+                <div>
+                  <span>Комплектность</span>
+                  <strong class="metric-warning">92% · Не хватает 1 позиции</strong>
+                </div>
+                <div>
+                  <span>Прогресс</span>
+                  <strong>3 из 8 операций · 38%</strong>
+                </div>
+              </div>
+
+              <div class="task-next-operation">
+                <span>Следующая операция:</span>
+                <strong>Подключение антенн</strong>
+              </div>
+
+              <p class="paused-note">
+                <span aria-hidden="true">!</span>
+                Приостановлено на предыдущей смене
+              </p>
+            </div>
+
+            <div class="task-card-action">
+              <span class="task-status status-paused">
+                <span class="status-dot"></span>
+                Приостановлено
+              </span>
+              <button class="secondary-button open-task-button"
+                type="button" data-open-task="ЗД-24079">
+                Открыть задание
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="empty-state" id="tasksEmpty" hidden>
+          <span class="empty-state-icon" aria-hidden="true">⌕</span>
+          <h3>Задания не найдены</h3>
+          <p>Измените поисковый запрос или параметры фильтрации.</p>
+          <button class="secondary-button" type="button" id="resetTaskFilters">
+            Сбросить фильтры
+          </button>
+        </div>
+      </section>
+
+      <!-- Нижняя панель -->
+      <section class="end-shift-panel">
+        <div>
+          <h2>Завершение смены</h2>
+          <p>
+            Перед завершением смены проверьте состояние активных заданий
+            и зафиксируйте незавершённые операции.
+          </p>
+        </div>
+        <button class="secondary-button" type="button" id="endShiftButton">
+          Завершить смену
+          <span aria-hidden="true">→</span>
+        </button>
+      </section>
+
+      <footer class="page-footer">
+        <span>MES Production System</span>
+        <span>Рабочее место сборщика · Версия прототипа 0.2</span>
+      </footer>
+
+    </main>
+    <!-- КОНЕЦ ЭКРАНА 2 -->
+
+    
   </div>
 
 
@@ -562,7 +958,7 @@
         <span class="context-check">✓</span>
         <span>
           <strong>Контекст будет добавлен автоматически</strong>
-          <small>Смена · Рабочее место № 04 · Этап «Проверка готовности»</small>
+          <small id="problemContextStage">Смена · Рабочее место № 04 · Этап «Проверка готовности»</small>
         </span>
       </div>
 
@@ -637,6 +1033,139 @@
   </dialog>
 
 
+  <!-- Просмотр выбранного задания -->
+  <dialog class="modal" id="taskModal" aria-labelledby="taskModalTitle">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <span class="modal-eyebrow">КАРТОЧКА ЗАДАНИЯ</span>
+          <h2 id="taskModalTitle">Задание</h2>
+        </div>
+        <button class="close-button" type="button" id="closeTaskModal"
+          aria-label="Закрыть">×</button>
+      </div>
+
+      <p class="modal-description" id="taskModalDescription"></p>
+
+      <div class="task-modal-info">
+        <div>
+          <span>Номер задания</span>
+          <strong id="modalTaskNumber">—</strong>
+        </div>
+        <div>
+          <span>Приоритет</span>
+          <strong id="modalTaskPriority">—</strong>
+        </div>
+        <div>
+          <span>Комплектность</span>
+          <strong id="modalTaskCompleteness">—</strong>
+        </div>
+        <div>
+          <span>Следующая операция</span>
+          <strong id="modalTaskOperation">—</strong>
+        </div>
+      </div>
+
+      <div class="auto-context">
+        <span class="context-check" aria-hidden="true">i</span>
+        <span>
+          <strong>Таймер выполнения пока не запущен</strong>
+          <small>
+            Открытие карточки задания не означает начало сборки.
+            Время начнёт учитываться после подтверждения начала
+            физического выполнения операции.
+          </small>
+        </span>
+      </div>
+
+      <div class="modal-actions">
+        <button class="secondary-button" type="button" id="closeTaskModalBottom">
+          Вернуться к списку
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Подтверждение завершения смены -->
+  <dialog class="modal" id="endShiftModal" aria-labelledby="endShiftTitle">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <span class="modal-eyebrow">ЗАВЕРШЕНИЕ СМЕНЫ</span>
+          <h2 id="endShiftTitle">Передача незавершённой работы</h2>
+        </div>
+        <button class="close-button" type="button" id="closeEndShift"
+          aria-label="Закрыть">×</button>
+      </div>
+
+      <p class="modal-description">
+        Перед завершением смены необходимо проверить состояние заданий
+        и сохранить информацию о выполненных операциях.
+      </p>
+
+      <div class="shift-summary">
+        <div><span>Доступные задания</span><strong>3</strong></div>
+        <div><span>Приостановленные задания</span><strong>1</strong></div>
+        <div><span>Незавершённые операции</span><strong>5</strong></div>
+      </div>
+
+      <div class="auto-context">
+        <span class="context-check" aria-hidden="true">i</span>
+        <span>
+          <strong>Что будет зафиксировано</strong>
+          <small>
+            Текущее состояние заданий, выполненные операции,
+            незавершённые действия и информация для следующей смены.
+          </small>
+        </span>
+      </div>
+
+      <div class="modal-actions">
+        <button class="secondary-button" type="button" id="cancelEndShift">
+          Вернуться к заданиям
+        </button>
+        <button class="primary-button" type="button" id="confirmEndShift">
+          Завершить смену
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Профиль сборщика -->
+  <dialog class="modal" id="profileModal" aria-labelledby="profileTitle">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <span class="modal-eyebrow">УЧЁТНАЯ ЗАПИСЬ</span>
+          <h2 id="profileTitle">Профиль сотрудника</h2>
+        </div>
+        <button class="close-button" type="button" id="closeProfile"
+          aria-label="Закрыть">×</button>
+      </div>
+
+      <div class="profile-info">
+        <span class="avatar profile-avatar" aria-hidden="true">ИС</span>
+        <div>
+          <strong>Иванов Сергей</strong>
+          <span>Сборщик</span>
+        </div>
+      </div>
+
+      <div class="shift-summary">
+        <div><span>Рабочее место</span><strong>Пост № 04</strong></div>
+        <div><span>Участок</span><strong>Линия 2</strong></div>
+        <div><span>Текущая смена</span><strong>Дневная</strong></div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="primary-button" type="button" id="closeProfileBottom">
+          Закрыть
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  
   <script src="app.js"></script>
 
 </body>
