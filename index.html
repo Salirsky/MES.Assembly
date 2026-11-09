@@ -1119,6 +1119,555 @@
     </main>
 
 
+    <!-- =========================================
+     SCREEN 4 — COMPONENT CHECK
+========================================= -->
+
+<section id="operationScreen" class="operation-page" hidden>
+
+  <!-- Закреплённый прогресс изделия -->
+  <div class="operation-sticky-header">
+
+    <div class="operation-sticky-top">
+      <div class="operation-task-context">
+        <span class="operation-task-number" id="operationTaskNumber">
+          ЗД-24081
+        </span>
+        <span class="operation-context-divider">/</span>
+        <span id="operationProductName">Маршрутизатор МР-800</span>
+      </div>
+
+      <div class="operation-sticky-actions">
+        <button type="button"
+                class="operation-text-button"
+                id="operationReportProblem">
+          Сообщить о проблеме
+        </button>
+
+        <button type="button"
+                class="operation-text-button"
+                id="operationEndShift">
+          Завершить смену
+        </button>
+      </div>
+    </div>
+
+    <div class="operation-progress-info">
+      <div>
+        <span class="operation-progress-label">Прогресс изделия</span>
+        <strong id="operationProgressText">1 из 6 операций</strong>
+      </div>
+
+      <span class="operation-progress-percent" id="operationProgressPercent">
+        17%
+      </span>
+    </div>
+
+    <div class="operation-progress-track"
+         id="operationProgressBar"
+         role="progressbar"
+         aria-label="Прогресс выполнения производственного маршрута"
+         aria-valuemin="0"
+         aria-valuemax="100"
+         aria-valuenow="17">
+      <div class="operation-progress-fill"
+           id="operationProgressFill"></div>
+    </div>
+
+  </div>
+
+
+  <div class="operation-content">
+
+    <!-- Навигация -->
+    <div class="operation-navigation">
+      <button type="button"
+              class="operation-back-button"
+              id="backToTaskPage">
+        <span aria-hidden="true">←</span>
+        К заданию
+      </button>
+
+      <span class="operation-stage-label">
+        ОПЕРАЦИЯ 1 ИЗ 6 · ШАГ 1
+      </span>
+    </div>
+
+
+    <!-- Заголовок операции -->
+    <header class="operation-heading">
+
+      <div>
+        <div class="operation-eyebrow">
+          ТЕКУЩАЯ ОПЕРАЦИЯ
+        </div>
+
+        <h1 id="operationTitle">
+          Установка блока питания
+        </h1>
+
+        <p>
+          Проверьте комплектующий и его маркировку перед установкой
+          в изделие.
+        </p>
+      </div>
+
+      <span class="operation-status" id="operationStatus">
+        Ожидает проверки
+      </span>
+
+    </header>
+
+
+    <!-- Безопасное состояние до сканирования -->
+    <div class="operation-safe-notice" id="operationSafeNotice">
+      <span class="operation-notice-icon" aria-hidden="true">i</span>
+
+      <div>
+        <strong>Работу можно приостановить</strong>
+        <p>
+          До подтверждения маркировки вы можете поставить задание на паузу.
+          Текущее состояние проверки будет сохранено.
+        </p>
+      </div>
+    </div>
+
+
+    <!-- Состояние после сканирования -->
+    <div class="operation-locked-notice"
+         id="operationLockedNotice"
+         role="status"
+         aria-live="polite"
+         hidden>
+
+      <span class="operation-notice-icon" aria-hidden="true">!</span>
+
+      <div>
+        <strong>Компонент подтверждён системой</strong>
+        <p>
+          Сначала установите компонент согласно инструкции.
+          Приостановить задание или завершить смену можно будет
+          после фиксации установки.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="operation-layout">
+
+      <!-- Основная колонка -->
+      <div class="operation-main-column">
+
+
+        <!-- Инструкция -->
+        <section class="operation-card"
+                 aria-labelledby="operationInstructionHeading">
+
+          <div class="operation-card-heading">
+            <div>
+              <span class="operation-card-eyebrow">ТЕХНОЛОГИЧЕСКАЯ ДОКУМЕНТАЦИЯ</span>
+              <h2 id="operationInstructionHeading">
+                Инструкция по установке
+              </h2>
+            </div>
+
+            <span class="operation-document-version">
+              Редакция 1.2
+            </span>
+          </div>
+
+          <div class="operation-instruction-intro">
+            <strong>Установка блока питания в корпус маршрутизатора</strong>
+            <p>
+              Перед установкой убедитесь, что компонент соответствует
+              спецификации и не имеет видимых повреждений.
+            </p>
+          </div>
+
+          <ol class="operation-instruction-list">
+
+            <li>
+              <span class="instruction-step-number">1</span>
+              <div>
+                <strong>Подготовьте компонент</strong>
+                <p>
+                  Извлеките блок питания из упаковки, соблюдая требования
+                  ESD-защиты.
+                </p>
+              </div>
+            </li>
+
+            <li>
+              <span class="instruction-step-number">2</span>
+              <div>
+                <strong>Осмотрите корпус и разъёмы</strong>
+                <p>
+                  Проверьте отсутствие деформаций, трещин, повреждений
+                  покрытия и следов перегрева.
+                </p>
+              </div>
+            </li>
+
+            <li>
+              <span class="instruction-step-number">3</span>
+              <div>
+                <strong>Сверьте маркировку</strong>
+                <p>
+                  Убедитесь, что обозначение и модель компонента
+                  соответствуют спецификации изделия.
+                </p>
+              </div>
+            </li>
+
+            <li>
+              <span class="instruction-step-number">4</span>
+              <div>
+                <strong>Отсканируйте Data Matrix</strong>
+                <p>
+                  Считайте индивидуальную маркировку компонента
+                  для проверки соответствия производственному заданию.
+                </p>
+              </div>
+            </li>
+
+          </ol>
+
+          <div class="operation-instruction-warning">
+            <strong>Важно</strong>
+            <p>
+              Не устанавливайте компонент с видимыми повреждениями
+              или несоответствующей маркировкой. Сообщите о проблеме
+              ответственному сотруднику.
+            </p>
+          </div>
+
+        </section>
+
+
+        <!-- Текущий компонент -->
+        <section class="operation-card"
+                 aria-labelledby="currentComponentHeading">
+
+          <div class="operation-card-heading">
+            <div>
+              <span class="operation-card-eyebrow">ТЕКУЩИЙ КОМПОНЕНТ</span>
+              <h2 id="currentComponentHeading">
+                Блок питания
+              </h2>
+            </div>
+
+            <span class="operation-required-label">
+              Обязательный компонент
+            </span>
+          </div>
+
+
+          <div class="operation-component-main">
+
+            <div class="operation-component-visual"
+                 role="img"
+                 aria-label="Условное изображение блока питания">
+              <span>PSU</span>
+            </div>
+
+            <div class="operation-component-data">
+
+              <div>
+                <span>Обозначение</span>
+                <strong>PSU-01</strong>
+              </div>
+
+              <div>
+                <span>Модель</span>
+                <strong>Модуль питания 48 В</strong>
+              </div>
+
+              <div>
+                <span>Артикул</span>
+                <strong>PSU-650-MR</strong>
+              </div>
+
+              <div>
+                <span>Количество</span>
+                <strong>1 шт.</strong>
+              </div>
+
+              <div>
+                <span>Партия</span>
+                <strong>LOT-2026-0418</strong>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Визуальная проверка -->
+          <div class="operation-visual-check" id="operationVisualCheckBlock">
+
+            <div class="operation-subsection-heading">
+              <div>
+                <h3>Визуальная проверка</h3>
+                <p>
+                  Осмотрите компонент и сверьте его с требованиями.
+                </p>
+              </div>
+
+              <span class="operation-check-required">До сканирования</span>
+            </div>
+
+            <ul class="operation-check-list">
+
+              <li>
+                <span class="operation-check-marker" aria-hidden="true">✓</span>
+                Нет видимых повреждений корпуса и разъёмов
+              </li>
+
+              <li>
+                <span class="operation-check-marker" aria-hidden="true">✓</span>
+                Отсутствуют следы перегрева и деформации
+              </li>
+
+              <li>
+                <span class="operation-check-marker" aria-hidden="true">✓</span>
+                Модель и обозначение соответствуют спецификации
+              </li>
+
+            </ul>
+
+            <label class="operation-confirm-label">
+              <input type="checkbox" id="operationVisualConfirmed">
+              <span>
+                Я проверил компонент. Внешний вид и характеристики
+                соответствуют требованиям.
+              </span>
+            </label>
+
+          </div>
+
+
+          <!-- Сканирование -->
+          <div class="operation-scan-block">
+
+            <div class="operation-subsection-heading">
+              <div>
+                <h3>Сканирование маркировки</h3>
+                <p>
+                  Отсканируйте Data Matrix на корпусе компонента.
+                </p>
+              </div>
+            </div>
+
+            <label for="operationScanInput"
+                   class="operation-scan-label">
+              Код компонента
+            </label>
+
+            <div class="operation-scan-row">
+
+              <input
+                type="text"
+                id="operationScanInput"
+                placeholder="Ожидание сканирования..."
+                autocomplete="off"
+                spellcheck="false"
+                aria-describedby="operationScanFeedback"
+              >
+
+              <button type="button"
+                      class="button button-primary"
+                      id="operationScanButton"
+                      disabled>
+                Проверить код
+              </button>
+
+            </div>
+
+            <div class="operation-scan-feedback"
+                 id="operationScanFeedback"
+                 role="status"
+                 aria-live="polite">
+              Сначала выполните визуальную проверку компонента.
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- Результат подтверждения -->
+        <section class="operation-confirmation"
+                 id="operationConfirmation"
+                 hidden
+                 aria-live="polite">
+
+          <div class="operation-confirmation-icon" aria-hidden="true">
+            ✓
+          </div>
+
+          <div>
+            <strong>Компонент успешно подтверждён</strong>
+            <p>
+              Маркировка соответствует спецификации и производственному
+              заданию. Можно переходить к установке.
+            </p>
+            <span id="operationVerifiedCode">
+              PSU-MR800-24081-01
+            </span>
+          </div>
+
+        </section>
+
+
+      </div>
+
+
+      <!-- Боковая колонка -->
+      <aside class="operation-side-column">
+
+
+        <!-- BOM -->
+        <section class="operation-card operation-bom-card"
+                 aria-labelledby="operationBomHeading">
+
+          <div class="operation-card-heading">
+            <div>
+              <span class="operation-card-eyebrow">BOM · СПЕЦИФИКАЦИЯ</span>
+              <h2 id="operationBomHeading">Состав комплекта</h2>
+            </div>
+          </div>
+
+          <p class="operation-bom-description">
+            Комплектующие для текущей операции.
+          </p>
+
+          <ul class="operation-bom-list">
+
+            <li class="operation-bom-item is-current">
+              <span class="operation-bom-indicator"></span>
+              <div>
+                <strong>Блок питания</strong>
+                <small>PSU-01 · PSU-650-MR</small>
+                <span id="operationBomPowerStatus">Текущий компонент</span>
+              </div>
+              <b>1 шт.</b>
+            </li>
+
+            <li class="operation-bom-item">
+              <span class="operation-bom-indicator"></span>
+              <div>
+                <strong>Комплект крепежа</strong>
+                <small>FIX-M4-SET</small>
+                <span>По спецификации</span>
+              </div>
+              <b>1 компл.</b>
+            </li>
+
+            <li class="operation-bom-item">
+              <span class="operation-bom-indicator"></span>
+              <div>
+                <strong>Кабель питания</strong>
+                <small>PWR-CBL-01</small>
+                <span>По спецификации</span>
+              </div>
+              <b>1 шт.</b>
+            </li>
+
+          </ul>
+
+          <p class="operation-bom-footnote">
+            Данные приведены для демонстрационного изделия МР-800.
+          </p>
+
+        </section>
+
+
+        <!-- Управление -->
+        <section class="operation-card operation-controls-card"
+                 aria-labelledby="operationControlsHeading">
+
+          <h2 id="operationControlsHeading">Управление заданием</h2>
+
+          <p id="operationPauseDescription">
+            До сканирования компонент можно проверить и приостановить
+            выполнение задания.
+          </p>
+
+          <button type="button"
+                  class="button button-secondary operation-pause-button"
+                  id="operationPauseButton">
+            <span aria-hidden="true">Ⅱ</span>
+            Приостановить задание
+          </button>
+
+          <div class="operation-paused-state"
+               id="operationPausedState"
+               hidden>
+            <strong>Задание приостановлено</strong>
+            <p>
+              Состояние визуальной проверки сохранено.
+              Вы можете продолжить с этого же места.
+            </p>
+
+            <button type="button"
+                    class="button button-primary"
+                    id="operationResumeButton">
+              Продолжить работу
+            </button>
+          </div>
+
+          <div class="operation-locked-controls"
+               id="operationLockedControls"
+               hidden>
+            <strong>Действия временно недоступны</strong>
+            <p>
+              После подтверждения компонента необходимо сначала
+              выполнить его установку.
+            </p>
+          </div>
+
+        </section>
+
+
+        <!-- Сообщение о проблеме -->
+        <section class="operation-help-card">
+
+          <div>
+            <strong>Возникла проблема?</strong>
+            <p>
+              Если компонент повреждён, отсутствует или не соответствует
+              спецификации, сообщите об этом.
+            </p>
+          </div>
+
+          <button type="button"
+                  class="button button-secondary"
+                  id="operationReportProblemSide">
+            Сообщить о проблеме
+          </button>
+
+        </section>
+
+
+      </aside>
+
+    </div>
+
+
+    <!-- Нижняя зона -->
+    <footer class="operation-footer">
+      <span>MES Production System</span>
+      <span>Рабочее место сборщика · Операция 1 / 6</span>
+    </footer>
+
+  </div>
+
+</section>
+
+
+    
+
     <!-- SHARED TOAST -->
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
