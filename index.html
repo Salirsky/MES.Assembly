@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="ru">
 <head>
@@ -16,9 +15,7 @@
 
 <body>
 
-  <!-- ======================================
-       DEMO LOGIN
-  ======================================= -->
+  <!-- DEMO LOGIN -->
   <main class="login-screen" id="loginScreen">
     <section class="login-card" aria-labelledby="loginTitle">
       <a class="brand login-brand" href="#" aria-label="MES Production">
@@ -34,18 +31,35 @@
 
       <form id="loginForm" class="login-form">
         <label for="loginUsername">Логин</label>
-        <input id="loginUsername" name="username" type="text"
-               autocomplete="username" value="s.ivanov" required>
+        <input
+          id="loginUsername"
+          name="username"
+          type="text"
+          autocomplete="username"
+          value="s.ivanov"
+          required
+        >
 
         <label for="loginPassword">Пароль</label>
         <div class="password-wrap">
-          <input id="loginPassword" name="password" type="password"
-                 autocomplete="current-password" value="MES2026!" required>
-          <button class="password-toggle" type="button" id="togglePassword"
-                  aria-label="Показать пароль">Показать</button>
+          <input
+            id="loginPassword"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            value="MES2026!"
+            required
+          >
+          <button
+            class="password-toggle"
+            type="button"
+            id="togglePassword"
+            aria-label="Показать пароль"
+          >Показать</button>
         </div>
 
         <p class="login-error" id="loginError" role="alert" aria-live="polite"></p>
+
         <button class="primary-button login-submit" type="submit">
           Войти в систему <span aria-hidden="true">→</span>
         </button>
@@ -59,12 +73,10 @@
   </main>
 
 
-  <!-- ======================================
-       APPLICATION
-  ======================================= -->
+  <!-- APPLICATION -->
   <div class="app-shell" id="appContent" hidden>
 
-    <!-- Shared topbar -->
+    <!-- SHARED TOPBAR -->
     <header class="topbar">
       <a class="brand" href="#" aria-label="MES — главная">
         <span class="brand-mark" aria-hidden="true">M</span>
@@ -79,8 +91,13 @@
       </div>
 
       <div class="topbar-actions">
-        <button class="icon-button" id="reportTop" type="button"
-                aria-label="Сообщить о проблеме" title="Сообщить о проблеме">
+        <button
+          class="icon-button"
+          id="reportTop"
+          type="button"
+          aria-label="Сообщить о проблеме"
+          title="Сообщить о проблеме"
+        >
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 9v4m0 4h.01M10.3 3.9 2.7 17a2 2 0 0 0 1.7 3h15.2a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/>
           </svg>
@@ -150,20 +167,28 @@
               <h2>Подготовка рабочего места</h2>
               <p>Отметьте результаты обязательных проверок.</p>
             </div>
+
             <div class="progress-block">
               <div class="progress-copy">
                 <strong id="progressCount">0 из 4</strong>
                 <span>проверок выполнено</span>
               </div>
-              <div class="progress-track" role="progressbar"
-                   aria-label="Выполнение проверок"
-                   aria-valuemin="0" aria-valuemax="4"
-                   aria-valuenow="0" id="progressBar">
+              <div
+                class="progress-track"
+                role="progressbar"
+                aria-label="Выполнение проверок"
+                aria-valuemin="0"
+                aria-valuemax="4"
+                aria-valuenow="0"
+                id="progressBar"
+              >
                 <span id="progressFill"></span>
               </div>
             </div>
           </section>
 
+
+          <!-- TOOLS -->
           <section class="check-card" aria-labelledby="toolsTitle">
             <div class="card-heading">
               <div class="card-icon blue" aria-hidden="true">⚒</div>
@@ -173,6 +198,7 @@
               </div>
               <span class="status-pill pending" data-status="tools">Не проверено</span>
             </div>
+
             <div class="checklist">
               <label class="check-row">
                 <input type="checkbox" data-group="tools">
@@ -187,6 +213,7 @@
                 <span class="row-hint">Нет видимых повреждений</span>
               </label>
             </div>
+
             <div class="card-footer">
               <span class="footer-note">При отсутствии или неисправности инструмента сообщите о проблеме.</span>
               <button class="text-button report-inline" type="button" data-category="Инструменты">
@@ -195,6 +222,8 @@
             </div>
           </section>
 
+
+          <!-- EQUIPMENT -->
           <section class="check-card" aria-labelledby="equipmentTitle">
             <div class="card-heading">
               <div class="card-icon violet" aria-hidden="true">▣</div>
@@ -204,6 +233,7 @@
               </div>
               <span class="status-pill pending" data-status="equipment">Не проверено</span>
             </div>
+
             <div class="checklist">
               <label class="check-row">
                 <input type="checkbox" data-group="equipment">
@@ -216,6 +246,7 @@
                 <span class="check-label">Кабели и подключения в исправном состоянии</span>
               </label>
             </div>
+
             <div class="card-footer">
               <span class="footer-note">Не используйте неисправное оборудование.</span>
               <button class="text-button report-inline" type="button" data-category="Оборудование">
@@ -224,6 +255,8 @@
             </div>
           </section>
 
+
+          <!-- MATERIALS -->
           <section class="check-card" aria-labelledby="materialsTitle">
             <div class="card-heading">
               <div class="card-icon orange" aria-hidden="true">◇</div>
@@ -233,6 +266,7 @@
               </div>
               <span class="status-pill pending" data-status="materials">Не проверено</span>
             </div>
+
             <div class="checklist">
               <label class="check-row">
                 <input type="checkbox" data-group="materials">
@@ -245,6 +279,7 @@
                 <span class="check-label">Упаковка и маркировка без видимых повреждений</span>
               </label>
             </div>
+
             <div class="card-footer">
               <span class="footer-note">Комплектность конкретного задания проверяется отдельно.</span>
               <button class="text-button report-inline" type="button" data-category="Материалы и комплектующие">
@@ -253,6 +288,8 @@
             </div>
           </section>
 
+
+          <!-- ESD -->
           <section class="check-card" aria-labelledby="esdTitle">
             <div class="card-heading">
               <div class="card-icon teal" aria-hidden="true">ϟ</div>
@@ -262,6 +299,7 @@
               </div>
               <span class="status-pill pending" data-status="esd">Не проверено</span>
             </div>
+
             <div class="checklist">
               <label class="check-row">
                 <input type="checkbox" data-group="esd">
@@ -279,6 +317,7 @@
                 <span class="check-label">Используются необходимые средства ESD-защиты</span>
               </label>
             </div>
+
             <div class="card-footer">
               <span class="footer-note">При сомнении в исправности ESD-защиты остановите подготовку.</span>
               <button class="text-button report-inline" type="button" data-category="ESD-защита">
@@ -286,19 +325,34 @@
               </button>
             </div>
           </section>
+
         </div>
 
+
+        <!-- READINESS SUMMARY -->
         <aside class="side-column">
           <section class="summary-card">
             <div class="summary-top">
               <span class="summary-icon" aria-hidden="true">✓</span>
               <span class="summary-kicker">ГОТОВНОСТЬ К РАБОТЕ</span>
             </div>
+
             <h3 id="summaryTitle">Требуется проверка</h3>
-            <p id="summaryText">Выполните все обязательные проверки, чтобы перейти к доступным заданиям.</p>
+            <p id="summaryText">
+              Выполните все обязательные проверки, чтобы перейти к доступным заданиям.
+            </p>
+
             <div class="summary-divider"></div>
-            <div class="summary-stat"><span>Завершено</span><strong id="summaryDone">0 / 4</strong></div>
-            <div class="summary-stat"><span>Осталось</span><strong id="summaryLeft">4</strong></div>
+
+            <div class="summary-stat">
+              <span>Завершено</span>
+              <strong id="summaryDone">0 / 4</strong>
+            </div>
+            <div class="summary-stat">
+              <span>Осталось</span>
+              <strong id="summaryLeft">4</strong>
+            </div>
+
             <button class="primary-button" id="continueButton" type="button" disabled>
               Перейти к заданиям <span aria-hidden="true">→</span>
             </button>
@@ -310,7 +364,10 @@
               <span class="help-icon" aria-hidden="true">i</span>
               <h3>Нужна помощь?</h3>
             </div>
-            <p>Если вы обнаружили неисправность, нехватку материалов или другое отклонение, зарегистрируйте проблему.</p>
+            <p>
+              Если вы обнаружили неисправность, нехватку материалов или другое
+              отклонение, зарегистрируйте проблему.
+            </p>
             <button class="secondary-button" id="reportSide" type="button">
               ＋ Сообщить о проблеме
             </button>
@@ -318,7 +375,11 @@
 
           <div class="safety-note">
             <span aria-hidden="true">◆</span>
-            <p><strong>Важно</strong><br>Не начинайте работу, если обнаружены неисправности, влияющие на безопасность или качество сборки.</p>
+            <p>
+              <strong>Важно</strong><br>
+              Не начинайте работу, если обнаружены неисправности, влияющие
+              на безопасность или качество сборки.
+            </p>
           </div>
         </aside>
       </div>
@@ -339,8 +400,11 @@
         <div>
           <div class="eyebrow">РАБОЧЕЕ МЕСТО СБОРЩИКА</div>
           <h1>Доступные задания</h1>
-          <p class="page-description">Выберите задание для выполнения. Рекомендуемое задание выделено отдельно.</p>
+          <p class="page-description">
+            Выберите задание для выполнения. Рекомендуемое задание выделено отдельно.
+          </p>
         </div>
+
         <button class="secondary-button" id="endShiftButton" type="button">
           Завершить смену
         </button>
@@ -365,6 +429,8 @@
         </div>
       </section>
 
+
+      <!-- RECOMMENDED TASK -->
       <section class="recommended-section" aria-labelledby="recommendedTitle">
         <div class="section-label-row">
           <div>
@@ -374,11 +440,13 @@
           <span class="recommendation-label">Подходит для выполнения</span>
         </div>
 
-        <article class="recommended-card task-item"
-                 data-task-id="ЗД-24081"
-                 data-model="Маршрутизатор МР-800"
-                 data-priority="high"
-                 data-status="available">
+        <article
+          class="recommended-card task-item"
+          data-task-id="ЗД-24081"
+          data-model="Маршрутизатор МР-800"
+          data-priority="high"
+          data-status="available"
+        >
           <div class="recommended-main">
             <div class="task-product-icon" aria-hidden="true">МР</div>
             <div class="task-card-content">
@@ -396,18 +464,22 @@
               </div>
             </div>
           </div>
+
           <button class="primary-button" type="button" data-open-task="ЗД-24081">
             Открыть задание <span aria-hidden="true">→</span>
           </button>
         </article>
       </section>
 
+
+      <!-- ALL TASKS -->
       <section class="all-tasks-section" aria-labelledby="allTasksTitle">
         <div class="section-label-row">
           <div>
             <span class="eyebrow">ПРОИЗВОДСТВЕННАЯ ОЧЕРЕДЬ</span>
             <h2 id="allTasksTitle">Все задания</h2>
           </div>
+
           <button class="text-button" id="refreshTasks" type="button">
             ↻ Обновить список
           </button>
@@ -415,12 +487,23 @@
 
         <div class="task-toolbar">
           <div class="task-tabs" role="tablist" aria-label="Фильтр заданий">
-            <button class="task-tab active" id="allTasksTab" type="button"
-                    role="tab" aria-selected="true">
+            <button
+              class="task-tab active"
+              id="allTasksTab"
+              type="button"
+              role="tab"
+              aria-selected="true"
+            >
               Все задания <span id="allTasksCount">3</span>
             </button>
-            <button class="task-tab" id="pausedTasksTab" type="button"
-                    role="tab" aria-selected="false">
+
+            <button
+              class="task-tab"
+              id="pausedTasksTab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+            >
               Приостановленные <span id="pausedTasksCount">1</span>
             </button>
           </div>
@@ -429,11 +512,16 @@
             <label class="search-field">
               <span class="visually-hidden">Поиск по номеру или модели</span>
               <span aria-hidden="true">⌕</span>
-              <input id="taskSearch" type="search"
-                     placeholder="Номер задания или модель">
+              <input
+                id="taskSearch"
+                type="search"
+                placeholder="Номер задания или модель"
+              >
             </label>
 
-            <label class="visually-hidden" for="priorityFilter">Фильтр по приоритету</label>
+            <label class="visually-hidden" for="priorityFilter">
+              Фильтр по приоритету
+            </label>
             <select id="priorityFilter">
               <option value="all">Все приоритеты</option>
               <option value="high">Высокий</option>
@@ -445,16 +533,20 @@
 
         <div class="task-results-line">
           <span id="resultsCount">Показано 3 задания</span>
-          <button class="text-button" id="resetTaskFilters" type="button">Сбросить фильтры</button>
+          <button class="text-button" id="resetTaskFilters" type="button">
+            Сбросить фильтры
+          </button>
         </div>
 
         <div class="tasks-list" id="tasksList">
 
-          <article class="task-card task-item"
-                   data-task-id="ЗД-24082"
-                   data-model="Коммутатор КС-48"
-                   data-priority="medium"
-                   data-status="available">
+          <article
+            class="task-card task-item"
+            data-task-id="ЗД-24082"
+            data-model="Коммутатор КС-48"
+            data-priority="medium"
+            data-status="available"
+          >
             <div class="task-card-main">
               <div class="task-product-icon small-icon" aria-hidden="true">КС</div>
               <div class="task-card-content">
@@ -472,14 +564,19 @@
                 </div>
               </div>
             </div>
-            <button class="secondary-button" type="button" data-open-task="ЗД-24082">Открыть</button>
+            <button class="secondary-button" type="button" data-open-task="ЗД-24082">
+              Открыть
+            </button>
           </article>
 
-          <article class="task-card task-item"
-                   data-task-id="ЗД-24079"
-                   data-model="Оптический модуль DWDM"
-                   data-priority="normal"
-                   data-status="paused">
+
+          <article
+            class="task-card task-item"
+            data-task-id="ЗД-24079"
+            data-model="Оптический модуль DWDM"
+            data-priority="normal"
+            data-status="paused"
+          >
             <div class="task-card-main">
               <div class="task-product-icon small-icon" aria-hidden="true">DW</div>
               <div class="task-card-content">
@@ -497,8 +594,11 @@
                 </div>
               </div>
             </div>
-            <button class="secondary-button" type="button" data-open-task="ЗД-24079">Открыть</button>
+            <button class="secondary-button" type="button" data-open-task="ЗД-24079">
+              Открыть
+            </button>
           </article>
+
         </div>
 
         <div class="empty-state" id="tasksEmpty" hidden>
@@ -519,992 +619,511 @@
     </main>
 
 
-
-
-
-
-
-
-<!-- =========================================
-     SCREEN 3 — TASK PAGE
-========================================= -->
-
-<section id="taskScreen" class="task-page" hidden>
-
-  <!-- Верхняя навигация -->
-  <div class="task-page-top">
-    <button type="button" class="back-button" id="backToTasks">
-      <span aria-hidden="true">←</span>
-      К списку заданий
-    </button>
-
-    <div class="task-page-actions">
-      <button type="button" class="button button-secondary" id="reportTaskProblem">
-        Сообщить о проблеме
-      </button>
-
-      <button type="button" class="button button-secondary" id="endShiftButton">
-        Завершить смену
-      </button>
-    </div>
-  </div>
-
-  <!-- Заголовок задания -->
-  <header class="task-page-header">
-
-    <div class="task-page-heading">
-      <div class="task-breadcrumb">
-        Производство
-        <span aria-hidden="true">/</span>
-        Задания
-        <span aria-hidden="true">/</span>
-        <span id="taskBreadcrumbNumber">ЗД-24081</span>
-      </div>
-
-      <div class="task-title-row">
-        <div>
-          <div class="task-number-label" id="taskPageNumber">
-            ЗД-24081
-          </div>
-
-          <h1 id="taskPageTitle">
-            Маршрутизатор МР-800
-          </h1>
-        </div>
-
-        <div class="task-header-badges">
-          <span class="priority-badge priority-high" id="taskPagePriority">
-            Высокий приоритет
-          </span>
-
-          <span class="task-status-badge" id="taskPageStatus">
-            Доступно к выполнению
-          </span>
-        </div>
-      </div>
-
-      <p class="task-page-description">
-        Ознакомьтесь с параметрами задания и проверьте наличие
-        комплектующих перед началом сборки.
-      </p>
-    </div>
-
-  </header>
-
-
-  <!-- Основная информация о задании -->
-  <section class="task-info-section" aria-labelledby="taskInfoHeading">
-
-    <div class="section-heading">
-      <div>
-        <h2 id="taskInfoHeading">Информация о задании</h2>
-        <p>Основные параметры производственного заказа</p>
-      </div>
-    </div>
-
-    <div class="task-info-grid">
-
-      <div class="task-info-card">
-        <span class="task-info-label">Номер заказа</span>
-        <strong id="detailTaskOrder">ЗК-10582</strong>
-      </div>
-
-      <div class="task-info-card">
-        <span class="task-info-label">Изделие</span>
-        <strong id="taskProductName">Маршрутизатор МР-800</strong>
-      </div>
-
-      <div class="task-info-card">
-        <span class="task-info-label">Плановое количество</span>
-        <strong id="detailTaskQuantity">12 шт.</strong>
-      </div>
-
-      <div class="task-info-card">
-        <span class="task-info-label">Срок выполнения</span>
-        <strong id="detailTaskDeadline">09.11.2026, 18:00</strong>
-      </div>
-
-      <div class="task-info-card">
-        <span class="task-info-label">Рабочее место</span>
-        <strong id="detailTaskWorkplace">Сборочный пост № 04</strong>
-      </div>
-
-      <div class="task-info-card">
-        <span class="task-info-label">Следующая операция</span>
-        <strong id="detailTaskOperation">Установка блока питания</strong>
-      </div>
-
-    </div>
-
-    <div class="task-route">
-      <div class="task-route-label">Производственный маршрут</div>
-
-      <ol class="route-steps">
-        <li class="route-step route-step-done">
-          <span class="route-step-marker" aria-hidden="true">✓</span>
-          <span>Подготовка комплекта</span>
-        </li>
-
-        <li class="route-step route-step-current">
-          <span class="route-step-marker" aria-hidden="true">2</span>
-          <span>Сборка</span>
-        </li>
-
-        <li class="route-step">
-          <span class="route-step-marker" aria-hidden="true">3</span>
-          <span>Тестирование</span>
-        </li>
-
-        <li class="route-step">
-          <span class="route-step-marker" aria-hidden="true">4</span>
-          <span>Контроль качества</span>
-        </li>
-      </ol>
-    </div>
-
-  </section>
-
-
-  <!-- Спецификация / BOM -->
-  <section class="bom-section" aria-labelledby="bomHeading">
-
-    <div class="section-heading bom-heading">
-
-      <div>
-        <h2 id="bomHeading">Спецификация изделия</h2>
-        <p>
-          Перечень комплектующих, необходимых для выполнения задания
-        </p>
-      </div>
-
-      <div class="bom-counter" aria-live="polite">
-        <strong id="bomCheckedCount">0 из 4</strong>
-        <span>компонентов проверено</span>
-      </div>
-
-    </div>
-
-
-    <!-- Подсказка по визуальной проверке -->
-    <div class="visual-check-notice">
-      <span class="notice-icon" aria-hidden="true">i</span>
-
-      <p>
-        Убедитесь, что каждый компонент присутствует на рабочем месте,
-        не имеет видимых повреждений и соответствует указанным
-        характеристикам. Проверка маркировки и сканирование выполняются
-        на этапе конкретной операции.
-      </p>
-    </div>
-
-
-    <!-- Список компонентов -->
-    <div class="bom-list" id="bomList">
-
-
-      <!-- Компонент 1 -->
-      <article class="bom-item" data-component-id="power">
-
-        <div class="bom-item-main">
-
-          <div class="bom-item-info">
-
-            <div class="component-thumbnail component-thumbnail-power"
-                 role="img"
-                 aria-label="Иллюстрация блока питания">
-              <span aria-hidden="true">PSU</span>
-            </div>
-
-            <div class="bom-item-text">
-              <span class="component-designation">PSU-01</span>
-
-              <h3>Блок питания</h3>
-
-              <span class="component-model">Модуль питания 48 В</span>
-            </div>
-
-          </div>
-
-          <div class="bom-item-quantity">
-            <span>Количество</span>
-            <strong>2 шт.</strong>
-          </div>
-
-          <div class="bom-item-check">
-            <label class="visual-check-label">
-              <input
-                type="checkbox"
-                class="component-visual-check"
-                data-component-check="power"
-              >
-              <span>Проверено</span>
-            </label>
-          </div>
-
-          <button
-            type="button"
-            class="component-expand-button"
-            aria-expanded="false"
-            aria-controls="componentDetailsPower"
-          >
-            <span class="expand-button-text">Подробнее</span>
-            <span class="expand-chevron" aria-hidden="true">⌄</span>
-          </button>
-
-        </div>
-
-        <div class="component-details" id="componentDetailsPower" hidden>
-
-          <div class="component-details-content">
-
-            <div class="component-large-visual component-thumbnail-power"
-                 role="img"
-                 aria-label="Иллюстрация блока питания">
-              <span aria-hidden="true">PSU</span>
-            </div>
-
-            <div class="component-requirements">
-
-              <h4>Требования к компоненту</h4>
-
-              <dl>
-                <div>
-                  <dt>Обозначение</dt>
-                  <dd>PSU-01</dd>
-                </div>
-
-                <div>
-                  <dt>Модель</dt>
-                  <dd>Модуль питания 48 В</dd>
-                </div>
-
-                <div>
-                  <dt>Количество</dt>
-                  <dd>2 шт.</dd>
-                </div>
-
-                <div>
-                  <dt>Характеристики</dt>
-                  <dd>Входное напряжение 220 В, выходное 48 В</dd>
-                </div>
-
-                <div>
-                  <dt>Визуальная проверка</dt>
-                  <dd>
-                    Отсутствие повреждений корпуса, деформаций
-                    и следов перегрева
-                  </dd>
-                </div>
-              </dl>
-
-            </div>
-
-          </div>
-
-          <button
-            type="button"
-            class="component-problem-button"
-            data-report-component="Блок питания PSU-01"
-          >
-            Сообщить о расхождении
-          </button>
-
-        </div>
-
-      </article>
-
-
-      <!-- Компонент 2 -->
-      <article class="bom-item" data-component-id="board">
-
-        <div class="bom-item-main">
-
-          <div class="bom-item-info">
-
-            <div class="component-thumbnail component-thumbnail-board"
-                 role="img"
-                 aria-label="Иллюстрация платы управления">
-              <span aria-hidden="true">PCB</span>
-            </div>
-
-            <div class="bom-item-text">
-              <span class="component-designation">PCB-01</span>
-              <h3>Плата управления</h3>
-              <span class="component-model">Основная плата контроллера</span>
-            </div>
-
-          </div>
-
-          <div class="bom-item-quantity">
-            <span>Количество</span>
-            <strong>1 шт.</strong>
-          </div>
-
-          <div class="bom-item-check">
-            <label class="visual-check-label">
-              <input
-                type="checkbox"
-                class="component-visual-check"
-                data-component-check="board"
-              >
-              <span>Проверено</span>
-            </label>
-          </div>
-
-          <button
-            type="button"
-            class="component-expand-button"
-            aria-expanded="false"
-            aria-controls="componentDetailsBoard"
-          >
-            <span class="expand-button-text">Подробнее</span>
-            <span class="expand-chevron" aria-hidden="true">⌄</span>
-          </button>
-
-        </div>
-
-        <div class="component-details" id="componentDetailsBoard" hidden>
-
-          <div class="component-details-content">
-
-            <div class="component-large-visual component-thumbnail-board"
-                 role="img"
-                 aria-label="Иллюстрация платы управления">
-              <span aria-hidden="true">PCB</span>
-            </div>
-
-            <div class="component-requirements">
-
-              <h4>Требования к компоненту</h4>
-
-              <dl>
-                <div>
-                  <dt>Обозначение</dt>
-                  <dd>PCB-01</dd>
-                </div>
-
-                <div>
-                  <dt>Модель</dt>
-                  <dd>Основная плата контроллера</dd>
-                </div>
-
-                <div>
-                  <dt>Количество</dt>
-                  <dd>1 шт.</dd>
-                </div>
-
-                <div>
-                  <dt>Характеристики</dt>
-                  <dd>Плата управления для модели МР-800</dd>
-                </div>
-
-                <div>
-                  <dt>Визуальная проверка</dt>
-                  <dd>
-                    Отсутствие повреждений платы, трещин,
-                    сколов и деформированных разъёмов
-                  </dd>
-                </div>
-              </dl>
-
-            </div>
-
-          </div>
-
-          <button
-            type="button"
-            class="component-problem-button"
-            data-report-component="Плата управления PCB-01"
-          >
-            Сообщить о расхождении
-          </button>
-
-        </div>
-
-      </article>
-
-
-      <!-- Компонент 3 -->
-      <article class="bom-item" data-component-id="fan">
-
-        <div class="bom-item-main">
-
-          <div class="bom-item-info">
-
-            <div class="component-thumbnail component-thumbnail-fan"
-                 role="img"
-                 aria-label="Иллюстрация вентилятора">
-              <span aria-hidden="true">FAN</span>
-            </div>
-
-            <div class="bom-item-text">
-              <span class="component-designation">FAN-01</span>
-              <h3>Вентилятор охлаждения</h3>
-              <span class="component-model">Модуль охлаждения 40 × 40 мм</span>
-            </div>
-
-          </div>
-
-          <div class="bom-item-quantity">
-            <span>Количество</span>
-            <strong>4 шт.</strong>
-          </div>
-
-          <div class="bom-item-check">
-            <label class="visual-check-label">
-              <input
-                type="checkbox"
-                class="component-visual-check"
-                data-component-check="fan"
-              >
-              <span>Проверено</span>
-            </label>
-          </div>
-
-          <button
-            type="button"
-            class="component-expand-button"
-            aria-expanded="false"
-            aria-controls="componentDetailsFan"
-          >
-            <span class="expand-button-text">Подробнее</span>
-            <span class="expand-chevron" aria-hidden="true">⌄</span>
-          </button>
-
-        </div>
-
-        <div class="component-details" id="componentDetailsFan" hidden>
-
-          <div class="component-details-content">
-
-            <div class="component-large-visual component-thumbnail-fan"
-                 role="img"
-                 aria-label="Иллюстрация вентилятора">
-              <span aria-hidden="true">FAN</span>
-            </div>
-
-            <div class="component-requirements">
-
-              <h4>Требования к компоненту</h4>
-
-              <dl>
-                <div>
-                  <dt>Обозначение</dt>
-                  <dd>FAN-01</dd>
-                </div>
-
-                <div>
-                  <dt>Модель</dt>
-                  <dd>Модуль охлаждения 40 × 40 мм</dd>
-                </div>
-
-                <div>
-                  <dt>Количество</dt>
-                  <dd>4 шт.</dd>
-                </div>
-
-                <div>
-                  <dt>Характеристики</dt>
-                  <dd>Питание 12 В, осевой вентилятор</dd>
-                </div>
-
-                <div>
-                  <dt>Визуальная проверка</dt>
-                  <dd>
-                    Отсутствие повреждений корпуса, лопастей
-                    и кабельных соединений
-                  </dd>
-                </div>
-              </dl>
-
-            </div>
-
-          </div>
-
-          <button
-            type="button"
-            class="component-problem-button"
-            data-report-component="Вентилятор охлаждения FAN-01"
-          >
-            Сообщить о расхождении
-          </button>
-
-        </div>
-
-      </article>
-
-
-      <!-- Компонент 4 -->
-      <article class="bom-item" data-component-id="chassis">
-
-        <div class="bom-item-main">
-
-          <div class="bom-item-info">
-
-            <div class="component-thumbnail component-thumbnail-chassis"
-                 role="img"
-                 aria-label="Иллюстрация корпуса">
-              <span aria-hidden="true">CASE</span>
-            </div>
-
-            <div class="bom-item-text">
-              <span class="component-designation">CASE-01</span>
-              <h3>Корпус изделия</h3>
-              <span class="component-model">Корпус для монтажа модулей</span>
-            </div>
-
-          </div>
-
-          <div class="bom-item-quantity">
-            <span>Количество</span>
-            <strong>1 шт.</strong>
-          </div>
-
-          <div class="bom-item-check">
-            <label class="visual-check-label">
-              <input
-                type="checkbox"
-                class="component-visual-check"
-                data-component-check="chassis"
-              >
-              <span>Проверено</span>
-            </label>
-          </div>
-
-          <button
-            type="button"
-            class="component-expand-button"
-            aria-expanded="false"
-            aria-controls="componentDetailsChassis"
-          >
-            <span class="expand-button-text">Подробнее</span>
-            <span class="expand-chevron" aria-hidden="true">⌄</span>
-          </button>
-
-        </div>
-
-        <div class="component-details" id="componentDetailsChassis" hidden>
-
-          <div class="component-details-content">
-
-            <div class="component-large-visual component-thumbnail-chassis"
-                 role="img"
-                 aria-label="Иллюстрация корпуса">
-              <span aria-hidden="true">CASE</span>
-            </div>
-
-            <div class="component-requirements">
-
-              <h4>Требования к компоненту</h4>
-
-              <dl>
-                <div>
-                  <dt>Обозначение</dt>
-                  <dd>CASE-01</dd>
-                </div>
-
-                <div>
-                  <dt>Модель</dt>
-                  <dd>Корпус для монтажа модулей</dd>
-                </div>
-
-                <div>
-                  <dt>Количество</dt>
-                  <dd>1 шт.</dd>
-                </div>
-
-                <div>
-                  <dt>Характеристики</dt>
-                  <dd>Металлический корпус, форм-фактор 1U</dd>
-                </div>
-
-                <div>
-                  <dt>Визуальная проверка</dt>
-                  <dd>
-                    Отсутствие деформаций, повреждений покрытия
-                    и дефектов крепёжных отверстий
-                  </dd>
-                </div>
-              </dl>
-
-            </div>
-
-          </div>
-
-          <button
-            type="button"
-            class="component-problem-button"
-            data-report-component="Корпус изделия CASE-01"
-          >
-            Сообщить о расхождении
-          </button>
-
-        </div>
-
-      </article>
-
-    </div>
-
-  </section>
-
-
-  <!-- Итог визуальной проверки -->
-  <section class="task-check-summary" aria-live="polite">
-
-    <div class="task-check-summary-icon" aria-hidden="true">
-      ✓
-    </div>
-
-    <div class="task-check-summary-text">
-      <strong id="taskCheckSummaryTitle">
-        Проверьте комплектующие
-      </strong>
-
-      <p id="taskCheckSummaryDescription">
-        Отметьте все компоненты, которые вы нашли и проверили визуально.
-      </p>
-    </div>
-
-    <div class="task-check-summary-count" id="taskCheckSummaryCount">
-      0 / 4
-    </div>
-
-  </section>
-
-
-  <!-- Основное действие -->
-  <div class="task-start-area">
-
-    <div class="task-start-hint" id="taskStartHint">
-      Для начала задания необходимо проверить все компоненты.
-    </div>
-
-    <button
-      type="button"
-      class="button button-primary task-start-button"
-      id="startTaskButton"
-      disabled
-    >
-      Приступить к заданию
-      <span aria-hidden="true">→</span>
-    </button>
-
-  </div>
-
-</section>
-
-
-
-
-
-
-    
-
     <!-- ======================================
-         SCREEN 3 — TASK WORKSPACE
+         SCREEN 3 — TASK PAGE
     ======================================= -->
-    <!-- <main class="task-workspace app-screen" id="taskScreen" hidden>
+    <main id="taskScreen" class="task-page app-screen" hidden>
 
-      <div class="task-breadcrumbs">
-        <button class="text-button" id="backToTasks" type="button">
-          <span aria-hidden="true">←</span> Все задания
+      <!-- TOP NAVIGATION -->
+      <div class="task-page-top">
+        <button type="button" class="back-button" id="backToTasks">
+          <span aria-hidden="true">←</span>
+          К списку заданий
         </button>
-        <span class="breadcrumb-separator">/</span>
-        <span id="taskBreadcrumbNumber">ЗД-24081</span>
+
+        <div class="task-page-actions">
+          <button type="button" class="button button-secondary" id="reportTaskProblem">
+            Сообщить о проблеме
+          </button>
+          <button type="button" class="button button-secondary" id="taskEndShiftButton">
+            Завершить смену
+          </button>
+        </div>
       </div>
 
-      <div class="task-page-heading">
-        <div>
-          <div class="task-heading-meta">
-            <span class="task-number" id="taskPageNumber">ЗД-24081</span>
-            <span class="status-badge status-in-progress" id="taskPageStatus">Доступно к выполнению</span>
-            <span class="priority-badge priority-high" id="taskPagePriority">Высокий приоритет</span>
-          </div>
-          <h1 id="taskPageTitle">Маршрутизатор МР-800</h1>
-          <p class="task-page-subtitle">Производственное задание</p>
-        </div>
-        <button class="secondary-button" id="taskDetailsButton" type="button">
-          Детали задания
-        </button>
-      </div>
 
-      <section class="task-overview card">
-        <div class="task-overview-main">
-          <div class="product-placeholder" aria-hidden="true">МР</div>
-          <div class="product-info">
-            <span class="eyebrow">Изделие</span>
-            <h2 id="taskProductName">Маршрутизатор МР-800</h2>
-            <p>Промышленное сетевое оборудование</p>
+      <!-- TASK HEADER -->
+      <header class="task-page-header">
+        <div class="task-page-heading">
+          <div class="task-breadcrumb">
+            Производство
+            <span aria-hidden="true">/</span>
+            Задания
+            <span aria-hidden="true">/</span>
+            <span id="taskBreadcrumbNumber">ЗД-24081</span>
+          </div>
+
+          <div class="task-title-row">
+            <div>
+              <div class="task-number-label" id="taskPageNumber">ЗД-24081</div>
+              <h1 id="taskPageTitle">Маршрутизатор МР-800</h1>
+            </div>
+
+            <div class="task-header-badges">
+              <span class="priority-badge priority-high" id="taskPagePriority">
+                Высокий приоритет
+              </span>
+              <span class="task-status-badge" id="taskPageStatus">
+                Доступно к выполнению
+              </span>
+            </div>
+          </div>
+
+          <p class="task-page-description">
+            Ознакомьтесь с параметрами задания и проверьте наличие
+            комплектующих перед началом сборки.
+          </p>
+        </div>
+      </header>
+
+
+      <!-- TASK INFORMATION -->
+      <section class="task-info-section" aria-labelledby="taskInfoHeading">
+        <div class="section-heading">
+          <div>
+            <h2 id="taskInfoHeading">Информация о задании</h2>
+            <p>Основные параметры производственного заказа</p>
           </div>
         </div>
 
-        <div class="task-overview-stats">
-          <div class="overview-stat">
-            <span class="stat-label">Готовность комплектации</span>
-            <strong id="taskCompleteness">100%</strong>
+        <div class="task-info-grid">
+          <div class="task-info-card">
+            <span class="task-info-label">Номер заказа</span>
+            <strong id="detailTaskOrder">ЗК-10582</strong>
           </div>
-          <div class="overview-stat">
-            <span class="stat-label">Выполнение задания</span>
-            <strong id="taskProgress">0 из 6 операций</strong>
+          <div class="task-info-card">
+            <span class="task-info-label">Изделие</span>
+            <strong id="taskProductName">Маршрутизатор МР-800</strong>
+          </div>
+          <div class="task-info-card">
+            <span class="task-info-label">Плановое количество</span>
+            <strong id="detailTaskQuantity">12 шт.</strong>
+          </div>
+          <div class="task-info-card">
+            <span class="task-info-label">Срок выполнения</span>
+            <strong id="detailTaskDeadline">09.11.2026, 18:00</strong>
+          </div>
+          <div class="task-info-card">
+            <span class="task-info-label">Рабочее место</span>
+            <strong id="detailTaskWorkplace">Сборочный пост № 04</strong>
+          </div>
+          <div class="task-info-card">
+            <span class="task-info-label">Следующая операция</span>
+            <strong id="detailTaskOperation">Установка блока питания</strong>
           </div>
         </div>
 
-        <div class="task-progress-track" role="progressbar"
-             aria-label="Прогресс выполнения задания"
-             aria-valuemin="0" aria-valuemax="100"
-             aria-valuenow="0" id="taskProgressBar">
-          <div class="task-progress-fill" id="taskProgressFill"></div>
+        <div class="task-route">
+          <div class="task-route-label">Производственный маршрут</div>
+          <ol class="route-steps">
+            <li class="route-step route-step-done">
+              <span class="route-step-marker" aria-hidden="true">✓</span>
+              <span>Подготовка комплекта</span>
+            </li>
+            <li class="route-step route-step-current">
+              <span class="route-step-marker" aria-hidden="true">2</span>
+              <span>Сборка</span>
+            </li>
+            <li class="route-step">
+              <span class="route-step-marker" aria-hidden="true">3</span>
+              <span>Тестирование</span>
+            </li>
+            <li class="route-step">
+              <span class="route-step-marker" aria-hidden="true">4</span>
+              <span>Контроль качества</span>
+            </li>
+          </ol>
         </div>
       </section>
 
-      <div class="task-workspace-grid">
 
-        <div class="task-main-column">
+      <!-- BILL OF MATERIALS -->
+      <section class="bom-section" aria-labelledby="bomHeading">
+        <div class="section-heading bom-heading">
+          <div>
+            <h2 id="bomHeading">Спецификация изделия</h2>
+            <p>Перечень комплектующих, необходимых для выполнения задания</p>
+          </div>
 
-          <section class="card current-operation-card" aria-labelledby="currentOperationTitle">
-            <div class="section-heading-row">
-              <div>
-                <span class="eyebrow">ТЕКУЩИЙ ЭТАП · ОПЕРАЦИЯ 1 ИЗ 6</span>
-                <h2 id="currentOperationTitle">Установка блока питания</h2>
-              </div>
-              <span class="operation-status" id="operationStatus">Ожидает начала</span>
-            </div>
-
-            <p class="operation-description">
-              Установите блок питания в предназначенный для него отсек корпуса
-              маршрутизатора и закрепите его штатными винтами.
-            </p>
-
-            <div class="operation-route">
-              <div class="route-step route-step-active">
-                <span class="route-step-number">1</span>
-                <span>Установка блока питания</span>
-              </div>
-              <div class="route-step">
-                <span class="route-step-number">2</span>
-                <span>Подключение кабелей питания</span>
-              </div>
-              <div class="route-step">
-                <span class="route-step-number">3</span>
-                <span>Установка плат</span>
-              </div>
-              <span class="route-more">Ещё 3 операции</span>
-            </div>
-          </section>
-
-          <section class="card component-card" aria-labelledby="componentTitle">
-            <div class="section-heading-row">
-              <div>
-                <span class="eyebrow">ШАГ 1 · ПРОВЕРКА КОМПЛЕКТУЮЩЕГО</span>
-                <h2 id="componentTitle">Блок питания</h2>
-              </div>
-              <span class="required-label">Обязательный компонент</span>
-            </div>
-
-            <div class="component-details">
-              <div class="component-visual" aria-hidden="true">PSU</div>
-              <div class="component-data">
-                <div class="data-row">
-                  <span>Наименование</span>
-                  <strong>Блок питания 650 Вт</strong>
-                </div>
-                <div class="data-row">
-                  <span>Артикул</span>
-                  <strong>PSU-650-MR</strong>
-                </div>
-                <div class="data-row">
-                  <span>Количество</span>
-                  <strong>1 шт.</strong>
-                </div>
-                <div class="data-row">
-                  <span>Партия</span>
-                  <strong>LOT-2026-0418</strong>
-                </div>
-              </div>
-            </div>
-
-            <div class="component-checklist">
-              <label class="check-row" for="visualCheck">
-                <input type="checkbox" id="visualCheck">
-                <span>
-                  <strong>Визуальная проверка выполнена</strong>
-                  <small>Проверьте маркировку, корпус и отсутствие видимых повреждений.</small>
-                </span>
-              </label>
-            </div>
-
-            <div class="scan-area">
-              <label for="componentCode">Сканирование Data Matrix</label>
-              <p class="field-hint">
-                Отсканируйте код компонента считывателем или введите его вручную.
-              </p>
-              <div class="scan-input-row">
-                <input type="text" id="componentCode"
-                       placeholder="Ожидание сканирования..."
-                       autocomplete="off" aria-describedby="scanFeedback">
-                <button class="secondary-button" id="verifyComponent" type="button">
-                  Проверить код
-                </button>
-              </div>
-              <div class="scan-feedback" id="scanFeedback" role="status" aria-live="polite">
-                Ожидается проверка компонента.
-              </div>
-            </div>
-          </section>
-
-          <section class="card instruction-card" aria-labelledby="instructionTitle">
-            <div class="section-heading-row">
-              <div>
-                <span class="eyebrow">ШАГ 2 · ВЫПОЛНЕНИЕ ОПЕРАЦИИ</span>
-                <h2 id="instructionTitle">Инструкция по установке</h2>
-              </div>
-              <span class="instruction-version">Редакция 1.2</span>
-            </div>
-
-            <ol class="instruction-list">
-              <li>
-                <strong>Подготовьте место установки</strong>
-                <p>Убедитесь, что посадочное место свободно от посторонних предметов.</p>
-              </li>
-              <li>
-                <strong>Установите блок питания</strong>
-                <p>Разместите компонент в предусмотренном конструкцией отсеке.</p>
-              </li>
-              <li>
-                <strong>Закрепите компонент</strong>
-                <p>Зафиксируйте блок питания штатными крепёжными элементами.</p>
-              </li>
-              <li>
-                <strong>Проверьте установку</strong>
-                <p>Убедитесь в правильном положении и надёжности крепления.</p>
-              </li>
-            </ol>
-
-            <div class="instruction-note">
-              <strong>Важно</strong>
-              <p>Соблюдайте требования ESD и используйте средства защиты,
-                 предусмотренные технологической инструкцией.</p>
-            </div>
-          </section>
-
-          <section class="card execution-card" aria-labelledby="executionTitle">
-            <div class="section-heading-row">
-              <div>
-                <span class="eyebrow">ШАГ 3 · УЧЁТ ВЫПОЛНЕНИЯ</span>
-                <h2 id="executionTitle">Выполнение операции</h2>
-              </div>
-              <span class="execution-timer" id="operationTimer">00:00:00</span>
-            </div>
-
-            <p class="execution-description" id="executionDescription">
-              Выполните визуальную проверку и подтвердите компонент,
-              чтобы начать сборку.
-            </p>
-
-            <div class="execution-actions">
-              <button class="primary-button" id="startOperationButton" type="button" disabled>
-                Начать сборку
-              </button>
-              <button class="secondary-button" id="pauseOperationButton"
-                      type="button" hidden>
-                Приостановить
-              </button>
-              <button class="primary-button" id="completeOperationButton"
-                      type="button" hidden disabled>
-                Завершить операцию
-              </button>
-            </div>
-
-            <p class="execution-hint" id="executionHint">
-              Таймер начнёт отсчёт после подтверждения компонента и начала сборки.
-            </p>
-          </section>
-
+          <div class="bom-counter" aria-live="polite">
+            <strong id="bomCheckedCount">0 из 4</strong>
+            <span>компонентов проверено</span>
+          </div>
         </div>
 
-        <aside class="task-side-column">
+        <div class="visual-check-notice">
+          <span class="notice-icon" aria-hidden="true">i</span>
+          <p>
+            Убедитесь, что каждый компонент присутствует на рабочем месте,
+            не имеет видимых повреждений и соответствует указанным
+            характеристикам. Проверка маркировки и сканирование выполняются
+            на этапе конкретной операции.
+          </p>
+        </div>
 
-          <section class="card bom-card" aria-labelledby="bomTitle">
-            <div class="section-heading-row">
-              <div>
-                <span class="eyebrow">СПЕЦИФИКАЦИЯ</span>
-                <h2 id="bomTitle">Комплектующие</h2>
+
+        <div class="bom-list" id="bomList">
+
+          <!-- COMPONENT 1: POWER SUPPLY -->
+          <article class="bom-item" data-component-id="power">
+            <div class="bom-item-main">
+              <div class="bom-item-info">
+                <div
+                  class="component-thumbnail component-thumbnail-power"
+                  role="img"
+                  aria-label="Иллюстрация блока питания"
+                >
+                  <span aria-hidden="true">PSU</span>
+                </div>
+
+                <div class="bom-item-text">
+                  <span class="component-designation">PSU-01</span>
+                  <h3>Блок питания</h3>
+                  <span class="component-model">Модуль питания 48 В</span>
+                </div>
               </div>
-              <span class="bom-count">3 позиции</span>
+
+              <div class="bom-item-quantity">
+                <span>Количество</span>
+                <strong>2 шт.</strong>
+              </div>
+
+              <div class="bom-item-check">
+                <label class="visual-check-label">
+                  <input type="checkbox" class="component-visual-check" data-component-check="power">
+                  <span>Проверено</span>
+                </label>
+              </div>
+
+              <button
+                type="button"
+                class="component-expand-button"
+                aria-expanded="false"
+                aria-controls="componentDetailsPower"
+              >
+                <span class="expand-button-text">Подробнее</span>
+                <span class="expand-chevron" aria-hidden="true">⌄</span>
+              </button>
             </div>
 
-            <ul class="bom-list">
-              <li class="bom-item bom-item-current">
-                <span class="bom-indicator" aria-hidden="true"></span>
-                <div>
-                  <strong>Блок питания 650 Вт</strong>
-                  <small>PSU-650-MR · 1 шт.</small>
-                  <span class="bom-item-status" id="bomPowerStatus">Ожидает проверки</span>
+            <div class="component-details" id="componentDetailsPower" hidden>
+              <div class="component-details-content">
+                <div
+                  class="component-large-visual component-thumbnail-power"
+                  role="img"
+                  aria-label="Иллюстрация блока питания"
+                >
+                  <span aria-hidden="true">PSU</span>
                 </div>
-              </li>
-              <li class="bom-item">
-                <span class="bom-indicator" aria-hidden="true"></span>
-                <div>
-                  <strong>Комплект крепежа</strong>
-                  <small>FIX-M4-SET · 1 компл.</small>
-                  <span class="bom-item-status">В комплекте</span>
+
+                <div class="component-requirements">
+                  <h4>Требования к компоненту</h4>
+                  <dl>
+                    <div><dt>Обозначение</dt><dd>PSU-01</dd></div>
+                    <div><dt>Модель</dt><dd>Модуль питания 48 В</dd></div>
+                    <div><dt>Количество</dt><dd>2 шт.</dd></div>
+                    <div><dt>Характеристики</dt><dd>Входное напряжение 220 В, выходное 48 В</dd></div>
+                    <div>
+                      <dt>Визуальная проверка</dt>
+                      <dd>Отсутствие повреждений корпуса, деформаций и следов перегрева</dd>
+                    </div>
+                  </dl>
                 </div>
-              </li>
-              <li class="bom-item">
-                <span class="bom-indicator" aria-hidden="true"></span>
-                <div>
-                  <strong>Кабель питания</strong>
-                  <small>PWR-CBL-01 · 1 шт.</small>
-                  <span class="bom-item-status">В комплекте</span>
+              </div>
+
+              <button
+                type="button"
+                class="component-problem-button"
+                data-report-component="Блок питания PSU-01"
+              >
+                Сообщить о расхождении
+              </button>
+            </div>
+          </article>
+
+
+          <!-- COMPONENT 2: CONTROLLER BOARD -->
+          <article class="bom-item" data-component-id="board">
+            <div class="bom-item-main">
+              <div class="bom-item-info">
+                <div
+                  class="component-thumbnail component-thumbnail-board"
+                  role="img"
+                  aria-label="Иллюстрация платы управления"
+                >
+                  <span aria-hidden="true">PCB</span>
                 </div>
-              </li>
-            </ul>
 
-            <p class="bom-footnote">
-              Состав комплекта сформирован по спецификации изделия.
-            </p>
-          </section>
+                <div class="bom-item-text">
+                  <span class="component-designation">PCB-01</span>
+                  <h3>Плата управления</h3>
+                  <span class="component-model">Основная плата контроллера</span>
+                </div>
+              </div>
 
-          <section class="card next-operation-card">
-            <span class="eyebrow">СЛЕДУЮЩАЯ ОПЕРАЦИЯ</span>
-            <h2>Подключение кабелей питания</h2>
-            <p>После завершения текущей операции.</p>
-          </section>
+              <div class="bom-item-quantity">
+                <span>Количество</span>
+                <strong>1 шт.</strong>
+              </div>
 
-          <section class="card task-help-card">
-            <h2>Нужна помощь?</h2>
-            <p>Если фактическое состояние изделия или комплектующих не совпадает с данными MES, сообщите о проблеме.</p>
-            <button class="secondary-button" id="reportTaskProblem" type="button">
-              Сообщить о проблеме
-            </button>
-          </section>
+              <div class="bom-item-check">
+                <label class="visual-check-label">
+                  <input type="checkbox" class="component-visual-check" data-component-check="board">
+                  <span>Проверено</span>
+                </label>
+              </div>
 
-        </aside>
-      </div>
+              <button
+                type="button"
+                class="component-expand-button"
+                aria-expanded="false"
+                aria-controls="componentDetailsBoard"
+              >
+                <span class="expand-button-text">Подробнее</span>
+                <span class="expand-chevron" aria-hidden="true">⌄</span>
+              </button>
+            </div>
 
-      <div class="task-completion-banner" id="operationCompletedBanner"
-           role="status" aria-live="polite" hidden>
-        <div>
-          <strong>Операция завершена</strong>
-          <p>Установка блока питания отмечена как выполненная.</p>
+            <div class="component-details" id="componentDetailsBoard" hidden>
+              <div class="component-details-content">
+                <div
+                  class="component-large-visual component-thumbnail-board"
+                  role="img"
+                  aria-label="Иллюстрация платы управления"
+                >
+                  <span aria-hidden="true">PCB</span>
+                </div>
+
+                <div class="component-requirements">
+                  <h4>Требования к компоненту</h4>
+                  <dl>
+                    <div><dt>Обозначение</dt><dd>PCB-01</dd></div>
+                    <div><dt>Модель</dt><dd>Основная плата контроллера</dd></div>
+                    <div><dt>Количество</dt><dd>1 шт.</dd></div>
+                    <div><dt>Характеристики</dt><dd>Плата управления для модели МР-800</dd></div>
+                    <div>
+                      <dt>Визуальная проверка</dt>
+                      <dd>Отсутствие повреждений платы, трещин, сколов и деформированных разъёмов</dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                class="component-problem-button"
+                data-report-component="Плата управления PCB-01"
+              >
+                Сообщить о расхождении
+              </button>
+            </div>
+          </article>
+
+
+          <!-- COMPONENT 3: FAN -->
+          <article class="bom-item" data-component-id="fan">
+            <div class="bom-item-main">
+              <div class="bom-item-info">
+                <div
+                  class="component-thumbnail component-thumbnail-fan"
+                  role="img"
+                  aria-label="Иллюстрация вентилятора"
+                >
+                  <span aria-hidden="true">FAN</span>
+                </div>
+
+                <div class="bom-item-text">
+                  <span class="component-designation">FAN-01</span>
+                  <h3>Вентилятор охлаждения</h3>
+                  <span class="component-model">Модуль охлаждения 40 × 40 мм</span>
+                </div>
+              </div>
+
+              <div class="bom-item-quantity">
+                <span>Количество</span>
+                <strong>4 шт.</strong>
+              </div>
+
+              <div class="bom-item-check">
+                <label class="visual-check-label">
+                  <input type="checkbox" class="component-visual-check" data-component-check="fan">
+                  <span>Проверено</span>
+                </label>
+              </div>
+
+              <button
+                type="button"
+                class="component-expand-button"
+                aria-expanded="false"
+                aria-controls="componentDetailsFan"
+              >
+                <span class="expand-button-text">Подробнее</span>
+                <span class="expand-chevron" aria-hidden="true">⌄</span>
+              </button>
+            </div>
+
+            <div class="component-details" id="componentDetailsFan" hidden>
+              <div class="component-details-content">
+                <div
+                  class="component-large-visual component-thumbnail-fan"
+                  role="img"
+                  aria-label="Иллюстрация вентилятора"
+                >
+                  <span aria-hidden="true">FAN</span>
+                </div>
+
+                <div class="component-requirements">
+                  <h4>Требования к компоненту</h4>
+                  <dl>
+                    <div><dt>Обозначение</dt><dd>FAN-01</dd></div>
+                    <div><dt>Модель</dt><dd>Модуль охлаждения 40 × 40 мм</dd></div>
+                    <div><dt>Количество</dt><dd>4 шт.</dd></div>
+                    <div><dt>Характеристики</dt><dd>Питание 12 В, осевой вентилятор</dd></div>
+                    <div>
+                      <dt>Визуальная проверка</dt>
+                      <dd>Отсутствие повреждений корпуса, лопастей и кабельных соединений</dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                class="component-problem-button"
+                data-report-component="Вентилятор охлаждения FAN-01"
+              >
+                Сообщить о расхождении
+              </button>
+            </div>
+          </article>
+
+
+          <!-- COMPONENT 4: CHASSIS -->
+          <article class="bom-item" data-component-id="chassis">
+            <div class="bom-item-main">
+              <div class="bom-item-info">
+                <div
+                  class="component-thumbnail component-thumbnail-chassis"
+                  role="img"
+                  aria-label="Иллюстрация корпуса"
+                >
+                  <span aria-hidden="true">CASE</span>
+                </div>
+
+                <div class="bom-item-text">
+                  <span class="component-designation">CASE-01</span>
+                  <h3>Корпус изделия</h3>
+                  <span class="component-model">Корпус для монтажа модулей</span>
+                </div>
+              </div>
+
+              <div class="bom-item-quantity">
+                <span>Количество</span>
+                <strong>1 шт.</strong>
+              </div>
+
+              <div class="bom-item-check">
+                <label class="visual-check-label">
+                  <input type="checkbox" class="component-visual-check" data-component-check="chassis">
+                  <span>Проверено</span>
+                </label>
+              </div>
+
+              <button
+                type="button"
+                class="component-expand-button"
+                aria-expanded="false"
+                aria-controls="componentDetailsChassis"
+              >
+                <span class="expand-button-text">Подробнее</span>
+                <span class="expand-chevron" aria-hidden="true">⌄</span>
+              </button>
+            </div>
+
+            <div class="component-details" id="componentDetailsChassis" hidden>
+              <div class="component-details-content">
+                <div
+                  class="component-large-visual component-thumbnail-chassis"
+                  role="img"
+                  aria-label="Иллюстрация корпуса"
+                >
+                  <span aria-hidden="true">CASE</span>
+                </div>
+
+                <div class="component-requirements">
+                  <h4>Требования к компоненту</h4>
+                  <dl>
+                    <div><dt>Обозначение</dt><dd>CASE-01</dd></div>
+                    <div><dt>Модель</dt><dd>Корпус для монтажа модулей</dd></div>
+                    <div><dt>Количество</dt><dd>1 шт.</dd></div>
+                    <div><dt>Характеристики</dt><dd>Металлический корпус, форм-фактор 1U</dd></div>
+                    <div>
+                      <dt>Визуальная проверка</dt>
+                      <dd>Отсутствие деформаций, повреждений покрытия и дефектов крепёжных отверстий</dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                class="component-problem-button"
+                data-report-component="Корпус изделия CASE-01"
+              >
+                Сообщить о расхождении
+              </button>
+            </div>
+          </article>
+
         </div>
-        <button class="secondary-button" id="returnToTasksAfterCompletion" type="button">
-          Вернуться к заданиям
+      </section>
+
+
+      <!-- VISUAL CHECK SUMMARY -->
+      <section class="task-check-summary" id="taskCheckSummary" aria-live="polite">
+        <div class="task-check-summary-icon" aria-hidden="true">✓</div>
+
+        <div class="task-check-summary-text">
+          <strong id="taskCheckSummaryTitle">Проверьте комплектующие</strong>
+          <p id="taskCheckSummaryDescription">
+            Отметьте все компоненты, которые вы нашли и проверили визуально.
+          </p>
+        </div>
+
+        <div class="task-check-summary-count" id="taskCheckSummaryCount">
+          0 / 4
+        </div>
+      </section>
+
+
+      <!-- START TASK -->
+      <div class="task-start-area">
+        <div class="task-start-hint" id="taskStartHint">
+          Для начала задания необходимо проверить все компоненты.
+        </div>
+
+        <button
+          type="button"
+          class="button button-primary task-start-button"
+          id="startTaskButton"
+          disabled
+        >
+          Приступить к заданию <span aria-hidden="true">→</span>
         </button>
       </div>
 
-    </main> -->
+      <footer class="page-footer">
+        <span>MES Production System</span>
+        <span>Рабочее место сборщика · Версия прототипа 0.2</span>
+      </footer>
+    </main>
 
 
-    <!-- ======================================
-         SHARED TOAST
-    ======================================= -->
+    <!-- SHARED TOAST -->
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 
-    <!-- ======================================
-         PROBLEM REPORT MODALS
-    ======================================= -->
+    <!-- PROBLEM REPORT MODAL -->
     <dialog class="modal" id="problemModal" aria-labelledby="modalTitle">
       <form class="modal-panel" id="problemForm">
         <div class="modal-header">
@@ -1512,8 +1131,12 @@
             <span class="modal-eyebrow">РЕГИСТРАЦИЯ ОТКЛОНЕНИЯ</span>
             <h2 id="modalTitle">Сообщить о проблеме</h2>
           </div>
-          <button class="close-button" type="button" id="closeProblemModal"
-                  aria-label="Закрыть">×</button>
+          <button
+            class="close-button"
+            type="button"
+            id="closeProblemModal"
+            aria-label="Закрыть"
+          >×</button>
         </div>
 
         <p class="modal-description">
@@ -1538,16 +1161,22 @@
         <label class="field-label" for="problemDescription">
           Описание проблемы <span>*</span>
         </label>
-        <textarea id="problemDescription" rows="4"
-                  placeholder="Опишите, что произошло и что именно требует внимания..."
-                  required></textarea>
+        <textarea
+          id="problemDescription"
+          rows="4"
+          placeholder="Опишите, что произошло и что именно требует внимания..."
+          required
+        ></textarea>
 
         <label class="field-label" for="problemItem">
           Конкретный инструмент / оборудование / компонент
           <span class="optional">(необязательно)</span>
         </label>
-        <input id="problemItem" type="text"
-               placeholder="Например, блок питания PSU-650-MR">
+        <input
+          id="problemItem"
+          type="text"
+          placeholder="Например, блок питания PSU-01"
+        >
 
         <div class="auto-context">
           <span class="context-check" aria-hidden="true">✓</span>
@@ -1558,7 +1187,9 @@
         </div>
 
         <div class="modal-actions">
-          <button class="secondary-button" type="button" id="cancelModal">Отмена</button>
+          <button class="secondary-button" type="button" id="cancelModal">
+            Отмена
+          </button>
           <button class="primary-button submit-button" type="submit">
             Отправить сообщение <span aria-hidden="true">→</span>
           </button>
@@ -1566,6 +1197,8 @@
       </form>
     </dialog>
 
+
+    <!-- SUCCESS MODAL -->
     <dialog class="modal" id="successModal" aria-labelledby="successTitle">
       <div class="modal-panel success-panel">
         <div class="success-symbol" aria-hidden="true">✓</div>
@@ -1578,41 +1211,14 @@
           <span>Статус обращения</span>
           <strong><span class="status-dot status-pending"></span> Зарегистрировано</strong>
         </div>
-        <button class="primary-button" id="closeSuccess" type="button">Понятно</button>
+        <button class="primary-button" id="closeSuccess" type="button">
+          Понятно
+        </button>
       </div>
     </dialog>
 
 
-    <!-- ======================================
-         TASK DETAILS MODAL
-    ======================================= -->
-    <dialog class="modal" id="taskDetailsModal" aria-labelledby="taskDetailsTitle">
-      <div class="modal-panel">
-        <div class="modal-header">
-          <div>
-            <span class="modal-eyebrow">ПРОИЗВОДСТВЕННОЕ ЗАДАНИЕ</span>
-            <h2 id="taskDetailsTitle">Детали задания</h2>
-          </div>
-          <button class="close-button" type="button" id="closeTaskDetails"
-                  aria-label="Закрыть">×</button>
-        </div>
-        <div class="details-list">
-          <div><span>Номер задания</span><strong id="detailTaskNumber">ЗД-24081</strong></div>
-          <div><span>Изделие</span><strong id="detailTaskModel">Маршрутизатор МР-800</strong></div>
-          <div><span>Приоритет</span><strong id="detailTaskPriority">Высокий</strong></div>
-          <div><span>Рабочее место</span><strong>Сборочный пост № 04</strong></div>
-          <div><span>Плановый маршрут</span><strong>6 операций</strong></div>
-        </div>
-        <div class="modal-actions">
-          <button class="primary-button" type="button" id="closeTaskDetailsBottom">Закрыть</button>
-        </div>
-      </div>
-    </dialog>
-
-
-    <!-- ======================================
-         END SHIFT MODAL
-    ======================================= -->
+    <!-- END SHIFT MODAL -->
     <dialog class="modal" id="endShiftModal" aria-labelledby="endShiftTitle">
       <div class="modal-panel">
         <div class="modal-header">
@@ -1620,13 +1226,19 @@
             <span class="modal-eyebrow">ЗАВЕРШЕНИЕ СМЕНЫ</span>
             <h2 id="endShiftTitle">Завершить смену?</h2>
           </div>
-          <button class="close-button" type="button" id="closeEndShift"
-                  aria-label="Закрыть">×</button>
+          <button
+            class="close-button"
+            type="button"
+            id="closeEndShift"
+            aria-label="Закрыть"
+          >×</button>
         </div>
+
         <p class="modal-description">
-          Перед завершением смены необходимо проверить активные и незавершённые задания.
-          Их состояние должно быть сохранено и передано следующей смене.
+          Перед завершением смены необходимо проверить активные и незавершённые
+          задания. Их состояние должно быть сохранено и передано следующей смене.
         </p>
+
         <div class="shift-summary">
           <strong>Перед завершением смены:</strong>
           <ul>
@@ -1635,9 +1247,14 @@
             <li>Указать причину остановки, если она есть.</li>
           </ul>
         </div>
+
         <div class="modal-actions">
-          <button class="secondary-button" type="button" id="cancelEndShift">Вернуться к работе</button>
-          <button class="primary-button" type="button" id="confirmEndShift">Подтвердить</button>
+          <button class="secondary-button" type="button" id="cancelEndShift">
+            Вернуться к работе
+          </button>
+          <button class="primary-button" type="button" id="confirmEndShift">
+            Подтвердить
+          </button>
         </div>
       </div>
     </dialog>
