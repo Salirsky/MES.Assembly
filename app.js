@@ -259,16 +259,42 @@
     context.textContent = labels[currentScreen] || labels.readiness;
   }
 
-  function openProblem(defaultCategory = "") {
-    problemForm?.reset();
 
-    if (problemCategory && defaultCategory) {
-      problemCategory.value = defaultCategory;
-    }
+   
+function openProblem(defaultCategory = "", componentName = "") {
+  problemForm?.reset();
 
-    updateProblemContext();
-    problemModal?.showModal();
+  if (problemCategory && defaultCategory) {
+    problemCategory.value = defaultCategory;
   }
+
+  const problemItem = get("problemItem");
+
+  if (problemItem) {
+    problemItem.value = componentName;
+  }
+
+  updateProblemContext();
+
+  problemModal?.showModal();
+
+  // Фокус на первом поле формы после открытия
+  const firstField = problemCategory;
+  firstField?.focus();
+}
+
+
+   
+  // function openProblem(defaultCategory = "") {
+  //   problemForm?.reset();
+
+  //   if (problemCategory && defaultCategory) {
+  //     problemCategory.value = defaultCategory;
+  //   }
+
+  //   updateProblemContext();
+  //   problemModal?.showModal();
+  // }
 
   get("reportTop")?.addEventListener("click", () => {
     openProblem();
@@ -495,448 +521,802 @@
      SCREEN 3 — TASK PAGE
   ======================================= */
 
-  const taskData = {
-    "ЗД-24081": {
-      title: "Маршрутизатор МР-800",
-      priority: "high",
-      priorityLabel: "Высокий приоритет",
-      completeness: "100%",
-      progress: "0 из 6 операций",
-      status: "Доступно к выполнению"
-    },
-    "ЗД-24082": {
-      title: "Коммутатор КС-48",
-      priority: "medium",
-      priorityLabel: "Средний приоритет",
-      completeness: "85%",
-      progress: "0 из 8 операций",
-      status: "Доступно к выполнению"
-    },
-    "ЗД-24079": {
-      title: "Оптический модуль DWDM",
-      priority: "normal",
-      priorityLabel: "Обычный приоритет",
-      completeness: "100%",
-      progress: "2 из 5 операций",
-      status: "Приостановлено"
-    }
+
+
+
+
+/* =======================================
+   SCREEN 3 — TASK PAGE
+======================================= */
+
+const taskData = {
+  "ЗД-24081": {
+    title: "Маршрутизатор МР-800",
+    priority: "high",
+    priorityLabel: "Высокий приоритет",
+    order: "ЗК-10582",
+    quantity: "12 шт.",
+    deadline: "09.11.2026, 18:00",
+    workplace: "Сборочный пост № 04",
+    nextOperation: "Установка блока питания"
+  },
+
+  "ЗД-24082": {
+    title: "Коммутатор КС-48",
+    priority: "medium",
+    priorityLabel: "Средний приоритет",
+    order: "ЗК-10583",
+    quantity: "8 шт.",
+    deadline: "10.11.2026, 18:00",
+    workplace: "Сборочный пост № 04",
+    nextOperation: "Установка платы управления"
+  },
+
+  "ЗД-24079": {
+    title: "Оптический модуль DWDM",
+    priority: "normal",
+    priorityLabel: "Обычный приоритет",
+    order: "ЗК-10576",
+    quantity: "20 шт.",
+    deadline: "09.11.2026, 20:00",
+    workplace: "Сборочный пост № 04",
+    nextOperation: "Установка оптического модуля"
+  }
+};
+
+let currentTaskId = "ЗД-24081";
+let taskStarted = false;
+
+
+/* ---------------------------------------
+   Открытие страницы задания
+--------------------------------------- */
+
+function openTask(taskId) {
+  const card = [
+    ...document.querySelectorAll("[data-task-id]")
+  ].find((item) => item.dataset.taskId === taskId);
+
+  if (!card) {
+    showToast("Задание не найдено.");
+    return;
+  }
+
+  currentTaskId = taskId;
+  taskStarted = false;
+
+  const data = taskData[taskId] || {
+    title: card.dataset.model || "Производственное изделие",
+    priority: card.dataset.priority || "normal",
+    priorityLabel: "Обычный приоритет",
+    order: "—",
+    quantity: "—",
+    deadline: "—",
+    workplace: "Сборочный пост № 04",
+    nextOperation: "Не указана"
   };
 
-  function openTask(taskId) {
-    const card = document.querySelector(
-      `[data-task-id="${CSS.escape(taskId)}"]`
+  // Номер и название задания
+  get("taskPageNumber").textContent = taskId;
+  get("taskBreadcrumbNumber").textContent = taskId;
+  get("taskPageTitle").textContent = data.title;
+  get("taskProductName").textContent = data.title;
+
+  // Приоритет
+  const priorityElement = get("taskPagePriority");
+
+  priorityElement.textContent = data.priorityLabel;
+  priorityElement.className =
+    `priority-badge priority-${data.priority}`;
+
+  // Статус
+  get("taskPageStatus").textContent =
+    card.dataset.status === "paused"
+      ? "Приостановлено"
+      : "Доступно к выполнению";
+
+  // Информация о задании
+  get("detailTaskOrder").textContent = data.order;
+  get("detailTaskQuantity").textContent = data.quantity;
+  get("detailTaskDeadline").textContent = data.deadline;
+  get("detailTaskWorkplace").textContent = data.workplace;
+  get("detailTaskOperation").textContent = data.nextOperation;
+
+  // Сброс визуальной проверки для нового открытия
+  resetVisualCheck();
+
+  // Переход на экран 3
+  showScreen("task");
+
+  const heading = get("taskPageTitle");
+  heading?.setAttribute("tabindex", "-1");
+  heading?.focus();
+
+  updateProblemContext();
+}
+
+
+/* ---------------------------------------
+   Переходы между списком и заданием
+--------------------------------------- */
+
+// Открытие задания из рекомендуемой карточки
+// или из общей карточки списка.
+document.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-open-task]");
+  if (!button) return;
+
+  const taskId = button.dataset.openTask;
+
+  if (taskId) {
+    openTask(taskId);
+  }
+});
+
+// Возврат к списку заданий
+get("backToTasks")?.addEventListener("click", () => {
+  showScreen("tasks");
+
+  const heading = tasksScreen?.querySelector("h1");
+  heading?.setAttribute("tabindex", "-1");
+  heading?.focus();
+});
+
+
+/* =======================================
+   BOM — COMPONENT DETAILS
+======================================= */
+
+/*
+  Раскрытие подробной информации о компоненте.
+  Используем aria-expanded, чтобы состояние было
+  доступно не только визуально, но и скринридерам.
+*/
+
+document.querySelectorAll(".component-expand-button").forEach((button) => {
+  button.addEventListener("click", () => {
+    const detailsId = button.getAttribute("aria-controls");
+    const details = get(detailsId);
+
+    if (!details) return;
+
+    const isExpanded =
+      button.getAttribute("aria-expanded") === "true";
+
+    button.setAttribute(
+      "aria-expanded",
+      String(!isExpanded)
     );
 
-    if (!card) {
-      showToast("Задание не найдено.");
-      return;
-    }
+    details.hidden = isExpanded;
 
-    currentTaskId = taskId;
+    const label = button.querySelector(".expand-button-text");
 
-    const data = taskData[taskId] || {
-      title: card.dataset.model || "Производственное изделие",
-      priority: card.dataset.priority || "normal",
-      priorityLabel: "Обычный приоритет",
-      completeness: "—",
-      progress: "0 операций",
-      status: "Доступно к выполнению"
-    };
-
-    get("taskPageNumber").textContent = taskId;
-    get("taskBreadcrumbNumber").textContent = taskId;
-    get("taskPageTitle").textContent = data.title;
-    get("taskProductName").textContent = data.title;
-
-    get("taskPagePriority").textContent = data.priorityLabel;
-    get("taskPagePriority").className =
-      `priority-badge priority-${data.priority}`;
-
-    get("taskPageStatus").textContent = data.status;
-    get("taskCompleteness").textContent = data.completeness;
-    get("taskProgress").textContent = data.progress;
-
-    get("detailTaskNumber").textContent = taskId;
-    get("detailTaskModel").textContent = data.title;
-    get("detailTaskPriority").textContent =
-      data.priorityLabel.replace(" приоритет", "");
-
-    // Сценарий сборки полностью проработан для рекомендуемого задания.
-    // Для остальных заданий пока используется демонстрационный шаблон.
-    const isRecommended = taskId === "ЗД-24081";
-
-    if (!isRecommended) {
-      showToast(
-        "Открыт демонстрационный шаблон. Подробный сценарий доступен для ЗД-24081."
-      );
-    }
-
-    resetOperationDemo();
-
-    get("operationCompletedBanner").hidden = true;
-
-    showScreen("task");
-
-    const heading = get("taskPageTitle");
-    heading?.setAttribute("tabindex", "-1");
-    heading?.focus();
-
-    updateProblemContext();
-  }
-
-  // Один делегированный обработчик для рекомендуемой карточки
-  // и карточек общего списка.
-  document.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-open-task]");
-    if (!button) return;
-
-    const taskId = button.dataset.openTask;
-
-    if (taskId) {
-      openTask(taskId);
+    if (label) {
+      label.textContent = isExpanded
+        ? "Подробнее"
+        : "Свернуть";
     }
   });
+});
 
-  get("backToTasks")?.addEventListener("click", () => {
-    showScreen("tasks");
 
-    const heading = tasksScreen?.querySelector("h1");
-    heading?.setAttribute("tabindex", "-1");
-    heading?.focus();
-  });
+/* =======================================
+   BOM — VISUAL COMPONENT CHECK
+======================================= */
 
-  get("returnToTasksAfterCompletion")?.addEventListener("click", () => {
-    showScreen("tasks");
-  });
+const componentChecks = [
+  ...document.querySelectorAll(".component-visual-check")
+];
 
-  get("taskDetailsButton")?.addEventListener("click", () => {
-    get("taskDetailsModal")?.showModal();
-  });
+const bomCheckedCount = get("bomCheckedCount");
+const taskCheckSummary = get("taskCheckSummary");
+const taskCheckSummaryTitle = get("taskCheckSummaryTitle");
+const taskCheckSummaryDescription =
+  get("taskCheckSummaryDescription");
+const taskCheckSummaryCount = get("taskCheckSummaryCount");
 
-  function closeTaskDetails() {
-    get("taskDetailsModal")?.close();
+const startTaskButton = get("startTaskButton");
+const taskStartHint = get("taskStartHint");
+
+
+/*
+  Обновляем состояние визуальной проверки.
+  Сборщик отмечает компонент только после того,
+  как убедился в его наличии и соответствии.
+*/
+
+function updateVisualCheck() {
+  const total = componentChecks.length;
+
+  const checked = componentChecks.filter(
+    (checkbox) => checkbox.checked
+  ).length;
+
+  const allChecked = total > 0 && checked === total;
+
+  // Счётчик рядом с заголовком BOM
+  if (bomCheckedCount) {
+    bomCheckedCount.textContent = `${checked} из ${total}`;
   }
 
-  get("closeTaskDetails")?.addEventListener("click", closeTaskDetails);
-  get("closeTaskDetailsBottom")?.addEventListener("click", closeTaskDetails);
-
-
-  /* =======================================
-     SCREEN 3 — OPERATION EXECUTION
-  ======================================= */
-
-  const visualCheck = get("visualCheck");
-  const componentCode = get("componentCode");
-  const verifyButton = get("verifyComponent");
-  const scanFeedback = get("scanFeedback");
-
-  const startButton = get("startOperationButton");
-  const pauseButton = get("pauseOperationButton");
-  const completeButton = get("completeOperationButton");
-
-  const timerElement = get("operationTimer");
-  const operationStatus = get("operationStatus");
-  const executionDescription = get("executionDescription");
-  const executionHint = get("executionHint");
-
-  const bomPowerStatus = get("bomPowerStatus");
-  const progressText = get("taskProgress");
-  const progressBar = get("taskProgressBar");
-  const progressFill = get("taskProgressFill");
-  const completionBanner = get("operationCompletedBanner");
-
-  // Демонстрационный код Data Matrix.
-  // В реальной MES значение поступает от считывателя,
-  // а проверка выполняется сервером.
-  const expectedComponentCode = "PSU-MR800-24081-01";
-
-  let componentVerified = false;
-  let operationStarted = false;
-  let operationPaused = false;
-  let operationCompleted = false;
-
-  let elapsedSeconds = 0;
-  let timerInterval = null;
-
-  function formatTime(totalSeconds) {
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    return [hours, minutes, seconds]
-      .map((value) => String(value).padStart(2, "0"))
-      .join(":");
+  // Итоговая карточка проверки
+  if (taskCheckSummaryCount) {
+    taskCheckSummaryCount.textContent =
+      `${checked} / ${total}`;
   }
 
-  function updateTimer() {
-    if (timerElement) {
-      timerElement.textContent = formatTime(elapsedSeconds);
-    }
-  }
-
-  function setScanFeedback(message, type = "") {
-    if (!scanFeedback) return;
-
-    scanFeedback.textContent = message;
-    scanFeedback.className = "scan-feedback";
-
-    if (type === "success") {
-      scanFeedback.classList.add("feedback-success");
-    }
-
-    if (type === "error") {
-      scanFeedback.classList.add("feedback-error");
-    }
-  }
-
-  function updateStartButton() {
-    if (!startButton) return;
-
-    startButton.disabled =
-      !visualCheck?.checked ||
-      !componentVerified ||
-      operationStarted ||
-      operationCompleted;
-  }
-
-  function resetOperationDemo() {
-    clearInterval(timerInterval);
-    timerInterval = null;
-
-    componentVerified = false;
-    operationStarted = false;
-    operationPaused = false;
-    operationCompleted = false;
-    elapsedSeconds = 0;
-
-    if (visualCheck) visualCheck.checked = false;
-    if (componentCode) componentCode.value = "";
-
-    setScanFeedback("Ожидается проверка компонента.");
-    updateTimer();
-
-    if (operationStatus) {
-      operationStatus.textContent = "Ожидает начала";
-      operationStatus.className = "operation-status";
-    }
-
-    if (bomPowerStatus) {
-      bomPowerStatus.textContent = "Ожидает проверки";
-    }
-
-    if (executionDescription) {
-      executionDescription.textContent =
-        "Выполните визуальную проверку и подтвердите компонент, чтобы начать сборку.";
-    }
-
-    if (executionHint) {
-      executionHint.textContent =
-        "Таймер начнёт отсчёт после подтверждения компонента и начала сборки.";
-    }
-
-    if (startButton) {
-      startButton.hidden = false;
-      startButton.disabled = true;
-      startButton.textContent = "Начать сборку";
-    }
-
-    if (pauseButton) {
-      pauseButton.hidden = true;
-      pauseButton.textContent = "Приостановить";
-    }
-
-    if (completeButton) {
-      completeButton.hidden = true;
-      completeButton.disabled = true;
-    }
-
-    if (completionBanner) {
-      completionBanner.hidden = true;
-    }
-
-    if (progressText) {
-      progressText.textContent = "0 из 6 операций";
-    }
-
-    if (progressFill) {
-      progressFill.style.width = "0%";
-    }
-
-    if (progressBar) {
-      progressBar.setAttribute("aria-valuenow", "0");
-    }
-
-    updateStartButton();
-  }
-
-  // Визуальная проверка.
-  visualCheck?.addEventListener("change", () => {
-    updateStartButton();
-  });
-
-  // Проверка кода Data Matrix.
-  verifyButton?.addEventListener("click", () => {
-    if (operationStarted || operationCompleted) return;
-
-    const scannedCode = componentCode?.value.trim();
-
-    if (!scannedCode) {
-      setScanFeedback(
-        "Введите или отсканируйте код компонента.",
-        "error"
-      );
-
-      componentCode?.focus();
-      return;
-    }
-
-    if (scannedCode !== expectedComponentCode) {
-      componentVerified = false;
-
-      setScanFeedback(
-        "Компонент не соответствует спецификации. Проверьте маркировку.",
-        "error"
-      );
-
-      if (bomPowerStatus) {
-        bomPowerStatus.textContent = "Несоответствие";
-      }
-
-      updateStartButton();
-      return;
-    }
-
-    componentVerified = true;
-
-    setScanFeedback(
-      "Компонент подтверждён. Код соответствует спецификации.",
-      "success"
+  if (taskCheckSummary) {
+    taskCheckSummary.classList.toggle(
+      "is-complete",
+      allChecked
     );
+  }
 
-    if (bomPowerStatus) {
-      bomPowerStatus.textContent = "Проверен";
-    }
+  if (allChecked) {
+    taskCheckSummaryTitle.textContent =
+      "Все компоненты проверены";
 
-    updateStartButton();
+    taskCheckSummaryDescription.textContent =
+      "Все комплектующие найдены и визуально соответствуют спецификации.";
+
+    taskStartHint.textContent =
+      "Проверка завершена. Можно приступать к заданию.";
+
+  } else {
+    taskCheckSummaryTitle.textContent =
+      "Проверьте комплектующие";
+
+    taskCheckSummaryDescription.textContent =
+      "Отметьте все компоненты, которые вы нашли и проверили визуально.";
+
+    taskStartHint.textContent =
+      `Осталось проверить компонентов: ${total - checked}.`;
+  }
+
+  // Кнопка доступна только после полной проверки
+  if (startTaskButton) {
+    startTaskButton.disabled = !allChecked || taskStarted;
+  }
+}
+
+
+/*
+  Сброс проверки при открытии другого задания.
+*/
+
+function resetVisualCheck() {
+  componentChecks.forEach((checkbox) => {
+    checkbox.checked = false;
   });
 
-  // Считыватель штрихкодов обычно передаёт значение
-  // в активное поле и завершает ввод клавишей Enter.
-  componentCode?.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      verifyButton?.click();
-    }
-  });
+  // Скрываем раскрытые карточки
+  document.querySelectorAll(".component-expand-button").forEach((button) => {
+    button.setAttribute("aria-expanded", "false");
 
-  // Начало сборки и запуск таймера.
-  startButton?.addEventListener("click", () => {
-    if (
-      !visualCheck?.checked ||
-      !componentVerified ||
-      operationCompleted
-    ) {
-      return;
-    }
+    const label = button.querySelector(".expand-button-text");
 
-    operationStarted = true;
-    operationPaused = false;
-
-    operationStatus.textContent = "Выполняется";
-    operationStatus.className =
-      "operation-status status-in-progress";
-
-    executionDescription.textContent =
-      "Выполните установку и закрепление блока питания согласно инструкции.";
-
-    executionHint.textContent =
-      "Время выполнения операции учитывается автоматически.";
-
-    startButton.hidden = true;
-    pauseButton.hidden = false;
-    completeButton.hidden = false;
-    completeButton.disabled = false;
-
-    timerInterval = setInterval(() => {
-      elapsedSeconds++;
-      updateTimer();
-    }, 1000);
-  });
-
-  // Пауза и возобновление.
-  pauseButton?.addEventListener("click", () => {
-    if (!operationStarted || operationCompleted) return;
-
-    if (!operationPaused) {
-      clearInterval(timerInterval);
-      timerInterval = null;
-
-      operationPaused = true;
-      pauseButton.textContent = "Продолжить";
-
-      operationStatus.textContent = "Приостановлено";
-
-      executionDescription.textContent =
-        "Операция приостановлена. После возобновления можно продолжить выполнение.";
-
-      executionHint.textContent =
-        "Время приостановки не включается в активное время выполнения.";
-
-    } else {
-      operationPaused = false;
-      pauseButton.textContent = "Приостановить";
-
-      operationStatus.textContent = "Выполняется";
-
-      executionDescription.textContent =
-        "Продолжайте установку и закрепление блока питания.";
-
-      timerInterval = setInterval(() => {
-        elapsedSeconds++;
-        updateTimer();
-      }, 1000);
+    if (label) {
+      label.textContent = "Подробнее";
     }
   });
 
-  // Завершение операции.
-  completeButton?.addEventListener("click", () => {
-    if (
-      !operationStarted ||
-      operationCompleted ||
-      operationPaused
-    ) {
-      return;
-    }
-
-    clearInterval(timerInterval);
-    timerInterval = null;
-
-    operationCompleted = true;
-
-    operationStatus.textContent = "Завершена";
-    operationStatus.className = "operation-status";
-
-    executionDescription.textContent =
-      "Операция установки блока питания завершена.";
-
-    executionHint.textContent =
-      `Зафиксированное активное время: ${formatTime(elapsedSeconds)}.`;
-
-    pauseButton.hidden = true;
-    completeButton.hidden = true;
-    startButton.hidden = true;
-
-    progressText.textContent = "1 из 6 операций";
-    progressFill.style.width = "16.67%";
-    progressBar.setAttribute("aria-valuenow", "17");
-
-    completionBanner.hidden = false;
-
-    completionBanner.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest"
-    });
+  document.querySelectorAll(".component-details").forEach((details) => {
+    details.hidden = true;
   });
+
+  taskStarted = false;
+
+  if (startTaskButton) {
+    startTaskButton.disabled = true;
+    startTaskButton.innerHTML =
+      'Приступить к заданию <span aria-hidden="true">→</span>';
+  }
+
+  updateVisualCheck();
+}
+
+
+// Обработчики отметок
+componentChecks.forEach((checkbox) => {
+  checkbox.addEventListener("change", updateVisualCheck);
+});
+
+
+/* =======================================
+   REPORT COMPONENT DISCREPANCY
+======================================= */
+
+// Сообщение о проблеме из конкретной карточки BOM
+document.querySelectorAll("[data-report-component]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const componentName = button.dataset.reportComponent;
+
+    openProblem(
+      "Комплектующий / изделие",
+      componentName
+    );
+  });
+});
+
+
+/* =======================================
+   START TASK
+======================================= */
+
+startTaskButton?.addEventListener("click", () => {
+  const allChecked =
+    componentChecks.length > 0 &&
+    componentChecks.every((checkbox) => checkbox.checked);
+
+  if (!allChecked || taskStarted) {
+    return;
+  }
+
+  taskStarted = true;
+
+  // Меняем статус задания
+  get("taskPageStatus").textContent = "Задание начато";
+
+  // Блокируем повторное нажатие
+  startTaskButton.disabled = true;
+  startTaskButton.textContent = "Задание начато";
+
+  taskStartHint.textContent =
+    "Визуальная проверка завершена. Следующий этап — выполнение первой операции.";
+
+  showToast(
+    "Задание начато. Далее — переход к конкретной операции."
+  );
+});
+
+
+
+
+
+   
+  // const taskData = {
+  //   "ЗД-24081": {
+  //     title: "Маршрутизатор МР-800",
+  //     priority: "high",
+  //     priorityLabel: "Высокий приоритет",
+  //     completeness: "100%",
+  //     progress: "0 из 6 операций",
+  //     status: "Доступно к выполнению"
+  //   },
+  //   "ЗД-24082": {
+  //     title: "Коммутатор КС-48",
+  //     priority: "medium",
+  //     priorityLabel: "Средний приоритет",
+  //     completeness: "85%",
+  //     progress: "0 из 8 операций",
+  //     status: "Доступно к выполнению"
+  //   },
+  //   "ЗД-24079": {
+  //     title: "Оптический модуль DWDM",
+  //     priority: "normal",
+  //     priorityLabel: "Обычный приоритет",
+  //     completeness: "100%",
+  //     progress: "2 из 5 операций",
+  //     status: "Приостановлено"
+  //   }
+  // };
+
+  // function openTask(taskId) {
+  //   const card = document.querySelector(
+  //     `[data-task-id="${CSS.escape(taskId)}"]`
+  //   );
+
+  //   if (!card) {
+  //     showToast("Задание не найдено.");
+  //     return;
+  //   }
+
+  //   currentTaskId = taskId;
+
+  //   const data = taskData[taskId] || {
+  //     title: card.dataset.model || "Производственное изделие",
+  //     priority: card.dataset.priority || "normal",
+  //     priorityLabel: "Обычный приоритет",
+  //     completeness: "—",
+  //     progress: "0 операций",
+  //     status: "Доступно к выполнению"
+  //   };
+
+  //   get("taskPageNumber").textContent = taskId;
+  //   get("taskBreadcrumbNumber").textContent = taskId;
+  //   get("taskPageTitle").textContent = data.title;
+  //   get("taskProductName").textContent = data.title;
+
+  //   get("taskPagePriority").textContent = data.priorityLabel;
+  //   get("taskPagePriority").className =
+  //     `priority-badge priority-${data.priority}`;
+
+  //   get("taskPageStatus").textContent = data.status;
+  //   get("taskCompleteness").textContent = data.completeness;
+  //   get("taskProgress").textContent = data.progress;
+
+  //   get("detailTaskNumber").textContent = taskId;
+  //   get("detailTaskModel").textContent = data.title;
+  //   get("detailTaskPriority").textContent =
+  //     data.priorityLabel.replace(" приоритет", "");
+
+  //   // Сценарий сборки полностью проработан для рекомендуемого задания.
+  //   // Для остальных заданий пока используется демонстрационный шаблон.
+  //   const isRecommended = taskId === "ЗД-24081";
+
+  //   if (!isRecommended) {
+  //     showToast(
+  //       "Открыт демонстрационный шаблон. Подробный сценарий доступен для ЗД-24081."
+  //     );
+  //   }
+
+  //   resetOperationDemo();
+
+  //   get("operationCompletedBanner").hidden = true;
+
+  //   showScreen("task");
+
+  //   const heading = get("taskPageTitle");
+  //   heading?.setAttribute("tabindex", "-1");
+  //   heading?.focus();
+
+  //   updateProblemContext();
+  // }
+
+  // // Один делегированный обработчик для рекомендуемой карточки
+  // // и карточек общего списка.
+  // document.addEventListener("click", (event) => {
+  //   const button = event.target.closest("[data-open-task]");
+  //   if (!button) return;
+
+  //   const taskId = button.dataset.openTask;
+
+  //   if (taskId) {
+  //     openTask(taskId);
+  //   }
+  // });
+
+  // get("backToTasks")?.addEventListener("click", () => {
+  //   showScreen("tasks");
+
+  //   const heading = tasksScreen?.querySelector("h1");
+  //   heading?.setAttribute("tabindex", "-1");
+  //   heading?.focus();
+  // });
+
+  // get("returnToTasksAfterCompletion")?.addEventListener("click", () => {
+  //   showScreen("tasks");
+  // });
+
+  // get("taskDetailsButton")?.addEventListener("click", () => {
+  //   get("taskDetailsModal")?.showModal();
+  // });
+
+  // function closeTaskDetails() {
+  //   get("taskDetailsModal")?.close();
+  // }
+
+  // get("closeTaskDetails")?.addEventListener("click", closeTaskDetails);
+  // get("closeTaskDetailsBottom")?.addEventListener("click", closeTaskDetails);
+
+
+  // /* =======================================
+  //    SCREEN 3 — OPERATION EXECUTION
+  // ======================================= */
+
+  // const visualCheck = get("visualCheck");
+  // const componentCode = get("componentCode");
+  // const verifyButton = get("verifyComponent");
+  // const scanFeedback = get("scanFeedback");
+
+  // const startButton = get("startOperationButton");
+  // const pauseButton = get("pauseOperationButton");
+  // const completeButton = get("completeOperationButton");
+
+  // const timerElement = get("operationTimer");
+  // const operationStatus = get("operationStatus");
+  // const executionDescription = get("executionDescription");
+  // const executionHint = get("executionHint");
+
+  // const bomPowerStatus = get("bomPowerStatus");
+  // const progressText = get("taskProgress");
+  // const progressBar = get("taskProgressBar");
+  // const progressFill = get("taskProgressFill");
+  // const completionBanner = get("operationCompletedBanner");
+
+  // // Демонстрационный код Data Matrix.
+  // // В реальной MES значение поступает от считывателя,
+  // // а проверка выполняется сервером.
+  // const expectedComponentCode = "PSU-MR800-24081-01";
+
+  // let componentVerified = false;
+  // let operationStarted = false;
+  // let operationPaused = false;
+  // let operationCompleted = false;
+
+  // let elapsedSeconds = 0;
+  // let timerInterval = null;
+
+  // function formatTime(totalSeconds) {
+  //   const hours = Math.floor(totalSeconds / 3600);
+  //   const minutes = Math.floor((totalSeconds % 3600) / 60);
+  //   const seconds = totalSeconds % 60;
+
+  //   return [hours, minutes, seconds]
+  //     .map((value) => String(value).padStart(2, "0"))
+  //     .join(":");
+  // }
+
+  // function updateTimer() {
+  //   if (timerElement) {
+  //     timerElement.textContent = formatTime(elapsedSeconds);
+  //   }
+  // }
+
+  // function setScanFeedback(message, type = "") {
+  //   if (!scanFeedback) return;
+
+  //   scanFeedback.textContent = message;
+  //   scanFeedback.className = "scan-feedback";
+
+  //   if (type === "success") {
+  //     scanFeedback.classList.add("feedback-success");
+  //   }
+
+  //   if (type === "error") {
+  //     scanFeedback.classList.add("feedback-error");
+  //   }
+  // }
+
+  // function updateStartButton() {
+  //   if (!startButton) return;
+
+  //   startButton.disabled =
+  //     !visualCheck?.checked ||
+  //     !componentVerified ||
+  //     operationStarted ||
+  //     operationCompleted;
+  // }
+
+  // function resetOperationDemo() {
+  //   clearInterval(timerInterval);
+  //   timerInterval = null;
+
+  //   componentVerified = false;
+  //   operationStarted = false;
+  //   operationPaused = false;
+  //   operationCompleted = false;
+  //   elapsedSeconds = 0;
+
+  //   if (visualCheck) visualCheck.checked = false;
+  //   if (componentCode) componentCode.value = "";
+
+  //   setScanFeedback("Ожидается проверка компонента.");
+  //   updateTimer();
+
+  //   if (operationStatus) {
+  //     operationStatus.textContent = "Ожидает начала";
+  //     operationStatus.className = "operation-status";
+  //   }
+
+  //   if (bomPowerStatus) {
+  //     bomPowerStatus.textContent = "Ожидает проверки";
+  //   }
+
+  //   if (executionDescription) {
+  //     executionDescription.textContent =
+  //       "Выполните визуальную проверку и подтвердите компонент, чтобы начать сборку.";
+  //   }
+
+  //   if (executionHint) {
+  //     executionHint.textContent =
+  //       "Таймер начнёт отсчёт после подтверждения компонента и начала сборки.";
+  //   }
+
+  //   if (startButton) {
+  //     startButton.hidden = false;
+  //     startButton.disabled = true;
+  //     startButton.textContent = "Начать сборку";
+  //   }
+
+  //   if (pauseButton) {
+  //     pauseButton.hidden = true;
+  //     pauseButton.textContent = "Приостановить";
+  //   }
+
+  //   if (completeButton) {
+  //     completeButton.hidden = true;
+  //     completeButton.disabled = true;
+  //   }
+
+  //   if (completionBanner) {
+  //     completionBanner.hidden = true;
+  //   }
+
+  //   if (progressText) {
+  //     progressText.textContent = "0 из 6 операций";
+  //   }
+
+  //   if (progressFill) {
+  //     progressFill.style.width = "0%";
+  //   }
+
+  //   if (progressBar) {
+  //     progressBar.setAttribute("aria-valuenow", "0");
+  //   }
+
+  //   updateStartButton();
+  // }
+
+  // // Визуальная проверка.
+  // visualCheck?.addEventListener("change", () => {
+  //   updateStartButton();
+  // });
+
+  // // Проверка кода Data Matrix.
+  // verifyButton?.addEventListener("click", () => {
+  //   if (operationStarted || operationCompleted) return;
+
+  //   const scannedCode = componentCode?.value.trim();
+
+  //   if (!scannedCode) {
+  //     setScanFeedback(
+  //       "Введите или отсканируйте код компонента.",
+  //       "error"
+  //     );
+
+  //     componentCode?.focus();
+  //     return;
+  //   }
+
+  //   if (scannedCode !== expectedComponentCode) {
+  //     componentVerified = false;
+
+  //     setScanFeedback(
+  //       "Компонент не соответствует спецификации. Проверьте маркировку.",
+  //       "error"
+  //     );
+
+  //     if (bomPowerStatus) {
+  //       bomPowerStatus.textContent = "Несоответствие";
+  //     }
+
+  //     updateStartButton();
+  //     return;
+  //   }
+
+  //   componentVerified = true;
+
+  //   setScanFeedback(
+  //     "Компонент подтверждён. Код соответствует спецификации.",
+  //     "success"
+  //   );
+
+  //   if (bomPowerStatus) {
+  //     bomPowerStatus.textContent = "Проверен";
+  //   }
+
+  //   updateStartButton();
+  // });
+
+  // // Считыватель штрихкодов обычно передаёт значение
+  // // в активное поле и завершает ввод клавишей Enter.
+  // componentCode?.addEventListener("keydown", (event) => {
+  //   if (event.key === "Enter") {
+  //     event.preventDefault();
+  //     verifyButton?.click();
+  //   }
+  // });
+
+  // // Начало сборки и запуск таймера.
+  // startButton?.addEventListener("click", () => {
+  //   if (
+  //     !visualCheck?.checked ||
+  //     !componentVerified ||
+  //     operationCompleted
+  //   ) {
+  //     return;
+  //   }
+
+  //   operationStarted = true;
+  //   operationPaused = false;
+
+  //   operationStatus.textContent = "Выполняется";
+  //   operationStatus.className =
+  //     "operation-status status-in-progress";
+
+  //   executionDescription.textContent =
+  //     "Выполните установку и закрепление блока питания согласно инструкции.";
+
+  //   executionHint.textContent =
+  //     "Время выполнения операции учитывается автоматически.";
+
+  //   startButton.hidden = true;
+  //   pauseButton.hidden = false;
+  //   completeButton.hidden = false;
+  //   completeButton.disabled = false;
+
+  //   timerInterval = setInterval(() => {
+  //     elapsedSeconds++;
+  //     updateTimer();
+  //   }, 1000);
+  // });
+
+  // // Пауза и возобновление.
+  // pauseButton?.addEventListener("click", () => {
+  //   if (!operationStarted || operationCompleted) return;
+
+  //   if (!operationPaused) {
+  //     clearInterval(timerInterval);
+  //     timerInterval = null;
+
+  //     operationPaused = true;
+  //     pauseButton.textContent = "Продолжить";
+
+  //     operationStatus.textContent = "Приостановлено";
+
+  //     executionDescription.textContent =
+  //       "Операция приостановлена. После возобновления можно продолжить выполнение.";
+
+  //     executionHint.textContent =
+  //       "Время приостановки не включается в активное время выполнения.";
+
+  //   } else {
+  //     operationPaused = false;
+  //     pauseButton.textContent = "Приостановить";
+
+  //     operationStatus.textContent = "Выполняется";
+
+  //     executionDescription.textContent =
+  //       "Продолжайте установку и закрепление блока питания.";
+
+  //     timerInterval = setInterval(() => {
+  //       elapsedSeconds++;
+  //       updateTimer();
+  //     }, 1000);
+  //   }
+  // });
+
+  // // Завершение операции.
+  // completeButton?.addEventListener("click", () => {
+  //   if (
+  //     !operationStarted ||
+  //     operationCompleted ||
+  //     operationPaused
+  //   ) {
+  //     return;
+  //   }
+
+  //   clearInterval(timerInterval);
+  //   timerInterval = null;
+
+  //   operationCompleted = true;
+
+  //   operationStatus.textContent = "Завершена";
+  //   operationStatus.className = "operation-status";
+
+  //   executionDescription.textContent =
+  //     "Операция установки блока питания завершена.";
+
+  //   executionHint.textContent =
+  //     `Зафиксированное активное время: ${formatTime(elapsedSeconds)}.`;
+
+  //   pauseButton.hidden = true;
+  //   completeButton.hidden = true;
+  //   startButton.hidden = true;
+
+  //   progressText.textContent = "1 из 6 операций";
+  //   progressFill.style.width = "16.67%";
+  //   progressBar.setAttribute("aria-valuenow", "17");
+
+  //   completionBanner.hidden = false;
+
+  //   completionBanner.scrollIntoView({
+  //     behavior: "smooth",
+  //     block: "nearest"
+  //   });
+  // });
 
 
   /* =======================================
@@ -984,8 +1364,8 @@
      INITIALIZATION
   ======================================= */
 
-  updateReadinessUI();
-  updateTaskList();
-  resetOperationDemo();
+updateReadinessUI();
+updateTaskList();
+updateVisualCheck();
 
 })();
