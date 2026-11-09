@@ -19,6 +19,7 @@
   const readinessScreen = get("readinessScreen");
   const tasksScreen = get("tasksScreen");
   const taskScreen = get("taskScreen");
+  const operationScreen = get("operationScreen");
 
   let currentScreen = "readiness";
   let currentTaskId = "ЗД-24081";
@@ -125,7 +126,8 @@
   const screenTitles = {
     readiness: "Проверка готовности к работе | MES",
     tasks: "Список заданий | MES",
-    task: "Страница задания | MES"
+    task: "Страница задания | MES",
+    operation: "Проверка компонента | MES"
   };
 
   function showScreen(screenName) {
@@ -141,6 +143,10 @@
 
     if (taskScreen) {
       taskScreen.hidden = screenName !== "task";
+    }
+
+    if (operationScreen) {
+      operationScreen.hidden = screenName !== "operation";
     }
 
     document.title =
@@ -368,7 +374,10 @@
         "Список заданий · Рабочее место № 04",
 
       task:
-        `Страница задания · ${currentTaskId}`
+        `Страница задания · ${currentTaskId}`,
+       
+      operation: 
+         `Операция · Установка блока питания · ${currentTaskId}`
     };
 
     context.textContent =
@@ -1192,48 +1201,538 @@
      SCREEN 3 — START TASK
   ======================================= */
 
-  startTaskButton?.addEventListener("click", () => {
-    const allChecked =
-      componentChecks.length > 0 &&
-      componentChecks.every(
-        (checkbox) => checkbox.checked
-      );
+startTaskButton?.addEventListener("click", () => {
 
-    if (!allChecked || taskStarted) {
+  // Если задание уже начато, возвращаемся к текущей операции.
+  if (taskStarted) {
+    showScreen("operation");
+    return;
+  }
+
+  const allChecked =
+    componentChecks.length > 0 &&
+    componentChecks.every((checkbox) => checkbox.checked);
+
+  if (!allChecked) {
+    return;
+  }
+
+  taskStarted = true;
+
+  get("taskPageStatus").textContent = "Задание начато";
+
+  startTaskButton.disabled = false;
+  startTaskButton.textContent = "Перейти к текущей операции";
+
+  taskStartHint.textContent =
+    "Задание начато. Продолжите работу с первой производственной операцией.";
+
+  showScreen("operation");
+
+});
+
+
+   /* =========================================
+   SCREEN 4 — COMPONENT CHECK
+========================================= */
+
+
+/* -----------------------------------------
+   Состояние текущей операции
+----------------------------------------- */
+
+let operationState = {
+  taskId: null,
+  visualConfirmed: false,
+  paused: false,
+  scanned: false,
+  verifiedCode: ""
+};
+
+
+/* -----------------------------------------
+   DOM-элементы
+----------------------------------------- */
+
+const operationVisualConfirmed =
+  get("operationVisualConfirmed");
+
+const operationScanInput =
+  get("operationScanInput");
+
+const operationScanButton =
+  get("operationScanButton");
+
+const operationScanFeedback =
+  get("operationScanFeedback");
+
+const operationPauseButton =
+  get("operationPauseButton");
+
+const operationResumeButton =
+  get("operationResumeButton");
+
+const operationEndShift =
+  get("operationEndShift");
+
+const operationBackButton =
+  get("backToTaskPage");
+
+const operationConfirmation =
+  get("operationConfirmation");
+
+
+/*
+  Демонстрационный код Data Matrix.
+
+  В настоящей MES система должна проверять:
+  - принадлежность компонента заданию;
+  - соответствие позиции спецификации;
+  - уникальность серийного номера;
+  - статус компонента и возможность его использования.
+
+  В прототипе проверяем точное совпадение строки.
+*/
+
+const EXPECTED_OPERATION_CODE =
+  "PSU-MR800-24081-01";
+
+
+/* -----------------------------------------
+   Обновление интерфейса
+----------------------------------------- */
+
+function updateOperationUI() {
+
+  const state = operationState;
+
+  const visualBlock = get("operationVisualCheckBlock");
+  const safeNotice = get("operationSafeNotice");
+  const lockedNotice = get("operationLockedNotice");
+  const pausedState = get("operationPausedState");
+  const lockedControls = get("operationLockedControls");
+  const pauseDescription = get("operationPauseDescription");
+  const operationStatus = get("operationStatus");
+
+  const isLocked = state.scanned;
+  const isPaused = state.paused;
+
+  // Статус операции
+
+  if (isLocked) {
+
+    operationStatus.textContent = "Компонент подтверждён";
+    operationStatus.className =
+      "operation-status is-verified";
+
+  } else if (isPaused) {
+
+    operationStatus.textContent = "Приостановлено";
+    operationStatus.className =
+      "operation-status is-paused";
+
+  } else if (state.visualConfirmed) {
+
+    operationStatus.textContent = "Готов к сканированию";
+    operationStatus.className =
+      "operation-status";
+
+  } else {
+
+    operationStatus.textContent = "Ожидает проверки";
+    operationStatus.className =
+      "operation-status";
+  }
+
+
+  // Информационные состояния
+
+  safeNotice.hidden = isLocked;
+  lockedNotice.hidden = !isLocked;
+
+  // Визуальная проверка
+
+  if (operationVisualConfirmed) {
+    operationVisualConfirmed.disabled =
+      isLocked || isPaused;
+  }
+
+  if (visualBlock) {
+    visualBlock.classList.toggle("is-disabled", isLocked);
+  }
+
+  // Сканирование доступно только после визуальной проверки
+  // и только если задание не приостановлено.
+
+  if (operationScanInput) {
+    operationScanInput.disabled =
+      !state.visualConfirmed ||
+      isPaused ||
+      isLocked;
+  }
+
+  if (operationScanButton) {
+    operationScanButton.disabled =
+      !state.visualConfirmed ||
+      isPaused ||
+      isLocked;
+  }
+
+
+  // Пауза и возобновление
+
+  operationPauseButton.hidden =
+    isLocked || isPaused;
+
+  pausedState.hidden = !isPaused;
+
+  lockedControls.hidden = !isLocked;
+
+  if (pauseDescription) {
+    pauseDescription.hidden = isLocked;
+  }
+
+
+  // Завершение смены
+
+  operationEndShift.disabled = isLocked;
+
+  // Возврат к странице задания
+
+  operationBackButton.disabled = isLocked;
+
+  // Сканирование завершено
+
+  operationConfirmation.hidden = !isLocked;
+}
+
+
+/* -----------------------------------------
+   Обновление состояния визуальной проверки
+----------------------------------------- */
+
+operationVisualConfirmed?.addEventListener(
+  "change",
+  () => {
+
+    if (
+      operationState.scanned ||
+      operationState.paused
+    ) {
       return;
     }
 
-    taskStarted = true;
+    operationState.visualConfirmed =
+      operationVisualConfirmed.checked;
 
+    if (operationState.visualConfirmed) {
 
-    // Обновляем статус задания
+      operationScanFeedback.textContent =
+        "Визуальная проверка подтверждена. Теперь можно сканировать маркировку.";
 
-    const statusElement = get("taskPageStatus");
+      operationScanFeedback.className =
+        "operation-scan-feedback";
 
-    if (statusElement) {
-      statusElement.textContent = "Задание начато";
+    } else {
+
+      operationScanFeedback.textContent =
+        "Сначала выполните визуальную проверку компонента.";
+
+      operationScanFeedback.className =
+        "operation-scan-feedback";
     }
 
-
-    // Блокируем повторное нажатие
-
-    startTaskButton.disabled = true;
-    startTaskButton.textContent = "Задание начато";
+    updateOperationUI();
+  }
+);
 
 
-    // Подсказка
+/* -----------------------------------------
+   Проверка Data Matrix
+----------------------------------------- */
 
-    if (taskStartHint) {
-      taskStartHint.textContent =
-        "Визуальная проверка завершена. Следующий этап — выполнение первой операции.";
+function setOperationScanFeedback(message, type = "") {
+
+  if (!operationScanFeedback) return;
+
+  operationScanFeedback.textContent = message;
+
+  operationScanFeedback.className =
+    "operation-scan-feedback";
+
+  if (type === "error") {
+    operationScanFeedback.classList.add("is-error");
+  }
+
+  if (type === "success") {
+    operationScanFeedback.classList.add("is-success");
+  }
+}
+
+
+function verifyOperationComponent() {
+
+  // Защита от повторного сканирования
+  // и выполнения действия в небезопасном состоянии.
+
+  if (
+    operationState.scanned ||
+    operationState.paused ||
+    !operationState.visualConfirmed
+  ) {
+    return;
+  }
+
+  const scannedCode =
+    operationScanInput.value.trim();
+
+  if (!scannedCode) {
+
+    setOperationScanFeedback(
+      "Не удалось прочитать код. Отсканируйте маркировку или введите её вручную.",
+      "error"
+    );
+
+    operationScanInput.focus();
+    return;
+  }
+
+
+  // Демонстрационная проверка соответствия
+
+  if (scannedCode !== EXPECTED_OPERATION_CODE) {
+
+    setOperationScanFeedback(
+      "Компонент не соответствует заданию. Проверьте маркировку и спецификацию.",
+      "error"
+    );
+
+    operationScanInput.focus();
+    return;
+  }
+
+
+  // Компонент подтверждён системой.
+  // С этого момента задание переходит
+  // в небезопасное для паузы состояние.
+
+  operationState.scanned = true;
+  operationState.verifiedCode = scannedCode;
+
+  get("operationVerifiedCode").textContent =
+    scannedCode;
+
+  get("operationBomPowerStatus").textContent =
+    "Подтверждён системой";
+
+  setOperationScanFeedback(
+    "Код успешно проверен. Компонент соответствует производственному заданию.",
+    "success"
+  );
+
+  updateOperationUI();
+
+  showToast(
+    "Компонент подтверждён. Выполните его установку."
+  );
+}
+
+
+operationScanButton?.addEventListener(
+  "click",
+  verifyOperationComponent
+);
+
+
+// Считыватель штрихкодов обычно передаёт
+// значение в активное поле и завершает ввод Enter.
+
+operationScanInput?.addEventListener(
+  "keydown",
+  (event) => {
+
+    if (event.key === "Enter") {
+
+      event.preventDefault();
+
+      verifyOperationComponent();
+    }
+  }
+);
+
+
+/* -----------------------------------------
+   Пауза задания
+----------------------------------------- */
+
+operationPauseButton?.addEventListener(
+  "click",
+  () => {
+
+    // Пауза разрешена только до сканирования.
+
+    if (operationState.scanned) {
+      return;
     }
 
+    operationState.paused = true;
+
+    setOperationScanFeedback(
+      "Задание приостановлено. Состояние визуальной проверки сохранено."
+    );
+
+    updateOperationUI();
 
     showToast(
-      "Задание начато. Далее — переход к конкретной операции."
+      "Задание приостановлено. Прогресс сохранён."
     );
-  });
+  }
+);
 
+
+/* -----------------------------------------
+   Возобновление задания
+----------------------------------------- */
+
+operationResumeButton?.addEventListener(
+  "click",
+  () => {
+
+    if (operationState.scanned) {
+      return;
+    }
+
+    operationState.paused = false;
+
+    updateOperationUI();
+
+    if (operationState.visualConfirmed) {
+
+      setOperationScanFeedback(
+        "Визуальная проверка сохранена. Можно продолжить сканирование."
+      );
+
+    } else {
+
+      setOperationScanFeedback(
+        "Продолжите визуальную проверку компонента."
+      );
+    }
+
+    showToast("Работа продолжена.");
+  }
+);
+
+
+/* -----------------------------------------
+   Возврат к странице задания
+----------------------------------------- */
+
+operationBackButton?.addEventListener(
+  "click",
+  () => {
+
+    if (operationState.scanned) {
+      return;
+    }
+
+    showScreen("task");
+  }
+);
+
+
+/* -----------------------------------------
+   Сообщение о проблеме
+----------------------------------------- */
+
+function reportOperationProblem() {
+
+  openProblem(
+    "Комплектующий / изделие",
+    "Блок питания PSU-01"
+  );
+}
+
+
+get("operationReportProblem")?.addEventListener(
+  "click",
+  reportOperationProblem
+);
+
+get("operationReportProblemSide")?.addEventListener(
+  "click",
+  reportOperationProblem
+);
+
+
+/* -----------------------------------------
+   Завершение смены
+----------------------------------------- */
+
+operationEndShift?.addEventListener(
+  "click",
+  () => {
+
+    // После подтверждения компонента
+    // завершение смены запрещено до установки.
+
+    if (operationState.scanned) {
+      return;
+    }
+
+    get("endShiftModal")?.showModal();
+  }
+);
+
+
+/* -----------------------------------------
+   Открытие экрана операции
+----------------------------------------- */
+
+function openOperationScreen() {
+
+  // При переходе к другому заданию
+  // создаём новое состояние операции.
+
+  if (operationState.taskId !== currentTaskId) {
+
+    operationState = {
+      taskId: currentTaskId,
+      visualConfirmed: false,
+      paused: false,
+      scanned: false,
+      verifiedCode: ""
+    };
+
+    if (operationVisualConfirmed) {
+      operationVisualConfirmed.checked = false;
+    }
+
+    if (operationScanInput) {
+      operationScanInput.value = "";
+    }
+
+    setOperationScanFeedback(
+      "Сначала выполните визуальную проверку компонента."
+    );
+  }
+
+  get("operationTaskNumber").textContent =
+    currentTaskId;
+
+  get("operationProductName").textContent =
+    get("taskPageTitle").textContent;
+
+  updateOperationUI();
+
+  showScreen("operation");
+
+  const heading = get("operationTitle");
+
+  heading?.setAttribute("tabindex", "-1");
+  heading?.focus();
+}
+   
 
   /* =======================================
      END SHIFT
@@ -1318,5 +1817,6 @@
   updateReadinessUI();
   updateTaskList();
   updateVisualCheck();
+  updateOperationUI();
 
 })();
