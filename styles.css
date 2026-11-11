@@ -3609,3 +3609,195 @@ h1 {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* -----------------------------------------
+   SCREEN 4 — обновлённый сценарий NCS 5504
+----------------------------------------- */
+
+.operation-page [hidden] {
+  display: none !important;
+}
+
+.operation-details-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.operation-details-summary::-webkit-details-marker,
+.operation-bom-more summary::-webkit-details-marker {
+  display: none;
+}
+
+.operation-details-summary > span:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.operation-details-summary strong {
+  color: var(--text, #202833);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.operation-details-summary small {
+  color: var(--text-secondary, #687384);
+  font-size: 11px;
+}
+
+.operation-details-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border, #E1E4E8);
+  border-radius: 50%;
+  color: var(--text-secondary, #687384);
+  transition: transform .2s ease;
+}
+
+.operation-details[open] .operation-details-chevron {
+  transform: rotate(180deg);
+}
+
+.operation-details-content {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border, #E1E4E8);
+}
+
+.operation-visual-actions {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.operation-visual-actions .operation-confirm-label {
+  flex: 1;
+}
+
+.operation-page .button-problem {
+  flex: 0 0 auto;
+  border-color: #E7B7B2;
+  background: #FFF9F8;
+  color: #A52A20;
+}
+
+.operation-page .button-problem:hover {
+  background: #FDEDEA;
+}
+
+.operation-simulate-scan {
+  min-width: 240px;
+}
+
+.operation-demo-hint {
+  display: block;
+  margin-top: 8px;
+  color: var(--text-secondary, #687384);
+  font-size: 10px;
+}
+
+.operation-bom-more {
+  margin-top: 10px;
+  border-top: 1px solid var(--border, #E1E4E8);
+}
+
+.operation-bom-more summary {
+  padding: 13px 0 3px;
+  color: var(--blue-700, #285C91);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.operation-bom-more[open] summary {
+  padding-bottom: 4px;
+}
+
+.operation-installation-card {
+  scroll-margin-top: 24px;
+}
+
+.operation-installation-intro {
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  border-radius: 6px;
+  background: #F5F7F9;
+}
+
+.operation-installation-intro strong {
+  color: var(--text, #202833);
+  font-size: 13px;
+}
+
+.operation-installation-intro p {
+  margin: 6px 0 0;
+  color: var(--text-secondary, #687384);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.operation-installation-steps {
+  gap: 18px;
+}
+
+.operation-installation-warning {
+  margin-top: 22px;
+  padding: 13px 15px;
+  border-left: 3px solid #D39A36;
+  background: #FFF8E9;
+}
+
+.operation-installation-warning strong {
+  color: #80550F;
+  font-size: 12px;
+}
+
+.operation-installation-warning p {
+  margin: 5px 0 0;
+  color: #6E5A36;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.operation-install-confirm {
+  margin-top: 20px;
+}
+
+.operation-installation-complete {
+  margin-top: 14px;
+  padding: 13px 15px;
+  border: 1px solid #A9D5B7;
+  border-radius: 6px;
+  background: #F2F8F4;
+}
+
+.operation-installation-complete strong {
+  color: #205D36;
+  font-size: 12px;
+}
+
+.operation-installation-complete p {
+  margin: 5px 0 0;
+  color: #466B53;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+  .operation-visual-actions {
+    flex-direction: column;
+  }
+
+  .operation-visual-actions .button-problem,
+  .operation-simulate-scan {
+    width: 100%;
+  }
+}
