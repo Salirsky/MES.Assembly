@@ -14,7 +14,7 @@
 
 <!-- Добавляем favicon -->
 <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-  
+
 </head>
 
 <body>
@@ -447,19 +447,19 @@
         <article
           class="recommended-card task-item"
           data-task-id="ЗД-24081"
-          data-model="Маршрутизатор МР-800"
+          data-model="Cisco NCS 5504"
           data-priority="high"
           data-status="available"
         >
           <div class="recommended-main">
-            <div class="task-product-icon" aria-hidden="true">МР</div>
+            <div class="task-product-icon" aria-hidden="true">NCS</div>
             <div class="task-card-content">
               <div class="task-card-meta">
                 <span class="task-id">ЗД-24081</span>
                 <span class="priority-badge priority-high">Высокий приоритет</span>
                 <span class="task-status status-available">Доступно</span>
               </div>
-              <h3>Маршрутизатор МР-800</h3>
+              <h3>Cisco NCS 5504</h3>
               <p>Сборка промышленного маршрутизатора</p>
               <div class="task-card-details">
                 <span>Комплектация: <strong>100%</strong></span>
@@ -660,7 +660,7 @@
           <div class="task-title-row">
             <div>
               <div class="task-number-label" id="taskPageNumber">ЗД-24081</div>
-              <h1 id="taskPageTitle">Маршрутизатор МР-800</h1>
+              <h1 id="taskPageTitle">Cisco NCS 5504</h1>
             </div>
 
             <div class="task-header-badges">
@@ -697,7 +697,7 @@
           </div>
           <div class="task-info-card">
             <span class="task-info-label">Изделие</span>
-            <strong id="taskProductName">Маршрутизатор МР-800</strong>
+            <strong id="taskProductName">Cisco NCS 5504</strong>
           </div>
           <div class="task-info-card">
             <span class="task-info-label">Плановое количество</span>
@@ -781,15 +781,15 @@
                 </div>
 
                 <div class="bom-item-text">
-                  <span class="component-designation">PSU-01</span>
-                  <h3>Блок питания</h3>
-                  <span class="component-model">Модуль питания 48 В</span>
+                  <span class="component-designation">NC55-PWR-3KW-AC</span>
+                  <h3>Блок питания AC</h3>
+                  <span class="component-model">Модуль питания 3 кВт</span>
                 </div>
               </div>
 
               <div class="bom-item-quantity">
                 <span>Количество</span>
-                <strong>2 шт.</strong>
+                <strong>4 шт.</strong>
               </div>
 
               <div class="bom-item-check">
@@ -823,10 +823,10 @@
                 <div class="component-requirements">
                   <h4>Требования к компоненту</h4>
                   <dl>
-                    <div><dt>Обозначение</dt><dd>PSU-01</dd></div>
-                    <div><dt>Модель</dt><dd>Модуль питания 48 В</dd></div>
-                    <div><dt>Количество</dt><dd>2 шт.</dd></div>
-                    <div><dt>Характеристики</dt><dd>Входное напряжение 220 В, выходное 48 В</dd></div>
+                    <div><dt>Обозначение</dt><dd>NC55-PWR-3KW-AC</dd></div>
+                    <div><dt>Модель</dt><dd>AC power supply, 3 kW</dd></div>
+                    <div><dt>Количество</dt><dd>до 4 шт. в конфигурации</dd></div>
+                    <div><dt>Характеристики</dt><dd>Блок питания переменного тока мощностью 3 кВт</dd></div>
                     <div>
                       <dt>Визуальная проверка</dt>
                       <dd>Отсутствие повреждений корпуса, деформаций и следов перегрева</dd>
@@ -838,7 +838,7 @@
               <button
                 type="button"
                 class="component-problem-button"
-                data-report-component="Блок питания PSU-01"
+                data-report-component="Блок питания NC55-PWR-3KW-AC"
               >
                 Сообщить о расхождении
               </button>
@@ -846,28 +846,28 @@
           </article>
 
 
-          <!-- COMPONENT 2: CONTROLLER BOARD -->
+          <!-- COMPONENT 2: FABRIC CARD -->
           <article class="bom-item" data-component-id="board">
             <div class="bom-item-main">
               <div class="bom-item-info">
                 <div
                   class="component-thumbnail component-thumbnail-board"
                   role="img"
-                  aria-label="Иллюстрация платы управления"
+                  aria-label="Иллюстрация карты коммутационной матрицы"
                 >
-                  <span aria-hidden="true">PCB</span>
+                  <span aria-hidden="true">FC2</span>
                 </div>
 
                 <div class="bom-item-text">
-                  <span class="component-designation">PCB-01</span>
-                  <h3>Плата управления</h3>
-                  <span class="component-model">Основная плата контроллера</span>
+                  <span class="component-designation">NC55-5504-FC2</span>
+                  <h3>Карта коммутационной матрицы</h3>
+                  <span class="component-model">Fabric Card второго поколения</span>
                 </div>
               </div>
 
               <div class="bom-item-quantity">
                 <span>Количество</span>
-                <strong>1 шт.</strong>
+                <strong>3–6 шт.</strong>
               </div>
 
               <div class="bom-item-check">
@@ -893,18 +893,18 @@
                 <div
                   class="component-large-visual component-thumbnail-board"
                   role="img"
-                  aria-label="Иллюстрация платы управления"
+                  aria-label="Иллюстрация карты коммутационной матрицы"
                 >
-                  <span aria-hidden="true">PCB</span>
+                  <span aria-hidden="true">FC2</span>
                 </div>
 
                 <div class="component-requirements">
                   <h4>Требования к компоненту</h4>
                   <dl>
-                    <div><dt>Обозначение</dt><dd>PCB-01</dd></div>
-                    <div><dt>Модель</dt><dd>Основная плата контроллера</dd></div>
-                    <div><dt>Количество</dt><dd>1 шт.</dd></div>
-                    <div><dt>Характеристики</dt><dd>Плата управления для модели МР-800</dd></div>
+                    <div><dt>Обозначение</dt><dd>NC55-5504-FC2</dd></div>
+                    <div><dt>Модель</dt><dd>Fabric Card второго поколения</dd></div>
+                    <div><dt>Количество</dt><dd>3–6 шт.</dd></div>
+                    <div><dt>Характеристики</dt><dd>Карта коммутационной матрицы; используется с совместимыми вентиляторами FAN2</dd></div>
                     <div>
                       <dt>Визуальная проверка</dt>
                       <dd>Отсутствие повреждений платы, трещин, сколов и деформированных разъёмов</dd>
@@ -916,7 +916,7 @@
               <button
                 type="button"
                 class="component-problem-button"
-                data-report-component="Плата управления PCB-01"
+                data-report-component="Карта коммутационной матрицы NC55-5504-FC2"
               >
                 Сообщить о расхождении
               </button>
@@ -937,15 +937,15 @@
                 </div>
 
                 <div class="bom-item-text">
-                  <span class="component-designation">FAN-01</span>
-                  <h3>Вентилятор охлаждения</h3>
-                  <span class="component-model">Модуль охлаждения 40 × 40 мм</span>
+                  <span class="component-designation">NC55-5504-FAN2</span>
+                  <h3>Вентиляторный модуль</h3>
+                  <span class="component-model">Fan Tray второго поколения</span>
                 </div>
               </div>
 
               <div class="bom-item-quantity">
                 <span>Количество</span>
-                <strong>4 шт.</strong>
+                <strong>3 шт.</strong>
               </div>
 
               <div class="bom-item-check">
@@ -979,10 +979,10 @@
                 <div class="component-requirements">
                   <h4>Требования к компоненту</h4>
                   <dl>
-                    <div><dt>Обозначение</dt><dd>FAN-01</dd></div>
-                    <div><dt>Модель</dt><dd>Модуль охлаждения 40 × 40 мм</dd></div>
-                    <div><dt>Количество</dt><dd>4 шт.</dd></div>
-                    <div><dt>Характеристики</dt><dd>Питание 12 В, осевой вентилятор</dd></div>
+                    <div><dt>Обозначение</dt><dd>NC55-5504-FAN2</dd></div>
+                    <div><dt>Модель</dt><dd>Fan Tray второго поколения</dd></div>
+                    <div><dt>Количество</dt><dd>3 шт.</dd></div>
+                    <div><dt>Характеристики</dt><dd>Совместим с картами коммутационной матрицы FC2</dd></div>
                     <div>
                       <dt>Визуальная проверка</dt>
                       <dd>Отсутствие повреждений корпуса, лопастей и кабельных соединений</dd>
@@ -994,7 +994,7 @@
               <button
                 type="button"
                 class="component-problem-button"
-                data-report-component="Вентилятор охлаждения FAN-01"
+                data-report-component="Вентиляторный модуль NC55-5504-FAN2"
               >
                 Сообщить о расхождении
               </button>
@@ -1009,15 +1009,15 @@
                 <div
                   class="component-thumbnail component-thumbnail-chassis"
                   role="img"
-                  aria-label="Иллюстрация корпуса"
+                  aria-label="Иллюстрация шасси маршрутизатора"
                 >
-                  <span aria-hidden="true">CASE</span>
+                  <span aria-hidden="true">NCS</span>
                 </div>
 
                 <div class="bom-item-text">
-                  <span class="component-designation">CASE-01</span>
-                  <h3>Корпус изделия</h3>
-                  <span class="component-model">Корпус для монтажа модулей</span>
+                  <span class="component-designation">NCS 5504</span>
+                  <h3>Шасси маршрутизатора</h3>
+                  <span class="component-model">Модульное шасси Cisco NCS 5504</span>
                 </div>
               </div>
 
@@ -1049,18 +1049,18 @@
                 <div
                   class="component-large-visual component-thumbnail-chassis"
                   role="img"
-                  aria-label="Иллюстрация корпуса"
+                  aria-label="Иллюстрация шасси маршрутизатора"
                 >
-                  <span aria-hidden="true">CASE</span>
+                  <span aria-hidden="true">NCS</span>
                 </div>
 
                 <div class="component-requirements">
                   <h4>Требования к компоненту</h4>
                   <dl>
-                    <div><dt>Обозначение</dt><dd>CASE-01</dd></div>
-                    <div><dt>Модель</dt><dd>Корпус для монтажа модулей</dd></div>
+                    <div><dt>Обозначение</dt><dd>NCS 5504</dd></div>
+                    <div><dt>Модель</dt><dd>Модульное шасси Cisco NCS 5504</dd></div>
                     <div><dt>Количество</dt><dd>1 шт.</dd></div>
-                    <div><dt>Характеристики</dt><dd>Металлический корпус, форм-фактор 1U</dd></div>
+                    <div><dt>Характеристики</dt><dd>Шасси с модульными слотами для линейных карт, контроллеров, fabric cards и блоков питания</dd></div>
                     <div>
                       <dt>Визуальная проверка</dt>
                       <dd>Отсутствие деформаций, повреждений покрытия и дефектов крепёжных отверстий</dd>
@@ -1072,7 +1072,7 @@
               <button
                 type="button"
                 class="component-problem-button"
-                data-report-component="Корпус изделия CASE-01"
+                data-report-component="Шасси маршрутизатора Cisco NCS 5504"
               >
                 Сообщить о расхождении
               </button>
@@ -1138,7 +1138,7 @@
           ЗД-24081
         </span>
         <span class="operation-context-divider">/</span>
-        <span id="operationProductName">Маршрутизатор МР-800</span>
+        <span id="operationProductName">Cisco NCS 5504</span>
       </div>
 
       <div class="operation-sticky-actions">
@@ -1192,7 +1192,7 @@
         К заданию
       </button>
 
-      <span class="operation-stage-label">
+      <span class="operation-stage-label" id="operationStageLabel">
         ОПЕРАЦИЯ 1 ИЗ 6 · ШАГ 1
       </span>
     </div>
@@ -1211,8 +1211,8 @@
         </h1>
 
         <p>
-          Проверьте комплектующий и его маркировку перед установкой
-          в изделие.
+          Подготовьте модуль питания, проверьте его маркировку и зафиксируйте
+          установку в шасси маршрутизатора Cisco NCS 5504.
         </p>
       </div>
 
@@ -1264,88 +1264,29 @@
       <div class="operation-main-column">
 
 
-        <!-- Инструкция -->
-        <section class="operation-card"
+        <!-- Подготовка компонента к идентификации -->
+        <section class="operation-card operation-preparation-card"
                  aria-labelledby="operationInstructionHeading">
+          <details class="operation-details">
+            <summary class="operation-details-summary">
+              <span>
+                <span class="operation-card-eyebrow">ПЕРЕД НАЧАЛОМ ОПЕРАЦИИ</span>
+                <strong id="operationInstructionHeading">Подготовка компонента к идентификации</strong>
+                <small>Распаковка, ESD-защита и внешний осмотр</small>
+              </span>
+              <span class="operation-details-chevron" aria-hidden="true">⌄</span>
+            </summary>
 
-          <div class="operation-card-heading">
-            <div>
-              <span class="operation-card-eyebrow">ТЕХНОЛОГИЧЕСКАЯ ДОКУМЕНТАЦИЯ</span>
-              <h2 id="operationInstructionHeading">
-                Инструкция по установке
-              </h2>
+            <div class="operation-details-content">
+              <ol class="operation-instruction-list">
+                <li><span class="instruction-step-number">1</span><div><strong>Подготовьте рабочее место</strong><p>Убедитесь, что рабочая поверхность и средства защиты от электростатического разряда (ESD) подготовлены.</p></div></li>
+                <li><span class="instruction-step-number">2</span><div><strong>Извлеките модуль из упаковки</strong><p>Соблюдайте правила ESD-защиты. Не касайтесь контактных площадок и разъёмов.</p></div></li>
+                <li><span class="instruction-step-number">3</span><div><strong>Осмотрите модуль</strong><p>Проверьте корпус, направляющие, разъёмы и контакты на отсутствие повреждений и загрязнений.</p></div></li>
+                <li><span class="instruction-step-number">4</span><div><strong>Сверьте обозначение</strong><p>Убедитесь, что модель модуля соответствует текущему заданию и спецификации изделия.</p></div></li>
+              </ol>
+              <div class="operation-instruction-warning"><strong>Важно</strong><p>Не устанавливайте повреждённый или не соответствующий заданию компонент. Зарегистрируйте отклонение через кнопку «Сообщить о проблеме».</p></div>
             </div>
-
-            <span class="operation-document-version">
-              Редакция 1.2
-            </span>
-          </div>
-
-          <div class="operation-instruction-intro">
-            <strong>Установка блока питания в корпус маршрутизатора</strong>
-            <p>
-              Перед установкой убедитесь, что компонент соответствует
-              спецификации и не имеет видимых повреждений.
-            </p>
-          </div>
-
-          <ol class="operation-instruction-list">
-
-            <li>
-              <span class="instruction-step-number">1</span>
-              <div>
-                <strong>Подготовьте компонент</strong>
-                <p>
-                  Извлеките блок питания из упаковки, соблюдая требования
-                  ESD-защиты.
-                </p>
-              </div>
-            </li>
-
-            <li>
-              <span class="instruction-step-number">2</span>
-              <div>
-                <strong>Осмотрите корпус и разъёмы</strong>
-                <p>
-                  Проверьте отсутствие деформаций, трещин, повреждений
-                  покрытия и следов перегрева.
-                </p>
-              </div>
-            </li>
-
-            <li>
-              <span class="instruction-step-number">3</span>
-              <div>
-                <strong>Сверьте маркировку</strong>
-                <p>
-                  Убедитесь, что обозначение и модель компонента
-                  соответствуют спецификации изделия.
-                </p>
-              </div>
-            </li>
-
-            <li>
-              <span class="instruction-step-number">4</span>
-              <div>
-                <strong>Отсканируйте Data Matrix</strong>
-                <p>
-                  Считайте индивидуальную маркировку компонента
-                  для проверки соответствия производственному заданию.
-                </p>
-              </div>
-            </li>
-
-          </ol>
-
-          <div class="operation-instruction-warning">
-            <strong>Важно</strong>
-            <p>
-              Не устанавливайте компонент с видимыми повреждениями
-              или несоответствующей маркировкой. Сообщите о проблеме
-              ответственному сотруднику.
-            </p>
-          </div>
-
+          </details>
         </section>
 
 
@@ -1371,8 +1312,8 @@
 
             <div class="operation-component-visual"
                  role="img"
-                 aria-label="Условное изображение блока питания">
-              <span>PSU</span>
+                 aria-label="Условное обозначение модуля питания Cisco">
+              <span>AC PSU</span>
             </div>
 
             <div class="operation-component-data">
@@ -1384,12 +1325,12 @@
 
               <div>
                 <span>Модель</span>
-                <strong>Модуль питания 48 В</strong>
+                <strong>NC55-PWR-3KW-AC</strong>
               </div>
 
               <div>
                 <span>Артикул</span>
-                <strong>PSU-650-MR</strong>
+                <strong>NC55-PWR-3KW-AC</strong>
               </div>
 
               <div>
@@ -1399,7 +1340,7 @@
 
               <div>
                 <span>Партия</span>
-                <strong>LOT-2026-0418</strong>
+                <strong>LOT-2026-1108</strong>
               </div>
 
             </div>
@@ -1440,63 +1381,35 @@
 
             </ul>
 
-            <label class="operation-confirm-label">
-              <input type="checkbox" id="operationVisualConfirmed">
-              <span>
-                Я проверил компонент. Внешний вид и характеристики
-                соответствуют требованиям.
-              </span>
-            </label>
+            <div class="operation-visual-actions">
+              <label class="operation-confirm-label">
+                <input type="checkbox" id="operationVisualConfirmed">
+                <span>Я проверил компонент. Внешний вид и характеристики соответствуют требованиям.</span>
+              </label>
+              <button type="button" class="button button-problem" id="operationReportProblemInline">
+                <span aria-hidden="true">!</span> Сообщить о проблеме
+              </button>
+            </div>
 
           </div>
 
 
-          <!-- Сканирование -->
+          <!-- Демонстрационное сканирование -->
           <div class="operation-scan-block">
-
             <div class="operation-subsection-heading">
               <div>
-                <h3>Сканирование маркировки</h3>
-                <p>
-                  Отсканируйте Data Matrix на корпусе компонента.
-                </p>
+                <h3>Идентификация компонента</h3>
+                <p>В реальном рабочем месте код Data Matrix считывается сканером. В прототипе действие имитируется кнопкой.</p>
               </div>
             </div>
-
-            <label for="operationScanInput"
-                   class="operation-scan-label">
-              Код компонента
-            </label>
-
-            <div class="operation-scan-row">
-
-              <input
-                type="text"
-                id="operationScanInput"
-                placeholder="Ожидание сканирования..."
-                autocomplete="off"
-                spellcheck="false"
-                aria-describedby="operationScanFeedback"
-              >
-
-              <button type="button"
-                      class="button button-primary"
-                      id="operationScanButton"
-                      disabled>
-                Проверить код
-              </button>
-
-            </div>
-
-            <div class="operation-scan-feedback"
-                 id="operationScanFeedback"
-                 role="status"
-                 aria-live="polite">
+            <button type="button" class="button button-primary operation-simulate-scan" id="operationScanButton" disabled>
+              <span aria-hidden="true">▦</span> Смоделировать сканирование
+            </button>
+            <div class="operation-scan-feedback" id="operationScanFeedback" role="status" aria-live="polite">
               Сначала выполните визуальную проверку компонента.
             </div>
-
+            <span class="operation-demo-hint">Демонстрационный сценарий · без физического сканера</span>
           </div>
-
         </section>
 
 
@@ -1517,12 +1430,42 @@
               заданию. Можно переходить к установке.
             </p>
             <span id="operationVerifiedCode">
-              PSU-MR800-24081-01
+              NC55-PWR-3KW-AC-NCS5504-24081-01
             </span>
           </div>
 
         </section>
 
+        <!-- Установка: следующий этап того же рабочего сценария -->
+        <section class="operation-card operation-installation-card" id="operationInstallation" hidden aria-labelledby="operationInstallationHeading">
+          <div class="operation-card-heading">
+            <div>
+              <span class="operation-card-eyebrow">СЛЕДУЮЩИЙ ЭТАП · УСТАНОВКА</span>
+              <h2 id="operationInstallationHeading">Установка блока питания</h2>
+            </div>
+            <span class="operation-required-label">После идентификации</span>
+          </div>
+          <div class="operation-installation-intro">
+            <strong>NC55-PWR-3KW-AC · Cisco NCS 5504</strong>
+            <p>Убедитесь, что кабель питания не подключён к источнику переменного тока. Выполняйте установку по технологической документации для выбранной конфигурации.</p>
+          </div>
+          <ol class="operation-instruction-list operation-installation-steps">
+            <li><span class="instruction-step-number">1</span><div><strong>Проверьте слот и модуль</strong><p>Убедитесь, что модуль не подключён к сети переменного тока, корпус и контакты не повреждены. Если слот закрыт заглушкой, снимите её согласно инструкции.</p></div></li>
+            <li><span class="instruction-step-number">2</span><div><strong>Сориентируйте блок питания</strong><p>Поверните модуль так, чтобы разъём питания находился в нижней передней части, как указано в руководстве Cisco.</p></div></li>
+            <li><span class="instruction-step-number">3</span><div><strong>Совместите направляющие</strong><p>Совместите верхний направляющий кронштейн модуля с направляющей слота шасси.</p></div></li>
+            <li><span class="instruction-step-number">4</span><div><strong>Установите модуль в слот</strong><p>Плавно задвиньте блок питания до упора. Используйте рычаг фиксации (ejector lever), чтобы полностью посадить и зафиксировать модуль.</p></div></li>
+            <li><span class="instruction-step-number">5</span><div><strong>Подключите кабель и проверьте индикацию</strong><p>После завершения механической установки подключите кабель питания, зафиксируйте его держателем и проверьте, что индикатор OK горит зелёным при подаче питания.</p></div></li>
+          </ol>
+          <div class="operation-installation-warning"><strong>Требование безопасности</strong><p>Не подключайте кабель питания до завершения установки модуля. Соблюдайте действующую инструкцию и требования электробезопасности на рабочем месте.</p></div>
+          <label class="operation-confirm-label operation-install-confirm">
+            <input type="checkbox" id="operationInstallationConfirmed">
+            <span>Блок питания установлен и зафиксирован. Проверка выполнена, результат соответствует требованиям.</span>
+          </label>
+          <div class="operation-installation-complete" id="operationInstallationComplete" hidden role="status">
+            <strong>Установка зафиксирована</strong>
+            <p>Теперь можно приостановить задание или перейти к завершению смены.</p>
+          </div>
+        </section>
 
       </div>
 
@@ -1547,41 +1490,21 @@
           </p>
 
           <ul class="operation-bom-list">
-
-            <li class="operation-bom-item is-current">
-              <span class="operation-bom-indicator"></span>
-              <div>
-                <strong>Блок питания</strong>
-                <small>PSU-01 · PSU-650-MR</small>
-                <span id="operationBomPowerStatus">Текущий компонент</span>
-              </div>
-              <b>1 шт.</b>
-            </li>
-
-            <li class="operation-bom-item">
-              <span class="operation-bom-indicator"></span>
-              <div>
-                <strong>Комплект крепежа</strong>
-                <small>FIX-M4-SET</small>
-                <span>По спецификации</span>
-              </div>
-              <b>1 компл.</b>
-            </li>
-
-            <li class="operation-bom-item">
-              <span class="operation-bom-indicator"></span>
-              <div>
-                <strong>Кабель питания</strong>
-                <small>PWR-CBL-01</small>
-                <span>По спецификации</span>
-              </div>
-              <b>1 шт.</b>
-            </li>
-
+            <li class="operation-bom-item is-current"><span class="operation-bom-indicator"></span><div><strong>Блок питания AC</strong><small>NC55-PWR-3KW-AC</small><span id="operationBomPowerStatus">Текущий компонент</span></div><b>до 4 шт.</b></li>
+            <li class="operation-bom-item"><span class="operation-bom-indicator"></span><div><strong>Шасси маршрутизатора</strong><small>NCS 5504 chassis</small><span>Базовая сборочная единица</span></div><b>1 шт.</b></li>
+            <li class="operation-bom-item"><span class="operation-bom-indicator"></span><div><strong>Контроллер маршрутизации</strong><small>NC55-RP / RP-E / RP2-E</small><span>В зависимости от конфигурации</span></div><b>1–2 шт.</b></li>
           </ul>
-
+          <details class="operation-bom-more">
+            <summary>Показать остальные компоненты конфигурации</summary>
+            <ul class="operation-bom-list">
+              <li class="operation-bom-item"><span class="operation-bom-indicator"></span><div><strong>Системный контроллер</strong><small>NC55-SC</small><span>В зависимости от конфигурации</span></div><b>1–2 шт.</b></li>
+              <li class="operation-bom-item"><span class="operation-bom-indicator"></span><div><strong>Карта коммутационной матрицы</strong><small>NC55-5504-FC2</small><span>Для конфигурации второго поколения</span></div><b>3–6 шт.</b></li>
+              <li class="operation-bom-item"><span class="operation-bom-indicator"></span><div><strong>Вентиляторный модуль</strong><small>NC55-5504-FAN2</small><span>Совместим с FC2; не смешивать поколения</span></div><b>3 шт.</b></li>
+              <li class="operation-bom-item"><span class="operation-bom-indicator"></span><div><strong>Линейная карта</strong><small>Модель зависит от конфигурации</small><span>Порты и функции определяются заказом</span></div><b>до 4 шт.</b></li>
+            </ul>
+          </details>
           <p class="operation-bom-footnote">
-            Данные приведены для демонстрационного изделия МР-800.
+            Состав и количество модулей зависят от конфигурации NCS 5504. Для FC2 используются вентиляторные модули FAN2; поколения не смешиваются.
           </p>
 
         </section>
