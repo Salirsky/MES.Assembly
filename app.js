@@ -781,7 +781,7 @@
 
   const taskData = {
     "ЗД-24081": {
-      title: "Маршрутизатор МР-800",
+      title: "Cisco NCS 5504",
       priority: "high",
       priorityLabel: "Высокий приоритет",
       order: "ЗК-10582",
@@ -1246,6 +1246,7 @@ let operationState = {
   visualConfirmed: false,
   paused: false,
   scanned: false,
+  installationConfirmed: false,
   verifiedCode: ""
 };
 
@@ -1254,58 +1255,40 @@ let operationState = {
    DOM-элементы
 ----------------------------------------- */
 
-const operationVisualConfirmed =
-  get("operationVisualConfirmed");
-
-const operationScanInput =
-  get("operationScanInput");
-
-const operationScanButton =
-  get("operationScanButton");
-
-const operationScanFeedback =
-  get("operationScanFeedback");
-
-const operationPauseButton =
-  get("operationPauseButton");
-
-const operationResumeButton =
-  get("operationResumeButton");
-
-const operationEndShift =
-  get("operationEndShift");
-
-const operationBackButton =
-  get("backToTaskPage");
-
-const operationConfirmation =
-  get("operationConfirmation");
-
+const operationVisualConfirmed = get("operationVisualConfirmed");
+const operationScanButton = get("operationScanButton");
+const operationScanFeedback = get("operationScanFeedback");
+const operationPauseButton = get("operationPauseButton");
+const operationResumeButton = get("operationResumeButton");
+const operationEndShift = get("operationEndShift");
+const operationBackButton = get("backToTaskPage");
+const operationConfirmation = get("operationConfirmation");
+const operationInstallation = get("operationInstallation");
+const operationInstallationConfirmed = get("operationInstallationConfirmed");
 
 /*
-  Демонстрационный код Data Matrix.
-
-  В настоящей MES система должна проверять:
-  - принадлежность компонента заданию;
-  - соответствие позиции спецификации;
-  - уникальность серийного номера;
-  - статус компонента и возможность его использования.
-
-  В прототипе проверяем точное совпадение строки.
+  В прототипе сканирование имитируется кнопкой.
+  В реальной MES значение Data Matrix поступает от сканера,
+  после чего сервер проверяет принадлежность заданию, позицию BOM,
+  уникальность серийного номера и статус компонента.
 */
-
-const EXPECTED_OPERATION_CODE =
-  "PSU-MR800-24081-01";
+const EXPECTED_OPERATION_CODE = "NC55-PWR-3KW-AC-NCS5504-24081-01";
 
 
 /* -----------------------------------------
-   Обновление интерфейса
+   Обратная связь и обновление интерфейса
 ----------------------------------------- */
 
+function setOperationScanFeedback(message, type = "") {
+  if (!operationScanFeedback) return;
+  operationScanFeedback.textContent = message;
+  operationScanFeedback.className = "operation-scan-feedback";
+  if (type === "error") operationScanFeedback.classList.add("is-error");
+  if (type === "success") operationScanFeedback.classList.add("is-success");
+}
+
 function updateOperationUI() {
-
   const state = operationState;
-
   const visualBlock = get("operationVisualCheckBlock");
   const safeNotice = get("operationSafeNotice");
   const lockedNotice = get("operationLockedNotice");
@@ -1313,332 +1296,169 @@ function updateOperationUI() {
   const lockedControls = get("operationLockedControls");
   const pauseDescription = get("operationPauseDescription");
   const operationStatus = get("operationStatus");
-
-  const isLocked = state.scanned;
+  const operationStageLabel = get("operationStageLabel");
+  const installationComplete = get("operationInstallationComplete");
+  const isLocked = state.scanned && !state.installationConfirmed;
   const isPaused = state.paused;
 
-  // Статус операции
-
-  if (isLocked) {
-
-    operationStatus.textContent = "Компонент подтверждён";
-    operationStatus.className =
-      "operation-status is-verified";
-
-  } else if (isPaused) {
-
-    operationStatus.textContent = "Приостановлено";
-    operationStatus.className =
-      "operation-status is-paused";
-
-  } else if (state.visualConfirmed) {
-
-    operationStatus.textContent = "Готов к сканированию";
-    operationStatus.className =
-      "operation-status";
-
-  } else {
-
-    operationStatus.textContent = "Ожидает проверки";
-    operationStatus.className =
-      "operation-status";
+  if (operationStageLabel) {
+    operationStageLabel.textContent = state.installationConfirmed
+      ? "ОПЕРАЦИЯ 1 ИЗ 6 · ВЫПОЛНЕНО"
+      : state.scanned
+        ? "ОПЕРАЦИЯ 1 ИЗ 6 · ШАГ 2"
+        : "ОПЕРАЦИЯ 1 ИЗ 6 · ШАГ 1";
   }
 
+  if (operationStatus) {
+    if (state.installationConfirmed) {
+      operationStatus.textContent = "Установка подтверждена";
+      operationStatus.className = "operation-status is-verified";
+    } else if (state.scanned) {
+      operationStatus.textContent = "Ожидает установки";
+      operationStatus.className = "operation-status is-verified";
+    } else if (isPaused) {
+      operationStatus.textContent = "Приостановлено";
+      operationStatus.className = "operation-status is-paused";
+    } else if (state.visualConfirmed) {
+      operationStatus.textContent = "Готов к идентификации";
+      operationStatus.className = "operation-status";
+    } else {
+      operationStatus.textContent = "Ожидает проверки";
+      operationStatus.className = "operation-status";
+    }
+  }
 
-  // Информационные состояния
-
-  safeNotice.hidden = isLocked;
-  lockedNotice.hidden = !isLocked;
-
-  // Визуальная проверка
+  if (safeNotice) safeNotice.hidden = state.scanned;
+  if (lockedNotice) lockedNotice.hidden = !isLocked;
 
   if (operationVisualConfirmed) {
-    operationVisualConfirmed.disabled =
-      isLocked || isPaused;
+    operationVisualConfirmed.disabled = state.scanned || isPaused;
   }
-
-  if (visualBlock) {
-    visualBlock.classList.toggle("is-disabled", isLocked);
-  }
-
-  // Сканирование доступно только после визуальной проверки
-  // и только если задание не приостановлено.
-
-  if (operationScanInput) {
-    operationScanInput.disabled =
-      !state.visualConfirmed ||
-      isPaused ||
-      isLocked;
-  }
+  if (visualBlock) visualBlock.classList.toggle("is-disabled", state.scanned);
 
   if (operationScanButton) {
-    operationScanButton.disabled =
-      !state.visualConfirmed ||
-      isPaused ||
-      isLocked;
+    operationScanButton.disabled = !state.visualConfirmed || isPaused || state.scanned;
+    operationScanButton.hidden = state.scanned;
   }
 
-
-  // Пауза и возобновление
-
-  operationPauseButton.hidden =
-    isLocked || isPaused;
-
-  pausedState.hidden = !isPaused;
-
-  lockedControls.hidden = !isLocked;
-
-  if (pauseDescription) {
-    pauseDescription.hidden = isLocked;
+  // Во время критического участка после сканирования
+  // физически скрываем паузу и завершение смены.
+  if (operationPauseButton) {
+    operationPauseButton.hidden = isLocked || isPaused;
   }
+  if (operationEndShift) {
+    operationEndShift.hidden = isLocked;
+    operationEndShift.disabled = false;
+  }
+  if (pausedState) pausedState.hidden = !isPaused;
+  if (lockedControls) lockedControls.hidden = !isLocked;
+  if (pauseDescription) pauseDescription.hidden = isLocked;
 
+  if (operationBackButton) operationBackButton.disabled = isLocked;
+  if (operationConfirmation) operationConfirmation.hidden = !state.scanned;
+  if (operationInstallation) operationInstallation.hidden = !state.scanned;
+  if (operationInstallationConfirmed) {
+    operationInstallationConfirmed.disabled = !state.scanned || state.installationConfirmed;
+    operationInstallationConfirmed.checked = state.installationConfirmed;
+  }
+  if (installationComplete) installationComplete.hidden = !state.installationConfirmed;
 
-  // Завершение смены
-
-  operationEndShift.disabled = isLocked;
-
-  // Возврат к странице задания
-
-  operationBackButton.disabled = isLocked;
-
-  // Сканирование завершено
-
-  operationConfirmation.hidden = !isLocked;
+  // Если установка завершена, блок управления снова доступен.
+  if (lockedControls && state.installationConfirmed) lockedControls.hidden = true;
 }
 
 
 /* -----------------------------------------
-   Обновление состояния визуальной проверки
+   Визуальная проверка
 ----------------------------------------- */
 
-operationVisualConfirmed?.addEventListener(
-  "change",
-  () => {
-
-    if (
-      operationState.scanned ||
-      operationState.paused
-    ) {
-      return;
-    }
-
-    operationState.visualConfirmed =
-      operationVisualConfirmed.checked;
-
-    if (operationState.visualConfirmed) {
-
-      operationScanFeedback.textContent =
-        "Визуальная проверка подтверждена. Теперь можно сканировать маркировку.";
-
-      operationScanFeedback.className =
-        "operation-scan-feedback";
-
-    } else {
-
-      operationScanFeedback.textContent =
-        "Сначала выполните визуальную проверку компонента.";
-
-      operationScanFeedback.className =
-        "operation-scan-feedback";
-    }
-
-    updateOperationUI();
-  }
-);
+operationVisualConfirmed?.addEventListener("change", () => {
+  if (operationState.scanned || operationState.paused) return;
+  operationState.visualConfirmed = operationVisualConfirmed.checked;
+  setOperationScanFeedback(
+    operationState.visualConfirmed
+      ? "Визуальная проверка подтверждена. Можно перейти к идентификации компонента."
+      : "Сначала выполните визуальную проверку компонента."
+  );
+  updateOperationUI();
+});
 
 
 /* -----------------------------------------
-   Проверка Data Matrix
+   Демонстрационное сканирование Data Matrix
 ----------------------------------------- */
-
-function setOperationScanFeedback(message, type = "") {
-
-  if (!operationScanFeedback) return;
-
-  operationScanFeedback.textContent = message;
-
-  operationScanFeedback.className =
-    "operation-scan-feedback";
-
-  if (type === "error") {
-    operationScanFeedback.classList.add("is-error");
-  }
-
-  if (type === "success") {
-    operationScanFeedback.classList.add("is-success");
-  }
-}
-
 
 function verifyOperationComponent() {
-
-  // Защита от повторного сканирования
-  // и выполнения действия в небезопасном состоянии.
-
-  if (
-    operationState.scanned ||
-    operationState.paused ||
-    !operationState.visualConfirmed
-  ) {
-    return;
-  }
-
-  const scannedCode =
-    operationScanInput.value.trim();
-
-  if (!scannedCode) {
-
-    setOperationScanFeedback(
-      "Не удалось прочитать код. Отсканируйте маркировку или введите её вручную.",
-      "error"
-    );
-
-    operationScanInput.focus();
-    return;
-  }
-
-
-  // Демонстрационная проверка соответствия
-
-  if (scannedCode !== EXPECTED_OPERATION_CODE) {
-
-    setOperationScanFeedback(
-      "Компонент не соответствует заданию. Проверьте маркировку и спецификацию.",
-      "error"
-    );
-
-    operationScanInput.focus();
-    return;
-  }
-
-
-  // Компонент подтверждён системой.
-  // С этого момента задание переходит
-  // в небезопасное для паузы состояние.
+  if (operationState.scanned || operationState.paused || !operationState.visualConfirmed) return;
 
   operationState.scanned = true;
-  operationState.verifiedCode = scannedCode;
+  operationState.verifiedCode = EXPECTED_OPERATION_CODE;
 
-  get("operationVerifiedCode").textContent =
-    scannedCode;
-
-  get("operationBomPowerStatus").textContent =
-    "Подтверждён системой";
+  const verifiedCode = get("operationVerifiedCode");
+  const bomStatus = get("operationBomPowerStatus");
+  if (verifiedCode) verifiedCode.textContent = EXPECTED_OPERATION_CODE;
+  if (bomStatus) bomStatus.textContent = "Подтверждён системой";
 
   setOperationScanFeedback(
-    "Код успешно проверен. Компонент соответствует производственному заданию.",
+    "Маркировка успешно считана. Компонент соответствует заданию.",
     "success"
   );
-
   updateOperationUI();
+  showToast("Компонент подтверждён. Перейдите к его установке.");
 
-  showToast(
-    "Компонент подтверждён. Выполните его установку."
-  );
+  // Переводим пользователя к появившемуся следующему этапу.
+  operationInstallation?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-
-operationScanButton?.addEventListener(
-  "click",
-  verifyOperationComponent
-);
-
-
-// Считыватель штрихкодов обычно передаёт
-// значение в активное поле и завершает ввод Enter.
-
-operationScanInput?.addEventListener(
-  "keydown",
-  (event) => {
-
-    if (event.key === "Enter") {
-
-      event.preventDefault();
-
-      verifyOperationComponent();
-    }
-  }
-);
+operationScanButton?.addEventListener("click", verifyOperationComponent);
 
 
 /* -----------------------------------------
-   Пауза задания
+   Подтверждение установки
 ----------------------------------------- */
 
-operationPauseButton?.addEventListener(
-  "click",
-  () => {
+operationInstallationConfirmed?.addEventListener("change", () => {
+  if (!operationState.scanned || operationState.installationConfirmed) return;
+  if (!operationInstallationConfirmed.checked) return;
 
-    // Пауза разрешена только до сканирования.
-
-    if (operationState.scanned) {
-      return;
-    }
-
-    operationState.paused = true;
-
-    setOperationScanFeedback(
-      "Задание приостановлено. Состояние визуальной проверки сохранено."
-    );
-
-    updateOperationUI();
-
-    showToast(
-      "Задание приостановлено. Прогресс сохранён."
-    );
-  }
-);
+  operationState.installationConfirmed = true;
+  updateOperationUI();
+  showToast("Установка блока питания зафиксирована.");
+});
 
 
 /* -----------------------------------------
-   Возобновление задания
+   Пауза и возобновление задания
 ----------------------------------------- */
 
-operationResumeButton?.addEventListener(
-  "click",
-  () => {
+operationPauseButton?.addEventListener("click", () => {
+  if (operationState.scanned && !operationState.installationConfirmed) return;
+  operationState.paused = true;
+  setOperationScanFeedback("Задание приостановлено. Состояние операции сохранено.");
+  updateOperationUI();
+  showToast("Задание приостановлено. Прогресс сохранён.");
+});
 
-    if (operationState.scanned) {
-      return;
-    }
-
-    operationState.paused = false;
-
-    updateOperationUI();
-
-    if (operationState.visualConfirmed) {
-
-      setOperationScanFeedback(
-        "Визуальная проверка сохранена. Можно продолжить сканирование."
-      );
-
-    } else {
-
-      setOperationScanFeedback(
-        "Продолжите визуальную проверку компонента."
-      );
-    }
-
-    showToast("Работа продолжена.");
-  }
-);
+operationResumeButton?.addEventListener("click", () => {
+  operationState.paused = false;
+  updateOperationUI();
+  setOperationScanFeedback(
+    operationState.installationConfirmed
+      ? "Установка зафиксирована. Можно продолжить выполнение задания."
+      : "Продолжите проверку компонента."
+  );
+  showToast("Работа продолжена.");
+});
 
 
 /* -----------------------------------------
-   Возврат к странице задания
+   Возврат к заданию
 ----------------------------------------- */
 
-operationBackButton?.addEventListener(
-  "click",
-  () => {
-
-    if (operationState.scanned) {
-      return;
-    }
-
-    showScreen("task");
-  }
-);
+operationBackButton?.addEventListener("click", () => {
+  if (operationState.scanned && !operationState.installationConfirmed) return;
+  showScreen("task");
+});
 
 
 /* -----------------------------------------
@@ -1646,43 +1466,22 @@ operationBackButton?.addEventListener(
 ----------------------------------------- */
 
 function reportOperationProblem() {
-
-  openProblem(
-    "Комплектующий / изделие",
-    "Блок питания PSU-01"
-  );
+  openProblem("Комплектующий / изделие", "Блок питания NC55-PWR-3KW-AC");
 }
 
-
-get("operationReportProblem")?.addEventListener(
-  "click",
-  reportOperationProblem
-);
-
-get("operationReportProblemSide")?.addEventListener(
-  "click",
-  reportOperationProblem
-);
+get("operationReportProblem")?.addEventListener("click", reportOperationProblem);
+get("operationReportProblemSide")?.addEventListener("click", reportOperationProblem);
+get("operationReportProblemInline")?.addEventListener("click", reportOperationProblem);
 
 
 /* -----------------------------------------
    Завершение смены
 ----------------------------------------- */
 
-operationEndShift?.addEventListener(
-  "click",
-  () => {
-
-    // После подтверждения компонента
-    // завершение смены запрещено до установки.
-
-    if (operationState.scanned) {
-      return;
-    }
-
-    get("endShiftModal")?.showModal();
-  }
-);
+operationEndShift?.addEventListener("click", () => {
+  if (operationState.scanned && !operationState.installationConfirmed) return;
+  get("endShiftModal")?.showModal();
+});
 
 
 /* -----------------------------------------
@@ -1690,49 +1489,34 @@ operationEndShift?.addEventListener(
 ----------------------------------------- */
 
 function openOperationScreen() {
-
-  // При переходе к другому заданию
-  // создаём новое состояние операции.
-
   if (operationState.taskId !== currentTaskId) {
-
     operationState = {
       taskId: currentTaskId,
       visualConfirmed: false,
       paused: false,
       scanned: false,
+      installationConfirmed: false,
       verifiedCode: ""
     };
 
-    if (operationVisualConfirmed) {
-      operationVisualConfirmed.checked = false;
-    }
+    if (operationVisualConfirmed) operationVisualConfirmed.checked = false;
+    if (operationInstallationConfirmed) operationInstallationConfirmed.checked = false;
+    setOperationScanFeedback("Сначала выполните визуальную проверку компонента.");
 
-    if (operationScanInput) {
-      operationScanInput.value = "";
-    }
-
-    setOperationScanFeedback(
-      "Сначала выполните визуальную проверку компонента."
-    );
+    const bomStatus = get("operationBomPowerStatus");
+    if (bomStatus) bomStatus.textContent = "Текущий компонент";
   }
 
-  get("operationTaskNumber").textContent =
-    currentTaskId;
-
-  get("operationProductName").textContent =
-    get("taskPageTitle").textContent;
-
+  get("operationTaskNumber").textContent = currentTaskId;
+  get("operationProductName").textContent = "Cisco NCS 5504";
   updateOperationUI();
-
   showScreen("operation");
 
   const heading = get("operationTitle");
-
   heading?.setAttribute("tabindex", "-1");
   heading?.focus();
 }
-   
+
 
   /* =======================================
      END SHIFT
